@@ -1,0 +1,4 @@
+.castle-visitors{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:7}
+.companion-interactive[data-mood=wand] .tiny-cat,.companion-interactive[data-mood=patronus] .tiny-cat{clip-path:none}
+.companion-interactive[data-mood=wand] .tiny-cat-walk{filter:drop-shadow(0 0 3px #e8b97744)!important}
+.companion-interactive[data-mood=patronus] .tiny-cat-walk{filter:drop-shadow(0 0 5px #c1ebfb66)!important}

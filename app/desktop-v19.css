@@ -1,0 +1,29 @@
+/* Shared player controls: full hit area on mouse and touch. */
+.pixel-seek .music-seek-input{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;touch-action:none}
+.pixel-seek-track,.pixel-seek-thumb{pointer-events:none}
+.pixel-seek:focus-within{outline:1px solid #e5c580;outline-offset:3px}
+.pixel-seek:focus-within .pixel-seek-thumb,.pixel-seek .pixel-seek-thumb{opacity:1}
+.cty-player .transport-volume,.rooms-player .transport-volume,.moon-player .transport-volume,.cty-player.portable .transport-volume{display:flex;width:136px;gap:6px;flex:none}
+.transport-volume .volume-mute{display:grid;place-items:center;width:28px;height:34px;flex:none;border:0;background:transparent;color:#d8c699;padding:0}
+.transport-volume input{touch-action:none;min-width:35px;width:100%;height:30px;margin:0;accent-color:#d8bd82}
+.transport-volume output{font:11px ui-monospace,monospace;color:#d1d9d8;min-width:30px;text-align:right}.transport-volume output small{font-size:8px}
+.moon-corner .desktop-brand{display:flex;justify-content:center;width:100%;position:relative;right:auto;top:auto}
+.moon-corner .desktop-brand h1{flex:none;width:max-content;max-width:calc(100% + 90px);margin:0;text-align:center;font-size:clamp(17px,1.65vw,25px);letter-spacing:-.8px}
+.desktop-cat-anchor.cat-duty-dock{padding:0 8px 0;background:none;border:0;box-shadow:none}
+.cat-duty-dock:before{content:none}
+.cat-duty-dock .cat-assistant-label{background:none;border:0;box-shadow:none;text-shadow:0 1px 4px #071428;min-height:28px;padding:3px 8px}
+.cat-duty-dock .cat-menu-toggle{bottom:4px;background:#0a203899;border-color:#69899a66}
+.cat-duty-dock .cat-launcher-energy{display:none}
+.train-dashboard{align-items:stretch;gap:14px}.train-dashboard .train-ticket{max-width:250px;min-width:0;flex:1}
+.train-arrival{flex:1;min-width:0;text-align:center;align-self:center;color:#60584d;padding:4px 8px}
+.train-arrival>small{font:9px ui-monospace,monospace;letter-spacing:2px;color:#796e5f}.train-arrival>p{margin:9px 0;font:14px Georgia,'SimSun',serif;letter-spacing:1px}.train-arrival>div{display:flex;align-items:center;justify-content:center;gap:12px;font-size:10px;color:#8a7761}.train-arrival button{color:#61523e;display:grid;place-items:center;background:#e8dfcc80;border:1px solid #b2a18b;min-width:30px;min-height:30px}
+@container(max-width:850px){.cty-player .transport-now{width:120px}.cty-player .transport-volume{width:110px}}
+@media(max-width:850px){.rooms-player{gap:8px}.rooms-now{max-width:125px}.rooms-player .transport-volume{width:108px}.train-arrival>div>span{display:none}}
+@media(max-width:600px){.cty-player .transport-volume,.rooms-player .transport-volume,.moon-player .transport-volume,.cty-player.portable .transport-volume{width:100px;gap:3px}.transport-volume output{min-width:27px}.cty-transport{flex-wrap:wrap}.cty-transport .transport-progress{flex:1;min-width:95px}.rooms-player .cty-transport{gap:8px}.cty-transport .transport-shuffle{display:none}.train-arrival{display:none}.train-dashboard .train-ticket{max-width:none}.train-window{min-height:220px}.moon-corner .desktop-brand h1{font-size:16px}}
+.pixel-runner-room .handheld-screen{position:relative}.pixel-runner-room .handheld-dpad button{touch-action:none}.pixel-runner-room .handheld-ab button:disabled{opacity:.55}.pixel-runner-room .handheld-bottom>button:last-child{margin-left:auto}.runner-instructions{font:11px/1.7 system-ui,sans-serif;text-align:center;color:#aab8c5;margin:10px 0 0}.runner-result{position:absolute;inset:0;background:#0b1728d9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#edddb6;text-align:center;padding:12px}.runner-result>b{font:clamp(14px,2vw,24px) Georgia,'SimSun',serif}.runner-result>span{font:12px ui-monospace,monospace}.runner-result>button{background:#e2c58b;color:#15283c;padding:8px 16px;border:2px solid #fff0c0}.pixel-runner-room .pixel-settings{flex-wrap:wrap;gap:9px}.pixel-runner-room .pixel-settings>span{font-size:12px}
+@media(max-width:600px){.pixel-runner-room{padding:15px 8px;min-height:370px}.pixel-runner-room .handheld{grid-template-columns:1fr 1fr;gap:13px;padding:13px 9px 12px;border-radius:22px}.pixel-runner-room .handheld-screen{grid-column:1/-1;grid-row:1;border-width:7px;border-bottom-width:12px}.pixel-runner-room .handheld-dpad{grid-column:1;justify-self:center;padding:5px}.pixel-runner-room .handheld-dpad button{min-width:39px;min-height:39px}.pixel-runner-room .handheld-ab{grid-column:2;justify-self:center;gap:16px;padding-bottom:15px}.pixel-runner-room .handheld-ab button{width:38px;height:38px}.pixel-runner-room .handheld-ab small{top:39px;white-space:nowrap}.pixel-runner-room .handheld-bottom{grid-column:1/-1}.pixel-runner-room .game-cartridge{width:180px}.runner-instructions{font-size:10px;margin-top:6px}}
+.harbor-voyage-canvas{position:fixed;left:0;top:0;pointer-events:none;z-index:var(--cat-water-z,8);image-rendering:pixelated}
+.companion-interactive[data-aboard=true] .tiny-cat-walk,.companion-interactive[data-aboard=true] .companion-ground-shadow{opacity:0}
+.companion-interactive[data-mood=sail] .companion-ground-shadow,.companion-interactive[data-mood=fish] .companion-ground-shadow{display:none}
+.cat-duty-dock .cat-assistant-label::after{content:none}
+.cat-duty-dock .cat-assistant-label:hover,.cat-duty-dock .cat-assistant-label:focus-visible{box-shadow:none;color:#ffebbb}

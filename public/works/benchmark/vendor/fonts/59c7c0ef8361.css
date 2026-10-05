@@ -1,0 +1,481 @@
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(c4e3b151f726649440c1.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(92015e35b69044f082ae.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(4fca5163daefb45e16df.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(55c0b48c324a96c9d06e.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(b3c96dc9ea9b8ab3eae4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(235526ca900394bc1e91.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 200;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(8b56f0b540b61408cc9f.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 200;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(559fdcdc37df990feb32.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 200;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(f2e35df6e10d81ae21d6.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 200;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(77b0ae395533edbe5943.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 200;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(312f505de8b5175387fc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 200;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(2fa4384933361c08027f.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(854f3a3f721b37c1aafd.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(28619d484e1774c08ccd.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(f34fb97d0c445cff2cd8.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(f9d08786e9e02868b9fc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(a6a1d16bf0e4bb692930.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(cc31154afa8788d9eda9.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(b529f2d3bae350274b31.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(4337ac3f83c4a6caa152.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(92e0b19bc05e1039b63a.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(796f452ec42371621182.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(d75e6a4640f9900a5c26.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(52e073c1985d5b816503.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(f9c6a84502374a66d38f.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(d092ce00993cb99f6eed.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(493482e7a3d9dfa9fa41.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(40478bc616f79cf09663.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(a67470c01e23f9fe249d.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(8c5bded474493f08d7e7.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(56046533a814aabfdfe1.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(9c11a6e2b69b2ce42626.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(33d3e20bc8ca53ab89aa.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(5484677ad11c41cacb4b.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(92b3258995c7f056bdb7.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(976d406b038bf1329e28.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(dda4e65b63866c158ba1.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(5c1d44e3d7d95b5543d7.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(11b747e36a04987264da.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(5e009579f0caf6a9d941.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(19344e922141f982ef3a.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(95171314ba02611fec56.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(cda67a0adfe5d6a43b92.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(d90efabc6d62d0108cae.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(550c38b8f8911647e365.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(a2529e9d2303657430fd.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(f48f7ecf3c6e6923995b.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(c1bd36a71af62a361f0e.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: extra-condensed;
+  font-display: swap;
+  src: url(9187fa78176638a8aa2a.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: condensed;
+  font-display: swap;
+  src: url(29f8d698eb261ab46508.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: semi-condensed;
+  font-display: swap;
+  src: url(79cbb9ab8f9beba7f510.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(7454153cfeca07e47adf.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: semi-expanded;
+  font-display: swap;
+  src: url(9867b6fd5a5e6aafd88b.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 900;
+  font-stretch: expanded;
+  font-display: swap;
+  src: url(aa8db71de1145348c95c.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(510dc745a258e3f1b306.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(770f9eea1a799d4c8c9e.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(18a075d9eb38d7744e22.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(49c123eeb801c09bc6b6.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(174340da65f7452eb674.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(82e99cd04597dd20f76a.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(7648d84082db3634cb00.ttf) format('truetype');
+}

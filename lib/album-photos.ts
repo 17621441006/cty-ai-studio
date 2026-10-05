@@ -1,0 +1,3 @@
+const originals=[['碧水边的合影','一家人在一起，就是最好的风景。'],['山水间的夕阳','把这一刻，放进记忆里。'],['牵手的日子','慢慢走，和最亲的人一起。']];
+const additions=[['把幸福定格','红色的背景，白色的衬衫，一起留下的笑容。'],['灯火里的旧时光','在古街的暖光里，记住今天。'],['今天也很可爱','棒球帽、圆眼镜，还有自己的小表情。'],['比个耶，留个念','把平常的一天，变成值得收藏的瞬间。'],['去海边吹吹风','蓝天很远，海风很轻。'],['城市还没入夜','抬头看一盏灯，和温柔的天空。'],['和伙伴一起出发','皮卡丘、喷火龙，和想象中的冒险。']];
+export const albumPhotos=[...originals.map(([title,caption],i)=>({title,caption,src:`/works/photos/family-${i+1}.webp`,thumb:`/works/photos/family-${i+1}-thumb.webp`})),...additions.map(([title,caption],i)=>{const n=String(i+4).padStart(2,'0');return {title,caption,src:`/works/photos/memory-${n}.webp`,thumb:`/works/photos/memory-${n}-thumb.webp`}})];

@@ -1,0 +1,55 @@
+import * as T from 'three';
+import type {WorldBundle} from '../worlds/engine';
+import {block,solid,rod,pbr,glowTexture,glow,sign,batchStatic} from '../worlds/scene-detail';
+function sphere(parent:T.Object3D,r:number,mat:T.Material,x=0,y=0,z=0){return solid(parent,new T.SphereGeometry(r,r<.12?8:12,r<.12?6:9),mat,x,y,z)}
+const V=(x:number,y:number,z:number)=>new T.Vector3(x,y,z);
+export function winterStreet(getPosition:()=>T.Vector3):WorldBundle{
+ const group=new T.Group(),textures:T.Texture[]=[],materials:{dispose:()=>void}[]=[];
+ const mat=(color:string,roughness=.8,extra:T.MeshStandardMaterialParameters={})=>new T.MeshStandardMaterial({color,roughness,...extra});
+ const brass=mat('#b49c6c',.28,{metalness:.72}),iron=mat('#20282b',.43,{metalness:.55}),snow=mat('#d8e3e8',.94),stone=mat('#a8a9a6'),cream=mat('#d2c9ad'),dark=mat('#17202b'),wood=mat('#3a2421'),red=mat('#8f2329'),pine=mat('#213b30'),glass=mat('#bdcbd1',.13,{transparent:true,opacity:.16,depthWrite:false}),warm=mat('#ffdc9a',.55,{emissive:'#ffc66e',emissiveIntensity:1.6});
+ const load=(name:string,color:string,repeat:[number,number],roughness=.8)=>{const m=pbr(name,color,repeat,roughness);materials.push(m);return m.mat};
+ const brick=load('winter_brick','#b6a496',[2.3,2.4]),plaster=load('white_plaster_02','#bbb9ac',[2,2]),cobbles=load('winter_cobble','#667075',[5,70],.34),slabs=load('winter_paving','#a6a497',[.382,36.36],.62);
+ const breadMats=[mat('#a86e34'),mat('#d0a45a')],finishes=[red,mat('#314940'),mat('#233c4b'),wood];
+ const sprite=glowTexture();textures.push(sprite);
+ const ground=new T.Group();group.add(ground);block(ground,80,.12,200,snow,0,-.13,0);block(ground,7.8,.09,200,cobbles,0,-.03,0);
+ for(const side of [-1,1]){block(ground,2.1,.18,200,slabs,side*4.98,.04,0);block(ground,.18,.25,200,stone,side*3.92,.06,0);block(ground,.22,.28,200,snow,side*4.02,.08,0);
+  // Uneven slush along the curb, keeping the walking flagstones exposed.
+  const vertices:number[]=[],uv:number[]=[];for(let i=0;i<=240;i++){const z=i/240*200-100,width=.24+.32*(.5+.5*Math.sin(i*2.71))+.17*Math.sin(i*.7);for(const x of [3.86,3.86-width]){vertices.push(side*x,.024,z);uv.push(x,z)}}const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(vertices,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));const ix:number[]=[];for(let i=0;i<240;i++){const k=i*2;ix.push(k,k+1,k+2,k+1,k+3,k+2)}geo.setIndex(side===1?ix:ix.map((_,i,a)=>a[Math.floor(i/3)*3+2-i%3]));geo.computeVertexNormals();solid(ground,geo,snow);
+ }
+ const rows:{g:T.Group;original:number}[]=[],people:{g:T.Group;legs:T.Group[];z:number;side:number;speed:number}[]=[];
+ function pane(g:T.Group,x:number,y:number,z:number,w:number,h:number,lit:boolean){block(g,w+.16,h+.18,.2,cream,x,y,z);block(g,w,h,.22,lit?warm:dark,x,y,z+.035);for(const xx of [-w/2,0,w/2])block(g,.055,h+.06,.12,wood,x+xx,y,z+.18);block(g,w,.055,.12,wood,x,y,z+.18);block(g,w+.32,.1,.38,stone,x,y-h/2-.1,z+.08);}
+ function storefront(g:T.Group,i:number){const finish=finishes[i%4];
+  // The shop is a real recessed volume. Interior shelves are visible through the glazing.
+  block(g,7.5,2.85,.16,cream,0,1.5,-1.6);block(g,7.5,.13,3.9,wood,0,.11,0);block(g,7.5,.13,3.9,cream,0,3.05,0);
+  for(const x of [-3.67,-.9,3.67])block(g,.22,3,.4,finish,x,1.6,2.25);
+  block(g,7.6,.48,.35,finish,0,2.95,2.29);const s=sign(g,['THE NIGHT BAKERY','BELL & THISTLE','ASHFIELD BOOKS','THE CORNER TEA ROOM'][i%4],6.8,.38,'#26352e','#e6d1a0',0,2.97,2.49);textures.push(s.texture);
+  for(const x of [-2.3,1.42]){const width=x<0?2.3:4.35;block(g,width,2.13,.04,glass,x,1.54,2.29);for(const xx of [-width/2,width/2])block(g,.09,2.27,.13,cream,x+xx,1.52,2.36);for(const y of [.44,2.57])block(g,width,.1,.16,cream,x,y,2.38);block(g,width,.55,.2,finish,x,.25,2.35);}
+  block(g,.055,1.9,.12,brass,-2.0,1.5,2.41);block(g,1.15,.05,.16,brass,-2.35,1.35,2.43);
+  for(const y of [.7,1.45,2.18]){block(g,5.8,.08,.75,wood,.4,y,.55);for(let j=0;j<11;j++){if(i%4===2){const book=block(g,.24,.37+(j%3)*.08,.29,[red,pine,cream][j%3],-2.15+j*.51,y+.24,.56);book.rotation.z=Math.sin(j)*.08}else{const bread=sphere(g,.19,breadMats[j%3?0:1],-2.15+j*.51,y+.16,.67);bread.scale.set(1.25,.65,.78);for(let n=0;n<3;n++)block(g,.018,.012,.2,cream,-2.23+j*.51+n*.075,y+.285,.67)}}}
+  for(const x of [-2,2]){block(g,.65,.12,.36,warm,x,2.85,.5);glow(g,sprite,x,2.55,2.5,2.8,'#ffba70',.17)}
+  if(i%2===0){const awning=new T.Group();awning.position.set(0,2.84,2.35);awning.rotation.x=.2;for(let j=0;j<26;j++){block(awning,.29,.045,1.25,j%2?cream:red,-3.64+j*.291,0,.48);block(awning,.29,.19,.045,j%2?cream:red,-3.64+j*.291,-.08,1.1)}g.add(awning)}
+  for(let j=0;j<20;j++){const x=-3.5+j*.37,y=3.3-Math.sin(j/19*Math.PI)*.22;const sprig=sphere(g,.17,pine,x,y,2.4);sprig.scale.set(1.6,.75,.8);if(j%2===0){sphere(g,.036,warm,x,y-.04,2.57);if(j%6===0)sphere(g,.067,red,x+.08,y,2.53)}}
+ }
+ function building(row:T.Group,side:number,i:number){const g=new T.Group();g.position.set(side*8.25,0,0);g.rotation.y=-side*Math.PI/2;row.add(g);const h=8.1+(i%3)*.6,wall=i%3===0?plaster:brick;
+  block(g,7.6,h-3.15,4.6,wall,0,(h+3.15)/2,0);for(const x of [-3.74,3.74])block(g,.2,3.2,4.6,wall,x,1.6,0);
+  storefront(g,i);for(const y of [4.3,6.55])for(const x of [-2.35,0,2.35])pane(g,x,y,2.34,1.0,1.58,(i+Math.floor(x*10)+Math.floor(y))%3!==0);
+  for(const y of [3.3,5.6,h-.1])block(g,7.8,.13,.27,cream,0,y,2.4);
+  for(const x of [-3.62,3.62])rod(g,V(x,.2,2.47),V(x,h+.2,2.47),.045,iron);
+  const roof=new T.Group();roof.position.y=h;g.add(roof);for(const sign of [-1,1]){const panel=block(roof,8.1,.16,2.65,dark,0,.68,sign*1.1);panel.rotation.x=sign*.52;const cap=block(roof,8.1,.06,2.66,snow,0,.79,sign*1.12);cap.rotation.x=sign*.52;}block(g,.65,1.7,.64,brick,2.1,h+1.35,-.5);block(g,.82,.12,.8,snow,2.1,h+2.23,-.5);for(const x of [1.96,2.25])solid(g,new T.CylinderGeometry(.11,.14,.4,12),red,x,h+2.47,-.5);
+  for(const x of [-3,3]){block(g,.48,.36,.42,wood,x,.22,2.9);const plant=solid(g,new T.ConeGeometry(.29,.75,9),pine,x,.69,2.9);plant.rotation.z=x*.02;sphere(g,.08,snow,x,.97,2.9)}
+ }
+ function lantern(row:T.Group,x:number,z:number,illuminate:boolean){solid(row,new T.CylinderGeometry(.12,.2,.4,12),iron,x,.2,z);rod(row,V(x,.3,z),V(x,3.6,z),.057,iron);block(row,.34,.53,.34,warm,x,3.67,z);for(const xx of [-.19,.19])for(const zz of [-.19,.19])rod(row,V(x+xx,3.35,z+zz),V(x+xx,3.98,z+zz),.024,iron);solid(row,new T.ConeGeometry(.36,.23,4),iron,x,4.08,z).rotation.y=Math.PI/4;block(row,.48,.08,.48,iron,x,3.36,z);sphere(row,.06,brass,x,4.25,z);glow(row,sprite,x,3.68,z,2.6,'#ffe8bc',.8);
+  if(illuminate){const l=new T.PointLight('#ffd39a',24,12,2);l.position.set(x,3.42,z);row.add(l)}
+ }
+ function bareTree(row:T.Group,x:number,z:number,i:number){const bark=mat('#46403c');rod(row,V(x,0,z),V(x+.13,3.4,z),.11,bark,.06);for(let j=0;j<9;j++){const a=j*2.4+i,y=1.8+j*.15,end=V(x+Math.cos(a)*(1+j%3*.2),y+1,z+Math.sin(a)*1.1);rod(row,V(x,y,z),end,.034,bark,.012);for(let k=0;k<3;k++)rod(row,end.clone().lerp(V(x,y,z),.3),end.clone().add(V(Math.sin(k*3+j)*.4,.4+k*.12,Math.cos(k*3+j)*.4)),.013,bark,.003)}block(row,.9,.1,.9,snow,x,.1,z)}
+ function pedestrian(row:T.Group,side:number,i:number){const p=new T.Group(),coat=mat(['#73343b','#4a5747','#424b5c','#a08c6f'][i%4]),skin=mat('#c4a283'),boot=mat('#28272a');p.userData.dynamic=true;const torso=solid(p,new T.CapsuleGeometry(.23,.54,5,12),coat,0,1.05,0);torso.scale.z=.7;sphere(p,.15,skin,0,1.58,-.01);sphere(p,.022,skin,0,1.56,-.158);for(const x of [-.051,.051])sphere(p,.011,boot,x,1.61,-.145);sphere(p,.157,cream,0,1.68,.015).scale.y=.65;sphere(p,.055,cream,0,1.82,.01);block(p,.36,.075,.3,red,0,1.41,0,.03);const legs:T.Group[]=[];for(const side of [-1,1]){const l=new T.Group();l.position.set(side*.11,.65,0);rod(l,V(0,0,0),V(0,-.48,.01),.055,boot);block(l,.12,.1,.23,boot,0,-.55,-.055,.025);p.add(l);legs.push(l);rod(p,V(side*.22,1.31,0),V(side*.26,.85,-.06),.063,coat);sphere(p,.054,skin,side*.26,.81,-.06)}p.position.set(side*4.82,.13,0);p.rotation.y=side>0?Math.PI:0;row.add(p);people.push({g:p,legs,z:0,side,speed:.2+i%3*.09})}
+ for(let i=0;i<16;i++){const row=new T.Group(),z=-68+i*7.6;row.position.z=z;group.add(row);for(const side of [-1,1])building(row,side,i+(side===1?1:0));if(i%2===0){for(const side of [-1,1])lantern(row,side*4.15,2,i>=7&&i<=11);if(i%4===0)bareTree(row,-4.9,-1,i)}
+  if(i%3===0){for(let j=0;j<25;j++){const x=-6+j*.5,y=5.2-.65*Math.sin(j/24*Math.PI);sphere(row,.042,warm,x,y,0);if(j%3===0)glow(row,sprite,x,y,0,.55,'#fff0c9',.5);if(j)rod(row,V(x-.5,5.2-.65*Math.sin((j-1)/24*Math.PI),0),V(x,y,0),.008,iron)}}
+  if(i%4===1){const x=4.23;solid(row,new T.CylinderGeometry(.22,.27,1.12,24),red,x,.7,2.2);sphere(row,.27,red,x,1.29,2.2).scale.y=.36;block(row,.22,.045,.02,dark,x,1.14,2.47);block(row,.11,.13,.025,cream,x,.87,2.47);solid(row,new T.CylinderGeometry(.29,.3,.17,20),iron,x,.16,2.2)}
+  if(i%3===2)pedestrian(row,i%2?1:-1,i);batchStatic(row);rows.push({g:row,original:z});
+ }
+ // A church spire, glimpsed beyond the terraces, gives the street a distant landmark.
+ const church=new T.Group();church.position.set(-15,0,-48);group.add(church);block(church,5,17,5,plaster,0,8.5,0);solid(church,new T.ConeGeometry(4,11,4),dark,0,22.2,0).rotation.y=Math.PI/4;pane(church,0,12.8,2.57,1.3,3,true);rod(church,V(0,27,0),V(0,29.4,0),.05,brass);rod(church,V(-.7,28.6,0),V(.7,28.6,0),.05,brass);batchStatic(church);
+ const count=900,positions=new Float32Array(count*3),snowGeo=new T.BufferGeometry();for(let i=0;i<count;i++){positions[i*3]=(i*7.317)%34-17;positions[i*3+1]=(i*3.91)%18;positions[i*3+2]=(i*11.437)%74-37}snowGeo.setAttribute('position',new T.BufferAttribute(positions,3));const flakes=new T.Points(snowGeo,new T.PointsMaterial({color:'#e5edf7',size:.09,map:sprite,transparent:true,opacity:.78,depthWrite:false,sizeAttenuation:true}));group.add(flakes);let last=0;
+ return {interactive:true,name:'圣诞雪街',group,camera:[4.8,1.72,20],target:[4.2,1.73,-17],background:'#17202e',fog:.025,walkBounds:{minX:-5.5,maxX:5.5,eyeHeight:1.72},lighting:{ambient:.75,sun:.65,sunColor:'#99b8e5',skyColor:'#c4d4ef',groundColor:'#5b5046',sunPosition:[-9,22,-15],environment:.24,shadowRadius:32},dispose(){materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose())},tick(t){const p=getPosition(),dt=Math.min(.05,t-last);last=t;ground.position.z=Math.floor(p.z/4)*4;for(const row of rows)row.g.position.z=row.original+Math.round((p.z-row.original)/121.6)*121.6;church.position.z=-48+Math.round((p.z+48)/121.6)*121.6;for(let i=0;i<count;i++){positions[i*3+1]-=dt*(.5+i%7*.08);if(positions[i*3+1]<0)positions[i*3+1]=18;positions[i*3]=((i*7.317)%34-17)+Math.sin(t*.25+i)*.5}flakes.position.set(p.x,0,p.z);snowGeo.attributes.position.needsUpdate=true;for(const person of people){const distance=t*(.42+person.speed),phase=(distance+8.1)%10.8;person.g.position.z=-2.7+(phase<5.4?phase:10.8-phase);person.g.rotation.y=phase<5.4?Math.PI:0;const cycle=distance*8;person.legs[0].rotation.x=Math.sin(cycle)*.3;person.legs[1].rotation.x=-Math.sin(cycle)*.3;person.g.position.y=.14+Math.abs(Math.sin(cycle))*.015}}};
+}

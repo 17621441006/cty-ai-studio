@@ -1,0 +1,13 @@
+/* The blue tile and artwork share a single box, so their centers cannot drift. */
+@media(max-width:759px){
+ .mobile-home .desktop-icons.movable-icons>button{grid-template-columns:minmax(0,1fr);grid-template-rows:56px 32px;justify-content:stretch;justify-items:center;align-items:start;gap:6px;padding:0!important;height:94px!important;min-height:94px!important}
+ .mobile-home .desktop-icons.movable-icons>button:before{display:none}
+ .mobile-home .desktop-icons.movable-icons>button>.normalized-icon{position:relative;box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:56px!important;height:56px!important;margin:0!important;padding:6px;background:linear-gradient(145deg,#1d4373,#0b2344)!important;border:2px solid #315781;border-top:3px solid #4c70a1;box-shadow:2px 2px #041429;transform:none;filter:none}
+ .mobile-home .desktop-icons.movable-icons>button.selected>.normalized-icon{border-color:#d0b76e}
+ .mobile-home .desktop-icons.movable-icons .normalized-icon>svg{width:100%!important;height:100%!important;margin:0!important;flex:none}
+ .mobile-home .desktop-icons.movable-icons>button>.desktop-icon-label{align-self:start;justify-self:stretch;max-width:none;width:100%;text-align:center}
+}
+@media(max-width:359px){
+ .mobile-home .desktop-icons.movable-icons>button{grid-template-rows:50px 32px;height:88px!important;min-height:88px!important}
+ .mobile-home .desktop-icons.movable-icons>button>.normalized-icon{width:50px!important;height:50px!important;padding:5px}
+}

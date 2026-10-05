@@ -1,0 +1,6 @@
+@font-face{font-family:CTYShanghaiLED;src:url('/fonts/shanghai-led.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@media(max-width:759px){
+ .live-shops .live-shop>span{font-size:0;letter-spacing:0}
+ .live-shops .live-shop>span:after{content:attr(data-short-label);font-size:7px;line-height:1.2}
+ .live-shops .live-shop>small{display:none}
+}

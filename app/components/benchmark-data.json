@@ -1,0 +1,235 @@
+[
+  {
+    "group": "pelican",
+    "model": "opus",
+    "title": "骑车的鹈鹕",
+    "path": "benchmarks/pelican/opus/index.html",
+    "viewport": {
+      "width": 1040,
+      "height": 830
+    },
+    "scroll": false
+  },
+  {
+    "group": "pelican",
+    "model": "sol",
+    "title": "鹈鹕的海边骑行",
+    "path": "benchmarks/pelican/sol/index.html",
+    "viewport": {
+      "width": 1120,
+      "height": 920
+    },
+    "scroll": false
+  },
+  {
+    "group": "pelican",
+    "model": "luna",
+    "title": "鹈鹕骑自行车",
+    "path": "benchmarks/pelican/luna/index.html",
+    "viewport": {
+      "width": 1100,
+      "height": 740
+    },
+    "scroll": false
+  },
+  {
+    "group": "pelican",
+    "model": "astra",
+    "title": "鹈鹕的海风骑行",
+    "path": "benchmarks/pelican/astra/index.html",
+    "viewport": {
+      "width": 1200,
+      "height": 1030
+    },
+    "scroll": false
+  },
+  {
+    "group": "websites",
+    "model": "opus",
+    "title": "沈霓的霓虹终端",
+    "path": "benchmarks/websites/opus/01-neon/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "opus",
+    "title": "陆白字体工作室",
+    "path": "benchmarks/websites/opus/02-swiss/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "opus",
+    "title": "温岚产品设计",
+    "path": "benchmarks/websites/opus/03-glass/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "opus",
+    "title": "阿柚的玩具箱",
+    "path": "benchmarks/websites/opus/04-toybox/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "opus",
+    "title": "周远深空日志",
+    "path": "benchmarks/websites/opus/05-deepsky/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "sol",
+    "title": "Atelier — 林知遥",
+    "path": "benchmarks/websites/sol/atelier.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "sol",
+    "title": "Orbit — 林知遥",
+    "path": "benchmarks/websites/sol/orbit.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "sol",
+    "title": "Signal — 林知遥",
+    "path": "benchmarks/websites/sol/signal.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "sol",
+    "title": "Chrome — 林知遥",
+    "path": "benchmarks/websites/sol/chrome.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "websites",
+    "model": "sol",
+    "title": "Bloom — 林知遥",
+    "path": "benchmarks/websites/sol/bloom.html",
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scroll": true
+  },
+  {
+    "group": "dinosaur",
+    "model": "opus",
+    "title": "像素小城 · 恐龙过境",
+    "path": "benchmarks/dinosaur/opus/dist/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "scroll": false
+  },
+  {
+    "group": "dinosaur",
+    "model": "sol",
+    "title": "小城，大访客 · Three.js 动画",
+    "path": "benchmarks/dinosaur/sol/dist/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "scroll": false
+  },
+  {
+    "group": "dinosaur",
+    "model": "astra",
+    "title": "小城，大访客 · Small Hours",
+    "path": "benchmarks/dinosaur/astra/播放小城.html",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "scroll": false
+  },
+  {
+    "group": "promo",
+    "model": "opus",
+    "title": "Claude Opus 5.5 宣传片",
+    "path": "benchmarks/promo/opus/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 790
+    },
+    "scroll": false,
+    "video": "benchmarks/promo/opus/out/promo.mp4"
+  },
+  {
+    "group": "promo",
+    "model": "sol",
+    "title": "GPT-6 Sol 宣传片",
+    "path": "benchmarks/promo/sol/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 790
+    },
+    "scroll": false,
+    "video": "benchmarks/promo/sol/outputs/promo.mp4"
+  },
+  {
+    "group": "matterhorn",
+    "model": "opus",
+    "title": "马特洪峰 Matterhorn",
+    "path": "benchmarks/matterhorn/opus/index.html",
+    "viewport": {
+      "width": 1280,
+      "height": 850
+    },
+    "scroll": false
+  },
+  {
+    "group": "matterhorn",
+    "model": "astra",
+    "title": "MATTERHORN · 马特洪峰",
+    "path": "benchmarks/matterhorn/astra/马特洪峰.html",
+    "viewport": {
+      "width": 1280,
+      "height": 850
+    },
+    "scroll": false
+  }
+]

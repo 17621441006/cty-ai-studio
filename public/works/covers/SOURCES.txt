@@ -1,0 +1,5 @@
+CTY STUDIO catalogue previews
+Minecraft / AI 研习所 / USACO: existing screenshots from their published Sites.
+AI 创作实验室: rendered actual Opus pelican SVG scene at 2.4 seconds, from public/works/benchmark/benchmarks/pelican/opus/index.html.
+Aquas / 见缝插针 / Terraria AI Bridge: static render of their actual React initial interfaces and arcade styles, fitted to 1120×690 for covers.
+Two sizes: 480px list thumbnails and up to 1200px detail previews.

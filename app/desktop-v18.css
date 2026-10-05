@@ -1,0 +1,8 @@
+/* Foreground defence follows the companion layer, ahead of its face. */
+.traffic-magic[data-kind=shield]{z-index:var(--cat-shield-z,9)}
+.swatch-castle{background:#061329 url('/assets/scenery/hogwarts-night.webp') 50% 53%/cover}
+.mobile-wallpapers>div{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mobile-wallpapers{margin-bottom:8px}
+.mobile-wallpapers .wallpaper-swatch{height:42px}
+.mobile-video-card h2{font-size:clamp(17px,5vw,23px)}
+.catalogue-cover.cover-minecraft img,.catalogue-cover.cover-ai img,.catalogue-cover.cover-usaco img,.catalogue-cover.cover-zp-benchmark img,.catalogue-cover.cover-zp-aquas-duel img,.catalogue-cover.cover-zp-jianfeng img,.catalogue-cover.cover-zp-terraria-bridge img{object-fit:cover;object-position:50% 50%;image-rendering:auto}

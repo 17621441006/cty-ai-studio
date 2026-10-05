@@ -1,0 +1,21 @@
+import * as THREE from 'three';
+type V=[number,number,number];
+type Surface={points:V[];center:V;normal:V;fill:string;index:number;owner:THREE.InstancedMesh|null};
+/** A canvas fallback that projects the same voxel scene when WebGL is unavailable. */
+export class SoftwareRenderer{
+ domElement:HTMLCanvasElement;ctx:CanvasRenderingContext2D;outputColorSpace:unknown;toneMapping:unknown;toneMappingExposure=1;shadowMap:{enabled:boolean;type:unknown}={enabled:false,type:null};private surfaces:Surface[]=[];private prepared=false;private width=1;private height=1;private last=0;
+ constructor(){this.domElement=document.createElement('canvas');this.ctx=this.domElement.getContext('2d',{alpha:false})!;}
+ setPixelRatio(_:number){}
+ setSize(w:number,h:number){this.width=w;this.height=h;this.domElement.width=w;this.domElement.height=h;this.prepared=false;}
+ dispose(){this.surfaces=[];}
+ invalidate(){this.prepared=false;}
+ private prepare(scene:THREE.Scene){this.surfaces=[];scene.updateMatrixWorld(true);const matrix=new THREE.Matrix4(),color=new THREE.Color();const corners:V[]=[[-.5,-.5,-.5],[.5,-.5,-.5],[.5,.5,-.5],[-.5,.5,-.5],[-.5,-.5,.5],[.5,-.5,.5],[.5,.5,.5],[-.5,.5,.5]];const faceDefs=[{ids:[3,2,6,7],n:[0,1,0],shade:1.15},{ids:[4,5,6,7],n:[0,0,1],shade:.92},{ids:[1,0,3,2],n:[0,0,-1],shade:.65},{ids:[5,1,2,6],n:[1,0,0],shade:.78},{ids:[0,4,7,3],n:[-1,0,0],shade:1.0}];
+ const add=(mesh:THREE.Mesh,m:THREE.Matrix4,c:THREE.Color,index:number,owner:THREE.InstancedMesh|null)=>{const p=corners.map(v=>new THREE.Vector3(...v).applyMatrix4(m).toArray() as V);for(const face of faceDefs){const pts=face.ids.map(i=>p[i]);const center:V=[0,0,0];pts.forEach(v=>{center[0]+=v[0]/4;center[1]+=v[1]/4;center[2]+=v[2]/4});const normal=new THREE.Vector3(...face.n as V).transformDirection(m).toArray() as V;const cc=c.clone().multiplyScalar(face.shade).convertLinearToSRGB();const fill=`rgb(${Math.min(255,Math.round(cc.r*255))},${Math.min(255,Math.round(cc.g*255))},${Math.min(255,Math.round(cc.b*255))})`;this.surfaces.push({points:pts,center,normal,fill,index,owner});}};
+ scene.traverse(o=>{if(!(o instanceof THREE.Mesh)||o.geometry.type!=='BoxGeometry')return;const mat=o.material as THREE.MeshStandardMaterial;if(o instanceof THREE.InstancedMesh){for(let i=0;i<o.instanceMatrix.count;i++){o.getMatrixAt(i,matrix);matrix.premultiply(o.matrixWorld);if(o.instanceColor)o.getColorAt(i,color);else color.copy(mat.color);add(o,matrix,color,i,o);}}else add(o,o.matrixWorld,mat.color,0,null);});this.prepared=true;
+ }
+ render(scene:THREE.Scene,camera:THREE.Camera){const now=performance.now();if(now-this.last<70)return;this.last=now;if(!this.prepared)this.prepare(scene);camera.updateMatrixWorld();const vp=new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse).elements;const view=camera.matrixWorldInverse.elements;const cp=new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);const w=this.width,h=this.height,ctx=this.ctx;
+ const bg=scene.background instanceof THREE.Color?'#'+scene.background.getHexString():'#102736';const gradient=ctx.createLinearGradient(0,0,0,h);gradient.addColorStop(0,bg);gradient.addColorStop(1,bg==='#081525'?'#254454':'#e1d5b1');ctx.fillStyle=gradient;ctx.fillRect(0,0,w,h);if(bg==='#081525'){ctx.fillStyle='#c3d7da';for(let i=0;i<90;i++){const x=((i*137.3)%w),y=((i*53.8)%(h*.68));ctx.globalAlpha=.25+(i%6)/10;ctx.fillRect(x,y,i%3?1:2,i%3?1:2)}ctx.globalAlpha=1;}
+ const visible=this.surfaces.filter(f=>(!f.owner||f.index<f.owner.count)&&f.normal[0]*(cp.x-f.center[0])+f.normal[1]*(cp.y-f.center[1])+f.normal[2]*(cp.z-f.center[2])>0).map(f=>({f,depth:view[2]*f.center[0]+view[6]*f.center[1]+view[10]*f.center[2]+view[14]}));visible.sort((a,b)=>a.depth-b.depth);
+ for(const {f} of visible){const xy:number[]=[];let valid=true;for(const [x,y,z] of f.points){const cw=vp[3]*x+vp[7]*y+vp[11]*z+vp[15];if(cw<.01){valid=false;break;}xy.push(((vp[0]*x+vp[4]*y+vp[8]*z+vp[12])/cw*.5+.5)*w,(-(vp[1]*x+vp[5]*y+vp[9]*z+vp[13])/cw*.5+.5)*h);}if(!valid)continue;if(xy.every((p,i)=>i%2===0?p<0:false)||xy.every((p,i)=>i%2===0?p>w:false))continue;ctx.beginPath();ctx.moveTo(xy[0],xy[1]);ctx.lineTo(xy[2],xy[3]);ctx.lineTo(xy[4],xy[5]);ctx.lineTo(xy[6],xy[7]);ctx.closePath();ctx.fillStyle=f.fill;ctx.fill();}
+ }
+}

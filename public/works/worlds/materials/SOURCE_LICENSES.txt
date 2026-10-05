@@ -1,0 +1,21 @@
+STILLROOM MATERIAL SOURCES
+
+All three texture sets: Poly Haven, CC0-1.0
+License: https://polyhaven.com/license
+Deed: https://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Floor — Dimitrios Savva
+https://polyhaven.com/a/wood_floor
+Tile: 1.7m x 1.7m. Warm brown plank floor/grain; UV repeat = surface size in metres / 1.7.
+
+Rough Linen — colormass (Photography), Rico Cilliers (Processing)
+https://polyhaven.com/a/rough_linen
+Tile: approximately 0.271m x 0.271m. Original pale blue color preserved; UV repeat = surface size in metres / 0.271.
+
+White Plaster 02 — Rob Tuytel
+https://polyhaven.com/a/white_plaster_02
+Tile: 1m x 1m per current public page and dimensions metadata. Older API scale text says 1.5M x 1.5M; use 1m. Fine matte grey/off-white plaster with subtle mottling.
+
+All map triplets share 512x512 dimensions. OpenGL normals. Color maps use sRGB; normal and roughness maps use linear/no color space. Normal strength starting suggestions: wood 0.30, linen 0.30, plaster 0.15, then judge under room lighting.
+
+Only conversion/resampling was performed. Source 1K JPEG map checksums were verified against official API. Exact URLs, source and output checksums are in download-manifest.json.

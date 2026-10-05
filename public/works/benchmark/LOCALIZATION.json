@@ -1,0 +1,42 @@
+{
+  "fonts": [
+    "Archivo",
+    "Bowlby One",
+    "Bricolage Grotesque",
+    "Chakra Petch",
+    "Cormorant Garamond",
+    "DM Mono",
+    "DM Sans",
+    "IBM Plex Mono",
+    "JetBrains Mono",
+    "Manrope",
+    "Michroma",
+    "Noto Sans SC",
+    "Noto Serif SC",
+    "Rubik",
+    "Silkscreen",
+    "VT323",
+    "ZCOOL KuaiLe"
+  ],
+  "licenses": [
+    "Archivo",
+    "Bowlby One",
+    "Bricolage Grotesque",
+    "Chakra Petch",
+    "Cormorant Garamond",
+    "DM Mono",
+    "DM Sans",
+    "IBM Plex Mono",
+    "JetBrains Mono",
+    "Manrope",
+    "Michroma",
+    "Noto Sans SC",
+    "Noto Serif SC",
+    "Rubik",
+    "Silkscreen",
+    "VT323",
+    "ZCOOL KuaiLe"
+  ],
+  "fontSubset": "All glyphs present in original work source; user-entered new glyphs use system fallbacks.",
+  "externalRuntimeRequestsRemoved": true
+}

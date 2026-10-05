@@ -1,0 +1,26 @@
+Hogwarts night: generated for CTY STUDIO.
+Harry broom sprite: https://www.clipartmax.com/middle/m2H7N4m2N4Z5Z5m2_harry-potter-on-broomstick-pixel-art-harry-potter-brik/
+Source labels Personal Use. This Site is owner-private. Original alpha PNG retained; scene samples rider and snitch separately.
+
+
+V19 · 2026-10-05
+convertible-red.webp, convertible-teal.webp: original transparent imagegen sprites, 480x129 each.
+cat-sitting.webp: imagegen edit referencing existing cat-poses-v9.webp; relaxed seated tabby.
+caught-fish.webp: original imagegen turquoise/silver fish sprite.
+Only transparent crops, nearest-neighbor scaling and lossless encoding were applied.
+
+
+v20 castle scene objects / foreground encounters
+- hogwarts-clean-plate-v20.webp: built-in ImageGen edit of the existing generated hogwarts-night.webp. Castle architecture removed; same 1536x1024 alignment. Original masonry rendered separately by clipped scene objects. Prompt/provenance kept in source repository.
+- castle-harry-v20.png: detailed Harry broom illustration, https://www.realclipart.com/download/m2H7i8Z5d3Z5Z5b1_top-10-modes-of-transportation-in-harry-potter-harry-potter-on-a/
+  Image: https://www.realclipart.com/png/full/269-2698246_harry-potter-broomstick-clipart.png
+  Alpha trimmed, horizontally mirrored to face right, resized for local rendering. Source advertises free download/embedding; no commercial license claimed.
+- castle-dumbledore-v20.png: Albus Dumbledore (fan art), Mαrti, CC BY 4.0.
+  Source: https://commons.wikimedia.org/wiki/File:Albus_Dumbledore_(fan_art).svg
+  License: https://creativecommons.org/licenses/by/4.0/
+  Changes: rasterized source, alpha trim, horizontal mirror, resized; robe/foot motion and magic added at runtime.
+- castle-voldemort-v20.png: Rostislav Vasik / Voldemort pixel art, https://www.pikpng.com/transpng/iThmoJT/
+  Source states personal non-commercial use. Alpha trimmed and resized; runtime wand and motion added.
+- castle-dementor-v20.png: Neta Studio Harry Potter 8-bit demo, https://neta.art/explore/work/en/harry-potter-8bit
+  Image: https://public.cohub.run/s/1c04b015-5a11-4733-acf3-9d9894e6e9fe/harry-potter-8bit-assets/sprite-dementor.png
+  Demo describes sprites as ready to remix; no commercial license claimed. Alpha trimmed/resized; wisps and repulsion animated locally.

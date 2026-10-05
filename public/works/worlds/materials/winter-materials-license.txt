@@ -1,0 +1,6 @@
+Poly Haven texture assets: CC0 1.0 Universal public-domain dedication.
+Source license policy: https://polyhaven.com/license
+License: https://creativecommons.org/publicdomain/zero/1.0/
+Asset source URLs and author names are retained in manifest.json.
+Original API info/files JSON are retained beside each texture set.
+All nine JPG maps were verified against API MD5 checksums and are 1024x1024.

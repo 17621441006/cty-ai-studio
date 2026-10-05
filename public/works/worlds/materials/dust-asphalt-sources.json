@@ -1,0 +1,46 @@
+{
+  "id": "asphalt_02",
+  "name": "Asphalt 02",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "license_statement": "https://polyhaven.com/license",
+  "source": "https://polyhaven.com/a/asphalt_02",
+  "authors": {
+    "Rob Tuytel": "All"
+  },
+  "scale": "3M x 3M",
+  "resolution": [
+    1024,
+    1024
+  ],
+  "maps": [
+    {
+      "role": "Diffuse",
+      "path": "/workspace/scratch/209e7127bc41/snow-v13-assets/asphalt_02/Diffuse.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_diff_1k.jpg",
+      "md5": "fa19772d4817754c3efab708c651f5a8",
+      "bytes": 731707
+    },
+    {
+      "role": "nor_gl",
+      "path": "/workspace/scratch/209e7127bc41/snow-v13-assets/asphalt_02/nor_gl.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_nor_gl_1k.jpg",
+      "md5": "338da8de636ea36133170578cac82e8e",
+      "bytes": 1240122
+    },
+    {
+      "role": "Rough",
+      "path": "/workspace/scratch/209e7127bc41/snow-v13-assets/asphalt_02/Rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_rough_1k.jpg",
+      "md5": "ec80a2929797c1b3ffc121c4f665585a",
+      "bytes": 544032
+    }
+  ],
+  "recommendation": {
+    "repeat": "width/3, length/3",
+    "normal_scale": 0.25,
+    "roughness_multiplier": 0.75,
+    "diffuse_color_multiplier": "#aaaaaa",
+    "note": "Fine weathered aggregate asphalt road. Add painted road markings as separate mesh/decal; do not bake into this tiling material. Color map sRGB; normal and roughness linear."
+  }
+}

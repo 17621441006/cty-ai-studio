@@ -1,0 +1,5 @@
+.tiny-cat-walk{width:86px;height:86px;display:block;transform:scaleX(var(--pet-facing,1));opacity:1;pointer-events:none;filter:none}
+.tiny-companion:hover .tiny-cat-walk{filter:drop-shadow(0 0 3px #f2c47c44)}
+.window-source{flex-shrink:0;min-height:29px;padding-block:5px}
+.window-source>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.original-app iframe{min-height:0;display:block}

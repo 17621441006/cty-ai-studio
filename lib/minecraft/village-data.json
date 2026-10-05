@@ -1,0 +1,1030 @@
+{
+  "stride": 1,
+  "origin": [
+    -928,
+    -8,
+    432
+  ],
+  "tiles": [
+    {
+      "id": "0,0",
+      "url": "/regions/hidden-leaf/static-0-0-v48.bin.gz",
+      "origin": [
+        -928,
+        432
+      ],
+      "sha256": "a3bde57a8aeee44f1476208cab949861be884d6a3c92905f51c6f7203f6c12a7",
+      "vertices": 309228,
+      "bytes": 874728,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 66560
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 66560,
+          "count": 44756
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 111316,
+          "count": 66560
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 177876,
+          "count": 38976
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 216852,
+          "count": 92376
+        }
+      ]
+    },
+    {
+      "id": "0,1",
+      "url": "/regions/hidden-leaf/static-0-1-v48.bin.gz",
+      "origin": [
+        -928,
+        560
+      ],
+      "sha256": "dc7bd1438aea677d0ab1a539a04d8e9d75ee381a16ef0fea77b76ccc9ba68114",
+      "vertices": 342572,
+      "bytes": 1039056,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 61100
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 61100,
+          "count": 78916
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 140016,
+          "count": 61100
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 201116,
+          "count": 16712
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 217828,
+          "count": 121312
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 339140,
+          "count": 3352
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 342492,
+          "count": 40
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 342532,
+          "count": 40
+        }
+      ]
+    },
+    {
+      "id": "0,2",
+      "url": "/regions/hidden-leaf/static-0-2-v48.bin.gz",
+      "origin": [
+        -928,
+        688
+      ],
+      "sha256": "6bfd898aa947695c13a8a9401f3ac581fe04f77562173a87eff800744589f15f",
+      "vertices": 353576,
+      "bytes": 983942,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 56076
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 56076,
+          "count": 80428
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 136504,
+          "count": 52096
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 188600,
+          "count": 35292
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 223892,
+          "count": 36052
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 259944,
+          "count": 15348
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 275292,
+          "count": 4092
+        },
+        {
+          "id": 89,
+          "data": 0,
+          "top": false,
+          "start": 279384,
+          "count": 328
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 279712,
+          "count": 62496
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 342208,
+          "count": 1724
+        },
+        {
+          "id": 5,
+          "data": 1,
+          "top": false,
+          "start": 343932,
+          "count": 1796
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 345728,
+          "count": 1792
+        },
+        {
+          "id": 45,
+          "data": 0,
+          "top": false,
+          "start": 347520,
+          "count": 5528
+        },
+        {
+          "id": 35,
+          "data": 14,
+          "top": false,
+          "start": 353048,
+          "count": 232
+        },
+        {
+          "id": 35,
+          "data": 10,
+          "top": false,
+          "start": 353280,
+          "count": 296
+        }
+      ]
+    },
+    {
+      "id": "0,3",
+      "url": "/regions/hidden-leaf/static-0-3-v48.bin.gz",
+      "origin": [
+        -928,
+        816
+      ],
+      "sha256": "9422cc040293f278d89852b43b67337d2ca70934f63791023876c5ebe24a31e2",
+      "vertices": 127040,
+      "bytes": 269252,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 41792
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 41792,
+          "count": 1664
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 43456,
+          "count": 41792
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 85248,
+          "count": 41792
+        }
+      ]
+    },
+    {
+      "id": "1,0",
+      "url": "/regions/hidden-leaf/static-1-0-v48.bin.gz",
+      "origin": [
+        -800,
+        432
+      ],
+      "sha256": "537dabe71ec049db0d23f2e17d2a38570d51ea1863f5b5186e0059668a007a13",
+      "vertices": 487920,
+      "bytes": 1673690,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 66048
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 66048,
+          "count": 73420
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 139468,
+          "count": 66048
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 205516,
+          "count": 13160
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 218676,
+          "count": 269244
+        }
+      ]
+    },
+    {
+      "id": "1,1",
+      "url": "/regions/hidden-leaf/static-1-1-v48.bin.gz",
+      "origin": [
+        -800,
+        560
+      ],
+      "sha256": "706a180d473ea5ffeabbd1b1a3c68bbe2c3abda441d0ab466b2fa8756139a877",
+      "vertices": 548040,
+      "bytes": 2087671,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 329872
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 329872,
+          "count": 65508
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 395380,
+          "count": 64584
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 459964,
+          "count": 83840
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 543804,
+          "count": 32
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 543836,
+          "count": 696
+        },
+        {
+          "id": 5,
+          "data": 1,
+          "top": false,
+          "start": 544532,
+          "count": 260
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 544792,
+          "count": 640
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 545432,
+          "count": 776
+        },
+        {
+          "id": 45,
+          "data": 0,
+          "top": false,
+          "start": 546208,
+          "count": 1556
+        },
+        {
+          "id": 35,
+          "data": 3,
+          "top": false,
+          "start": 547764,
+          "count": 196
+        },
+        {
+          "id": 89,
+          "data": 0,
+          "top": false,
+          "start": 547960,
+          "count": 80
+        }
+      ]
+    },
+    {
+      "id": "1,2",
+      "url": "/regions/hidden-leaf/static-1-2-v48.bin.gz",
+      "origin": [
+        -800,
+        688
+      ],
+      "sha256": "44f602cab0ada6bf67acd5c905b28f2d6b433438abc22f8c658e626dc31451a4",
+      "vertices": 448952,
+      "bytes": 1520990,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 174740
+        },
+        {
+          "id": 5,
+          "data": 1,
+          "top": false,
+          "start": 174740,
+          "count": 512
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 175252,
+          "count": 65448
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 240700,
+          "count": 55700
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 296400,
+          "count": 76332
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 372732,
+          "count": 6304
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 379036,
+          "count": 3132
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 382168,
+          "count": 18512
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 400680,
+          "count": 25784
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 426464,
+          "count": 11368
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 437832,
+          "count": 2024
+        },
+        {
+          "id": 45,
+          "data": 0,
+          "top": false,
+          "start": 439856,
+          "count": 1004
+        },
+        {
+          "id": 89,
+          "data": 0,
+          "top": false,
+          "start": 440860,
+          "count": 320
+        },
+        {
+          "id": 35,
+          "data": 10,
+          "top": false,
+          "start": 441180,
+          "count": 216
+        },
+        {
+          "id": 35,
+          "data": 14,
+          "top": false,
+          "start": 441396,
+          "count": 600
+        },
+        {
+          "id": 35,
+          "data": 6,
+          "top": false,
+          "start": 441996,
+          "count": 532
+        },
+        {
+          "id": 24,
+          "data": 0,
+          "top": false,
+          "start": 442528,
+          "count": 4408
+        },
+        {
+          "id": 2,
+          "data": 0,
+          "top": true,
+          "start": 446936,
+          "count": 1668
+        },
+        {
+          "id": 35,
+          "data": 4,
+          "top": false,
+          "start": 448604,
+          "count": 272
+        },
+        {
+          "id": 35,
+          "data": 3,
+          "top": false,
+          "start": 448876,
+          "count": 76
+        }
+      ]
+    },
+    {
+      "id": "1,3",
+      "url": "/regions/hidden-leaf/static-1-3-v48.bin.gz",
+      "origin": [
+        -800,
+        816
+      ],
+      "sha256": "9bb8f43f2d2ff175d12d2f26d9f208635853c5f0c9bcaeb10240d675d00fffd5",
+      "vertices": 130756,
+      "bytes": 281420,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 41472
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 41472,
+          "count": 41472
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 82944,
+          "count": 38984
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 121928,
+          "count": 5088
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 127016,
+          "count": 3740
+        }
+      ]
+    },
+    {
+      "id": "2,0",
+      "url": "/regions/hidden-leaf/static-2-0-v48.bin.gz",
+      "origin": [
+        -672,
+        432
+      ],
+      "sha256": "2162bcfa17e4b55f277404296cdb5d35f6fcb1ba19962af570f93a61ae2a2309",
+      "vertices": 483044,
+      "bytes": 1691328,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 66048
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 66048,
+          "count": 63240
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 129288,
+          "count": 66048
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 195336,
+          "count": 26500
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 221836,
+          "count": 261208
+        }
+      ]
+    },
+    {
+      "id": "2,1",
+      "url": "/regions/hidden-leaf/static-2-1-v48.bin.gz",
+      "origin": [
+        -672,
+        560
+      ],
+      "sha256": "19b04050b338e5d9f9dd057d372340ecc59e1f95227cd38d357daa470a4f78a4",
+      "vertices": 722268,
+      "bytes": 2880540,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 506712
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 506712,
+          "count": 65536
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 572248,
+          "count": 65536
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 637784,
+          "count": 84484
+        }
+      ]
+    },
+    {
+      "id": "2,2",
+      "url": "/regions/hidden-leaf/static-2-2-v48.bin.gz",
+      "origin": [
+        -672,
+        688
+      ],
+      "sha256": "7168e6c05af77e65a30b117720ff4850cb8b559f1a6d04b36b110804e31ce64b",
+      "vertices": 555068,
+      "bytes": 2022086,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 326616
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 326616,
+          "count": 65536
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 392152,
+          "count": 65304
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 457456,
+          "count": 89404
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 546860,
+          "count": 3960
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 550820,
+          "count": 476
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 551296,
+          "count": 748
+        },
+        {
+          "id": 24,
+          "data": 0,
+          "top": false,
+          "start": 552044,
+          "count": 92
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 552136,
+          "count": 2932
+        }
+      ]
+    },
+    {
+      "id": "2,3",
+      "url": "/regions/hidden-leaf/static-2-3-v48.bin.gz",
+      "origin": [
+        -672,
+        816
+      ],
+      "sha256": "df46b6da2d2eedaba2340aa7acdf5e34b98eb3bf591ba12d176e03d26ca5eaad",
+      "vertices": 154340,
+      "bytes": 378523,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 19152
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 19152,
+          "count": 41472
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 60624,
+          "count": 41472
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 102096,
+          "count": 20752
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 122848,
+          "count": 31492
+        }
+      ]
+    },
+    {
+      "id": "3,0",
+      "url": "/regions/hidden-leaf/static-3-0-v48.bin.gz",
+      "origin": [
+        -544,
+        432
+      ],
+      "sha256": "408e52344beaefe561bf1e7c6e5ae8934fc449fedb5dc63f3d0f692ba985b482",
+      "vertices": 131364,
+      "bytes": 280017,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 41792
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 41792,
+          "count": 4816
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 46608,
+          "count": 41792
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 88400,
+          "count": 40040
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 128440,
+          "count": 2924
+        }
+      ]
+    },
+    {
+      "id": "3,1",
+      "url": "/regions/hidden-leaf/static-3-1-v48.bin.gz",
+      "origin": [
+        -544,
+        560
+      ],
+      "sha256": "794efa496844e97ddc61e32e4cf418ca902517d2fda515b008ed0072725a29c4",
+      "vertices": 268120,
+      "bytes": 901000,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 128284
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 128284,
+          "count": 41472
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 169756,
+          "count": 41472
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 211228,
+          "count": 38940
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 250168,
+          "count": 17952
+        }
+      ]
+    },
+    {
+      "id": "3,2",
+      "url": "/regions/hidden-leaf/static-3-2-v48.bin.gz",
+      "origin": [
+        -544,
+        688
+      ],
+      "sha256": "7b018fef9e0b774b24eb51f9c19a7127ce324e258711a75649959a6a1f724531",
+      "vertices": 156324,
+      "bytes": 384211,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 22168
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 22168,
+          "count": 41472
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 63640,
+          "count": 41472
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 105112,
+          "count": 18716
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 123828,
+          "count": 32496
+        }
+      ]
+    },
+    {
+      "id": "3,3",
+      "url": "/regions/hidden-leaf/static-3-3-v48.bin.gz",
+      "origin": [
+        -544,
+        816
+      ],
+      "sha256": "88b0642a685dda07dc9d722e7c20ddf5b469c58a28a2ca9ed7a838a410c625cc",
+      "vertices": 80000,
+      "bytes": 164185,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 26240
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 26240,
+          "count": 26240
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 52480,
+          "count": 26240
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 78720,
+          "count": 1280
+        }
+      ]
+    }
+  ]
+}
