@@ -7,13 +7,13 @@
 | 桌面入口 | 运行方式 | 已核实的 GitHub 源码 |
 | --- | --- | --- |
 | AI-cat / AI研习所 / AI小脏 | `ai-cat.jackchen911006.chatgpt.site`，助手为 `/desktop-assistant` | https://github.com/17621441006/ai-cat （非空，含助手路由） |
-| USACO | `usaco-bronze-lab.jackchen911006.chatgpt.site` | 已恢复完整最新 Sites 源码，待创建并上传独立仓库 |
+| USACO | `usaco-bronze-lab.jackchen911006.chatgpt.site` | https://github.com/17621441006/usaco-bronze-lab （完整源码已上传，Public） |
 | Minecraft Python | 演示程序、Pyodide、模型已内置；完整学习项目仍有外部入口 | https://github.com/17621441006/blockcraft-academy （非空，私有） |
 | 3D房屋 / 庭间 | 64 张设计图内置；完整工作台外部打开 | https://github.com/17621441006/tingjian-studio （非空） |
 
 以上核验仓库具有实际项目代码，不代表本次已将它们与各自最新在线版本逐文件同步。AI-cat 与 AI研习所共用一个原项目，无需重复仓库。
 
-USACO 恢复源提交：`56d71b0fa49819fdc042416a004ab2bab6cfb069`。它需要单独的仓库；主桌面里的外链不能代替原站源码。
+USACO 恢复源提交：`56d71b0fa49819fdc042416a004ab2bab6cfb069`。完整源码已上传独立仓库；主桌面里的外链不能代替原站源码。
 
 ## 已完整内置，不需单独创建仓库
 
@@ -34,4 +34,18 @@ USACO 恢复源提交：`56d71b0fa49819fdc042416a004ab2bab6cfb069`。它需要�
 
 ## 上传状态
 
-CTY AI STUDIO 与 USACO 的源文件已整理，尚未声称 GitHub 上传完成。当前 GitHub 连接器能编辑已有仓库，未提供新建仓库能力。待仓库创建入口可用后上传，并验证远端提交、文件树及大资源。
+2026-10-05 已完成上传，两个仓库按用户要求设为 **Public**：
+
+- 主项目：https://github.com/17621441006/cty-ai-studio ，1,027 个源文件及资源。
+- USACO：https://github.com/17621441006/usaco-bronze-lab ，1,843 个源文件及资源。
+
+完整源码包同时保存在各仓库的 `source-backup-2026-10-05` Release 附件中。克隆项目请使用 `main` 分支；下载归档请选命名的 `cty-source.tar.gz` 或 `usaco-source.tar.gz` 附件。
+
+导入后已核对 Git 文件树哈希：
+
+| 项目 | 本地来源提交 | 完整匹配的远端提交 |
+| --- | --- | --- |
+| CTY AI STUDIO | `4cb74cd07e34e14ac745a985bde27adac35d5962` | `406262ae5f92b1562c79fe075cca32f6f383bae4` |
+| USACO | `56d71b0fa49819fdc042416a004ab2bab6cfb069` | `4bc043a1881b9b0db958ad0e7ce7d3a52758e710` |
+
+两个远端提交的完整文件树分别与其本地来源完全一致，包括内容、文件名及文件权限。本记录随后更新为实际完成状态。一次性导入工作流已移除。
