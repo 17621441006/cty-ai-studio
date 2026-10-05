@@ -4,18 +4,18 @@
 
 ## 本地运行
 
-需要 Node.js 22.13 或更新版本。使用仓库锁文件安装依赖：
+需要 Node.js 22.13 或更新版本，以及 pnpm 11.25.0（与 `packageManager` 声明一致）。本仓库使用 `pnpm-lock.yaml`，按锁文件安装依赖：
 
 ```sh
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
 打开终端实际输出的本地地址。生产构建：
 
 ```sh
-npm run build
-npm start
+pnpm build
+pnpm start
 ```
 
 本项目采用 React、TypeScript、Vinext 和 Canvas / Three.js。详细运行环境和 Sites 发布说明见 [运行说明](docs/RUNTIME.md)。现有 `.openai/hosting.json` 属于原站点；独立部署时应使用自己的托管配置。
