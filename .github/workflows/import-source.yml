@@ -1,0 +1,55 @@
+name: Import verified complete source
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: initial-source-import
+  cancel-in-progress: false
+jobs:
+  import:
+    if: github.repository == '17621441006/cty-ai-studio' && (github.event_name == 'workflow_dispatch' || github.event.release.tag_name == 'source-backup-2026-10-05')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: main
+      - name: Download and verify exact source archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARCHIVE_NAME: cty-source.tar.gz
+          ARCHIVE_SHA: b33908d8076bb7ef50c3605f0952c5c7d96a46811a9cb481d2c6dbabd5cc6567
+          SOURCE_SHA: 4cb74cd07e34e14ac745a985bde27adac35d5962
+          EXPECTED_FILES: "1027"
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source-import"
+          gh release download source-backup-2026-10-05 --repo "$GITHUB_REPOSITORY" --pattern "$ARCHIVE_NAME" --dir "$RUNNER_TEMP/source-import"
+          python3 - <<'PY'
+          import os, hashlib, tarfile
+          from pathlib import Path, PurePosixPath
+          archive = Path(os.environ['RUNNER_TEMP']) / 'source-import' / os.environ['ARCHIVE_NAME']
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == os.environ['ARCHIVE_SHA'], 'Archive checksum mismatch'
+          with tarfile.open(archive) as bundle:
+              members = bundle.getmembers()
+              assert sum(m.isfile() for m in members) == int(os.environ['EXPECTED_FILES']), 'File count mismatch'
+              for member in members:
+                  p = PurePosixPath(member.name)
+                  assert not p.is_absolute() and '..' not in p.parts and '.git' not in p.parts, 'Unsafe path'
+                  assert member.isfile() or member.isdir(), 'Unexpected archive member'
+              bundle.extractall(os.environ['GITHUB_WORKSPACE'], filter='data')
+          print('Verified and extracted source', os.environ['SOURCE_SHA'], 'files:', os.environ['EXPECTED_FILES'])
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          if git diff --cached --quiet; then
+            echo "Source already imported"
+            exit 0
+          fi
+          git commit -m "Import complete source from 4cb74cd07e34e14ac745a985bde27adac35d5962"
+          git push origin HEAD:main
