@@ -38,4 +38,4 @@ pnpm start
 
 浏览器里自行导入的歌曲、封面和本地设置属于该浏览器的本地数据，不会自动成为 Git 源码。AI 助手仍使用 AI-cat 站点的服务，主仓库不包含其运行时密钥。
 
-2026-10-05 的性能修复与验证见 [v25 记录](docs/V25-PERFORMANCE.md)。
+2026-10-05 的性能修复与验证见 [v25 记录](docs/V25-PERFORMANCE.md) 和 [v26 按需加载与运行性能](docs/V26-PERFORMANCE.md)。

@@ -1,4 +1,5 @@
 'use client';
+import {useAnimationClock} from "@/app/components/AnimationScope";
 
 import {useEffect, useRef, type MutableRefObject} from 'react';
 
@@ -154,6 +155,7 @@ export function drawCatRig(ctx:CanvasRenderingContext2D, atlas:HTMLImageElement,
 }
 
 export default function CatSprite({mood,travel,airProgress}:{mood:CatMood;travel:MutableRefObject<number>;airProgress?:MutableRefObject<number>}) {
+ const animationClock=useAnimationClock(),{requestFrame,cancelFrame}=animationClock;
   const canvas = useRef<HTMLCanvasElement>(null);
   const mode = useRef(mood); mode.current = mood;
   const travelled = useRef(travel); travelled.current = travel;
@@ -167,16 +169,16 @@ export default function CatSprite({mood,travel,airProgress}:{mood:CatMood;travel
     let invalidated = true, previousKey = '';
     const invalidate = () => {invalidated = true;};
     for (const image of [atlas,poses,fallback]) {image.decoding='async'; image.onload=invalidate;}
-    atlas.src='/assets/cat-rig-v12.png';
-    poses.src='/assets/cat-poses-v9.webp';
-    fallback.src='/assets/cat-walk-sheet-v9.webp';
+    atlas.src='/assets/cat-rig-v12-display.webp';
+    atlas.onerror=()=>{fallback.src='/assets/cat-walk-sheet-v9.webp'};
     reduced.addEventListener('change',invalidate);
     document.addEventListener('visibilitychange',invalidate);
 
     const draw = (now:number) => {
-      raf=requestAnimationFrame(draw);
+      raf=requestFrame(draw);
       if (document.hidden || now-lastPaint < 1000/60-1) return;
       const current = mode.current;
+      if(['perch','grab','fall'].includes(current)&&!poses.src)poses.src='/assets/cat-poses-v9.webp';
       if (current !== previousMode) {changedAt=now; previousMode=current; invalidated=true;}
       const age = now-changedAt;
       const animate = !reduced.matches && (current==='walk'||current==='carry');
@@ -201,9 +203,9 @@ export default function CatSprite({mood,travel,airProgress}:{mood:CatMood;travel
         ctx.drawImage(fallback,910,88,420,336,86-420*scale/2,162-336*scale,420*scale,336*scale);
       }
     };
-    raf=requestAnimationFrame(draw);
+    raf=requestFrame(draw);
     return () => {
-      cancelAnimationFrame(raf);
+      cancelFrame(raf);
       for (const image of [atlas,poses,fallback]) image.onload=null;
       reduced.removeEventListener('change',invalidate);
       document.removeEventListener('visibilitychange',invalidate);

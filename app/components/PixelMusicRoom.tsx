@@ -1,4 +1,5 @@
 'use client';
+import {useAnimationClock} from "@/app/components/AnimationScope";
 import {useEffect,useRef,useState} from 'react';
 import {useMusic} from './MusicContext';
 import {newRunner,stepRunner,runnerItems,RUNNER_FLOOR,RUNNER_FINISH,type Runner} from '@/lib/pixel-runner';
@@ -23,12 +24,13 @@ export function paintRunner(ctx:CanvasRenderingContext2D,s:Runner,img:HTMLImageE
  ctx.fillStyle='#162535';ctx.fillRect(18,331,764,6);ctx.fillStyle='#f1d294';ctx.fillRect(18,331,764*world/RUNNER_FINISH,6);
 }
 export default function PixelMusicRoom(){
+ const animationClock=useAnimationClock(),{requestFrame,cancelFrame}=animationClock;
  const music=useMusic(),canvas=useRef<HTMLCanvasElement>(null),state=useRef(newRunner()),input=useRef({jump:false,dash:false,axis:0}),keys=useRef(new Set<string>());
  const [running,setRunning]=useState(true),[auto,setAuto]=useState(true),[palette,setPalette]=useState(0),[hud,setHud]=useState({coins:0,score:0,combo:0,hp:3,cooldown:0,status:'running'}),settings=useRef({running,auto,palette});settings.current={running,auto,palette};
  const reset=()=>{state.current=newRunner();input.current={jump:false,dash:false,axis:0};keys.current.clear();setRunning(true)};
  useEffect(()=>{const ctx=canvas.current?.getContext('2d');if(!ctx)return;const img=new Image();img.src='/assets/cat-avatars.webp';let raf=0,last=0,lastUI=0;
-  const tick=(now:number)=>{raf=requestAnimationFrame(tick);const dt=Math.min(.08,(now-last)/1000||0);last=now;if(document.hidden)return;const s=state.current;if(settings.current.running)stepRunner(s,input.current,dt,settings.current.auto);paintRunner(ctx,s,img,settings.current.palette);if(now-lastUI>120){setHud({coins:s.coins,score:s.score,combo:s.combo,hp:s.hp,cooldown:s.cooldown,status:s.status});lastUI=now}};
-  const blur=()=>{keys.current.clear();input.current={jump:false,dash:false,axis:0}};window.addEventListener('blur',blur);document.addEventListener('visibilitychange',blur);raf=requestAnimationFrame(tick);return()=>{cancelAnimationFrame(raf);window.removeEventListener('blur',blur);document.removeEventListener('visibilitychange',blur)};
+  const tick=(now:number)=>{raf=requestFrame(tick);const dt=Math.min(.08,(now-last)/1000||0);last=now;if(document.hidden)return;const s=state.current;if(settings.current.running)stepRunner(s,input.current,dt,settings.current.auto);paintRunner(ctx,s,img,settings.current.palette);if(now-lastUI>120){setHud({coins:s.coins,score:s.score,combo:s.combo,hp:s.hp,cooldown:s.cooldown,status:s.status});lastUI=now}};
+  const blur=()=>{keys.current.clear();input.current={jump:false,dash:false,axis:0}};window.addEventListener('blur',blur);document.addEventListener('visibilitychange',blur);raf=requestFrame(tick);return()=>{cancelFrame(raf);window.removeEventListener('blur',blur);document.removeEventListener('visibilitychange',blur)};
  },[]);
  const axis=()=>{input.current.axis=(keys.current.has('ArrowRight')?1:0)-(keys.current.has('ArrowLeft')?1:0)};
  const control=(kind:'jump'|'dash')=>{if(state.current.status!=='running')reset();input.current[kind]=true;setRunning(true)};

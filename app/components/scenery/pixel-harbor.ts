@@ -1,6 +1,7 @@
 /** Hand-painted-in-code pixel harbour. Coordinates are in the internal canvas pixels. */
 let seaCache: HTMLCanvasElement | null = null;
 let seaCacheKey = '';
+let staticLayers: {key:string;islands?:HTMLCanvasElement;pier?:HTMLCanvasElement}|null=null;
 
 const clamp = (n: number, a: number, b: number) => Math.max(a, Math.min(b, n));
 const hash = (n: number) => {
@@ -84,11 +85,20 @@ export function drawHarbor(
     ctx.closePath();
     ctx.fill();
   };
+  const cacheKey=`${w}:${h}`;
+  if(staticLayers?.key!==cacheKey)staticLayers={key:cacheKey};
+  const layers=staticLayers;
+  const cached=(key:'islands'|'pier',paint:()=>void)=>{
+    let image=layers[key];
+    if(!image){image=document.createElement('canvas');image.width=w;image.height=h;const screen=ctx;ctx=image.getContext('2d')!;paint();ctx=screen;layers[key]=image;}
+    ctx.drawImage(image,0,0);
+  };
   const hz = horizon / sy;
   const bottom = floor / sy;
   ctx.save();
   ctx.imageSmoothingEnabled = false;
 
+  cached('islands',()=>{
   // Layered island silhouettes leave the night sky completely to the caller.
   path([[0,hz],[0,hz-10],[36,hz-10],[36,hz-14],[68,hz-14],[68,hz-9],[99,hz-9],[99,hz-13],[135,hz-13],[135,hz-9],[164,hz-9],[164,hz-5],[195,hz-5],[195,hz-11],[223,hz-11],[223,hz-18],[244,hz-18],[244,hz-21],[281,hz-21],[281,hz-17],[315,hz-17],[315,hz-14],[350,hz-14],[350,hz-10],[378,hz-10],[378,hz-6],[413,hz-6],[413,hz-3],[464,hz-3],[464,hz],[720,hz]], '#123045');
   path([[0,hz+1],[0,hz-4],[122,hz-4],[122,hz-7],[167,hz-7],[167,hz-12],[203,hz-12],[203,hz-20],[237,hz-20],[237,hz-23],[283,hz-23],[283,hz-22],[309,hz-22],[309,hz-19],[341,hz-19],[341,hz-15],[366,hz-15],[366,hz-12],[399,hz-12],[399,hz-8],[431,hz-8],[431,hz-4],[474,hz-4],[474,hz-1],[502,hz-1],[502,hz+1]], '#081e30');
@@ -108,6 +118,8 @@ export function drawHarbor(
     const y = hz - 2 - hash(i + 311) * 4;
     rect(x, y, hash(i + 118) > .6 ? 2 : 1, 1, i % 3 ? '#baac73' : '#e4c887');
   }
+
+  });
 
   // The rotating lighthouse beam is a sparse translucent pixel fan.
   const towerX = 318;
@@ -178,6 +190,7 @@ export function drawHarbor(
   }
   ctx.globalAlpha = 1;
 
+  cached('pier',()=>{
   // The left stone quay and the warm wood jetty stand firmly in the water.
   const pierY = hz + 61;
   rect(0,pierY-4,120,bottom-pierY+4,'#152738');
@@ -246,6 +259,8 @@ export function drawHarbor(
   ctx.globalAlpha=1;
 
   // The interactive skiff is painted by HarborBoat at the same shared dock coordinates.
+
+  });
 
   // Small anchored buoys at different depths, each with a broken reflection.
   const lanterns = [[177,hz+110,1.0],[483,hz+125,.92],[632,hz+87,.78]];

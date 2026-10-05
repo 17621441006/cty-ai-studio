@@ -1,4 +1,5 @@
 'use client';
+import {useAnimationClock} from "@/app/components/AnimationScope";
 import {useEffect,useRef,type MutableRefObject} from 'react';
 import {sampleCastleEncounter,sampleDementor,smooth,FIRE_LAUNCH_START,FIRE_BURST_AT,fireCelebrationAnchor,fireBurstCenter,type CastleEncounter} from '@/lib/castle-encounters';
 import {catGroundLevel} from '@/lib/desktop-scenery';
@@ -115,12 +116,14 @@ export function paintCastleEncounter(ctx:CanvasRenderingContext2D,e:CastleEncoun
  ctx.restore();
 }
 export default function CastleVisitors({floor,encounter}:{floor:MutableRefObject<number>;encounter:MutableRefObject<CastleEncounter|null>}){
+ const animationClock=useAnimationClock(),{requestFrame,cancelFrame}=animationClock;
  const canvas=useRef<HTMLCanvasElement>(null);
  useEffect(()=>{const el=canvas.current,ctx=el?.getContext('2d');if(!el||!ctx)return;let raf=0,w=0,h=0,dpr=1,painted=false,detail=1,cost=0;
-  const art={} as CharacterArt;for(const [name,file] of Object.entries({harry:'castle-harry-v20.png',dumbledore:'castle-dumbledore-v20.png',voldemort:'castle-voldemort-v20.png',dementor:'castle-dementor-v22.png',clap:'castle-clap-v22.png',phoenix:'castle-phoenix-v22.png'})){const img=new Image();img.decoding='async';img.src='/assets/scenery/'+file;art[name as keyof CharacterArt]=img;}
+  const art={} as CharacterArt;for(const [name,file] of Object.entries({harry:'castle-harry-v20.png',dumbledore:'castle-dumbledore-v20.png',voldemort:'castle-voldemort-v20.png',dementor:'castle-dementor-v22.png',clap:'castle-clap-v22.png',phoenix:'castle-phoenix-v22.png'})){const img=new Image();img.decoding='async';img.dataset.src='/assets/scenery/'+file.replace('.png','-display.webp');art[name as keyof CharacterArt]=img;}
+  const prepare=(kind?:string)=>{const names: (keyof CharacterArt)[]=kind==='harry'?['harry']:kind==='duel'?['voldemort']:kind==='dementors'?['dementor']:kind==='dumbledore'?['dumbledore','clap','phoenix']:[];for(const key of names)if(!art[key].src)art[key].src=art[key].dataset.src!};
   const resize=()=>{w=window.innerWidth;h=window.innerHeight;dpr=1;el.width=w*dpr;el.height=h*dpr;encounter.current=null;painted=true;};resize();window.addEventListener('resize',resize);
-  const tick=(now:number)=>{raf=requestAnimationFrame(tick);if(document.hidden)return;const e=encounter.current;if(!e&&!painted)return;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);painted=!!e;if(e){const start=performance.now();paintCastleEncounter(ctx,e,w,floor.current,art,detail);cost=cost*.92+(performance.now()-start)*.08;if(cost>7&&detail>.45){detail=Math.max(.45,detail-.1);cost=0}}else{detail=1;cost=0}};raf=requestAnimationFrame(tick);
-  return()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',resize)};
+  const tick=(now:number)=>{raf=requestFrame(tick);if(document.hidden)return;const e=encounter.current;if(e)prepare(e.kind);if(!e&&!painted)return;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);painted=!!e;if(e){const start=performance.now();paintCastleEncounter(ctx,e,w,floor.current,art,detail);cost=cost*.92+(performance.now()-start)*.08;if(cost>7&&detail>.45){detail=Math.max(.45,detail-.1);cost=0}}else{detail=1;cost=0}};raf=requestFrame(tick);
+  return()=>{cancelFrame(raf);window.removeEventListener('resize',resize)};
  },[floor,encounter]);
  return <canvas className="castle-visitors" ref={canvas} aria-hidden="true"/>;
 }

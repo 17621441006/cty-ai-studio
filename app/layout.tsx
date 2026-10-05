@@ -28,6 +28,7 @@ import "./desktop-v22.css";
 import "./desktop-v23.css";
 import "./desktop-v24.css";
 import "./desktop-v25.css";
+import "./desktop-v26.css";
 
 export const metadata: Metadata = {
   title: "CTY AI STUDIO | Personal Works",

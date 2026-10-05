@@ -1,4 +1,5 @@
 'use client';
+import {useVisibleInterval} from '@/app/components/AnimationScope';
 import {useEffect,useRef,useState} from 'react';
 import {newJourney,readJourneySnapshot,advanceJourney,startJourney,pauseJourney,journeyPlaces as places,type JourneyState,type Furniture} from './journey-state';
 export default function Journey(){
@@ -11,7 +12,7 @@ export default function Journey(){
  useEffect(()=>{try{const raw=JSON.parse(localStorage.getItem('cty-long-journey-v5')||'null');const restored=readJourneySnapshot(raw,Date.now());setSave(restored);if(raw)setMessage('欢迎回来，委托和小屋都替你留着。')}catch{setSaveError(true)}setReady(true)},[]);
  const snapshot=JSON.stringify({...save,left:save.phase==='focus'?0:save.left});
  useEffect(()=>{if(!ready)return;try{localStorage.setItem('cty-long-journey-v5',snapshot);setSaveError(false)}catch{setSaveError(true)}},[ready,snapshot]);
- useEffect(()=>{if(!ready)return;const timer=setInterval(()=>setSave(v=>advanceJourney(v,Date.now())),250);return()=>clearInterval(timer)},[ready]);
+ useVisibleInterval(()=>setSave(v=>advanceJourney(v,Date.now())),ready?1000:null);
  function start(){setSave(v=>startJourney(v,Date.now()));setTab('委托')}
  function pause(){setSave(v=>pauseJourney(v,Date.now()))}
  function reset(){setSave(v=>({...v,phase:'idle',done:0,left:v.duration,deadline:0}));setPage(0)}

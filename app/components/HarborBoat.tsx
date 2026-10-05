@@ -1,4 +1,5 @@
 'use client';
+import {useAnimationClock} from "@/app/components/AnimationScope";
 import {useEffect,useRef,type MutableRefObject} from 'react';
 import {harborLayout,sampleHarborVoyage,type HarborVoyage,type VoyageFrame} from '@/lib/harbor-voyage';
 import {drawHarborSkiff} from './scenery/harbor-skiff';
@@ -27,9 +28,10 @@ export function paintHarborBoat(ctx:CanvasRenderingContext2D,frame:VoyageFrame,t
  if(frame.fishCount>0&&fish?.complete&&fish.naturalWidth)ctx.drawImage(fish,b.x+10*s,b.y-7*s,12*s,6*s);
 }
 export default function HarborBoat({floor,voyage}:{floor:MutableRefObject<number>;voyage:MutableRefObject<HarborVoyage|null>}){
+ const animationClock=useAnimationClock(),{requestFrame,cancelFrame}=animationClock;
  const canvas=useRef<HTMLCanvasElement>(null);
- useEffect(()=>{const c=canvas.current,ctx=c?.getContext('2d');if(!c||!ctx)return;const cat=new Image(),fish=new Image();cat.src='/assets/scenery/cat-sitting.webp';fish.src='/assets/scenery/caught-fish.webp';const reduced=matchMedia('(prefers-reduced-motion: reduce)');let raf=0,last=0,t=0,width=0,height=0;
-  const draw=(now:number)=>{raf=requestAnimationFrame(draw);if(now-last<1000/30)return;const dt=Math.min(.08,(now-last)/1000||0);last=now;if(document.hidden)return;if(!reduced.matches)t+=dt;const w=window.innerWidth,h=floor.current;if(width!==w||height!==h){width=w;height=h;c.width=Math.ceil(w*2);c.height=Math.ceil(h*2);c.style.width=w+'px';c.style.height=h+'px'}ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,w,h);ctx.imageSmoothingEnabled=false;paintHarborBoat(ctx,sampleHarborVoyage(voyage.current,harborLayout(w,h),t),t,cat,fish)};raf=requestAnimationFrame(draw);return()=>cancelAnimationFrame(raf);
+ useEffect(()=>{const c=canvas.current,ctx=c?.getContext('2d');if(!c||!ctx)return;const cat=new Image(),fish=new Image();cat.src='/assets/scenery/cat-sitting.webp';fish.src='/assets/scenery/caught-fish.webp';const reduced=matchMedia('(prefers-reduced-motion: reduce)');let raf=0,last=0,t=0,width=0,height=0,dpr=1;
+  const draw=(now:number)=>{raf=requestFrame(draw);if(now-last<1000/30)return;const dt=Math.min(.08,(now-last)/1000||0);last=now;if(document.hidden)return;if(!reduced.matches)t+=dt;const w=window.innerWidth,h=floor.current;if(width!==w||height!==h){width=w;height=h;dpr=Math.min(devicePixelRatio||1,w<760?1:1.5);c.width=Math.ceil(w*dpr);c.height=Math.ceil(h*dpr);c.style.width=w+'px';c.style.height=h+'px'}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);ctx.imageSmoothingEnabled=false;paintHarborBoat(ctx,sampleHarborVoyage(voyage.current,harborLayout(w,h),t),t,cat,fish)};raf=requestFrame(draw);return()=>cancelFrame(raf);
  },[floor,voyage]);
  return <canvas ref={canvas} className="harbor-voyage-canvas" aria-hidden="true"/>
 }

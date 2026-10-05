@@ -1,0 +1,9 @@
+/* Hidden windows keep their state without animating off-screen. */
+.window-content[data-paused="true"] *,
+.window-content[data-paused="true"] *::before,
+.window-content[data-paused="true"] *::after,
+.retro-desktop[data-scenery-paused="true"] .scene-backdrop *,
+.retro-desktop[data-scenery-paused="true"] .desktop-stars * {
+  animation-play-state: paused !important;
+}
+.catalogue-cover img { content-visibility: auto; }

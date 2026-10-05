@@ -1,14 +1,18 @@
+import lightMap from './castle-lightmap.json';
+type CastleWindow=typeof lightMap[number];
+import {getDefaultFrameClock,type FrameClock} from '@/lib/animation-clock';
 import {paintNightSky} from './night-sky';
 import {newCastleFlight,sampleCastleFlight,type Flight} from '@/lib/castle-flight';
-import {castleObjects,traceCastleObject,createCastleLightMap,castleWindowLight,castleFacadeLight,type CastleWindow} from './castle-objects';
-type Options={getLight:()=>number};
+import {castleObjects,traceCastleObject,castleWindowLight,castleFacadeLight} from './castle-objects';
+type Options={getLight:()=>number;clock?:FrameClock};
 /** Static masonry is cached; room lighting updates at 6 Hz, water at 24 Hz. */
-export function createPixelCastle(canvas:HTMLCanvasElement,{getLight}:Options){
- const ctx=canvas.getContext('2d')!;let w=1,h=1,raf=0,last=0,lastTime=0,time=0,next=38+Math.random()*15,flight:Flight|null=null,flightStart=0,disposed=false,lights:CastleWindow[]=[],allLights:CastleWindow[]=[],illumination=getLight(),lightTime=-Infinity;
- const motion=matchMedia('(prefers-reduced-motion: reduce)'),background=new Image(),rider=new Image();
- const base=document.createElement('canvas'),masonry=document.createElement('canvas'),lighting=document.createElement('canvas'),halos=new Map<CastleWindow,HTMLCanvasElement>();
+export function createPixelCastle(canvas:HTMLCanvasElement,{getLight,clock=getDefaultFrameClock()}:Options){
+ const {requestFrame,cancelFrame}=clock;
+ const ctx=canvas.getContext('2d')!;let w=1,h=1,raf=0,last=0,lastTime=0,time=0,next=38+Math.random()*15,flight:Flight|null=null,flightStart=0,disposed=false,lights:CastleWindow[]=[],allLights:CastleWindow[]=lightMap,illumination=getLight(),lightTime=-Infinity;
+ const motion=matchMedia('(prefers-reduced-motion: reduce)'),background=new Image(),rider=new Image(),lampAtlas=new Image();
+ const base=document.createElement('canvas'),masonry=document.createElement('canvas'),lighting=document.createElement('canvas');
  const bridgeGlow=document.createElement('canvas');bridgeGlow.width=bridgeGlow.height=48;const gc=bridgeGlow.getContext('2d')!,gg=gc.createRadialGradient(24,24,1,24,24,24);gg.addColorStop(0,'#ffbd6355');gg.addColorStop(1,'#ffb45a00');gc.fillStyle=gg;gc.fillRect(0,0,48,48);
- background.src='/assets/scenery/hogwarts-night.webp';rider.src='/assets/scenery/castle-harry-v20.png';
+ background.decoding=rider.decoding=lampAtlas.decoding='async';background.src='/assets/scenery/hogwarts-night.webp';rider.src='/assets/scenery/castle-harry-v20-display.webp';lampAtlas.src='/assets/scenery/castle-light-atlas.png';
  const layout=()=>{const height=Math.min(h*.90,w/1.5);return {height,top:h-height,sx:w/1536,sy:height/1024}};
  function cache(){
   if(!background.complete||!background.naturalWidth)return;
@@ -22,9 +26,9 @@ export function createPixelCastle(canvas:HTMLCanvasElement,{getLight}:Options){
   lightTime=-Infinity;
  }
  function paintLights(){
-  if(time-lightTime<1/6)return;lightTime=time;const l=lighting.getContext('2d')!,{top,sx,sy}=layout();l.setTransform(1,0,0,1,0,0);l.clearRect(0,0,w,h);l.save();l.translate(0,top);l.scale(sx,sy);const t=motion.matches?0:time;
-  for(const light of lights){const bright=castleWindowLight(light,t),accent=castleFacadeLight(light.objectId,t);l.globalCompositeOperation='source-over';l.globalAlpha=1-bright;l.drawImage(light.mask,light.x,light.y);l.globalCompositeOperation='lighter';l.globalAlpha=bright*accent*.30;
-   let halo=halos.get(light);if(!halo){halo=document.createElement('canvas');halo.width=light.w+12;halo.height=light.h+12;const hc=halo.getContext('2d')!;hc.shadowColor='#ffc875';hc.shadowBlur=3;hc.drawImage(light.lamp,6,6);halos.set(light,halo)}l.drawImage(halo,light.x-6,light.y-6);
+  if(!lampAtlas.complete||!lampAtlas.naturalWidth||time-lightTime<1/6)return;lightTime=time;const l=lighting.getContext('2d')!,{top,sx,sy}=layout();l.setTransform(1,0,0,1,0,0);l.clearRect(0,0,w,h);l.save();l.translate(0,top);l.scale(sx,sy);const t=motion.matches?0:time;
+  for(const light of lights){const bright=castleWindowLight(light,t),accent=castleFacadeLight(light.objectId,t);l.globalCompositeOperation='source-over';l.globalAlpha=1-bright;l.drawImage(lampAtlas,light.maskX,light.maskY,light.w,light.h,light.x,light.y,light.w,light.h);l.globalCompositeOperation='lighter';l.globalAlpha=bright*accent*.30;
+   l.drawImage(lampAtlas,light.haloX,light.haloY,light.w+12,light.h+12,light.x-6,light.y-6,light.w+12,light.h+12);
   }
   l.globalCompositeOperation='lighter';l.globalAlpha=castleFacadeLight('stone-bridge',t);for(let i=0;i<8;i++)l.drawImage(bridgeGlow,615+i*21,527+i*3.5,48,66);l.restore();
  }
@@ -40,7 +44,7 @@ export function createPixelCastle(canvas:HTMLCanvasElement,{getLight}:Options){
   ctx.drawImage(background,0,934,1536,90,0,top+934*sy,w,90*sy);ctx.fillStyle=`rgba(0,5,18,${(1-illumination)*.32})`;ctx.fillRect(0,0,w,h);
  }
  function resize(width:number,height:number){w=Math.max(160,Math.min(960,Math.round(width/2)));h=Math.max(120,Math.round(height*w/Math.max(1,width)));canvas.width=w;canvas.height=h;cache();render()}
- function tick(now:number){raf=requestAnimationFrame(tick);if(document.hidden){last=lastTime=now;return}const interval=motion.matches?300:1000/24,elapsed=now-last;if(elapsed<interval)return;const dt=lastTime?Math.min(.1,(now-lastTime)/1000):0;lastTime=now;last=now-(elapsed%interval);if(!motion.matches){time+=dt;illumination+=(getLight()-illumination)*Math.min(1,dt*2.8);if(!flight&&time>=next){flight=newCastleFlight();flightStart=time}if(flight&&time>flightStart+flight.duration){flight=null;next=time+38+Math.random()*44}}else{flight=null;illumination=getLight()}render()}
- const loaded=()=>{if(disposed)return;if(background.complete&&background.naturalWidth&&!allLights.length){allLights=createCastleLightMap(background);cache()}render()};background.onload=loaded;rider.onload=loaded;loaded();raf=requestAnimationFrame(tick);
- return {resize,dispose(){disposed=true;cancelAnimationFrame(raf);background.onload=null;rider.onload=null;halos.clear()}};
+ function tick(now:number){raf=requestFrame(tick);if(document.hidden){last=lastTime=now;return}const interval=motion.matches?300:1000/24,elapsed=now-last;if(elapsed<interval)return;const dt=lastTime?Math.min(.1,(now-lastTime)/1000):0;lastTime=now;last=now-(elapsed%interval);if(!motion.matches){time+=dt;illumination+=(getLight()-illumination)*Math.min(1,dt*2.8);if(!flight&&time>=next){flight=newCastleFlight();flightStart=time}if(flight&&time>flightStart+flight.duration){flight=null;next=time+38+Math.random()*44}}else{flight=null;illumination=getLight()}render()}
+ const loaded=()=>{if(disposed)return;lightTime=-Infinity;cache();render()};background.onload=loaded;rider.onload=()=>{if(!disposed)render()};lampAtlas.onload=loaded;loaded();raf=requestFrame(tick);
+ return {resize,dispose(){disposed=true;cancelFrame(raf);background.onload=null;rider.onload=null;lampAtlas.onload=null}};
 }

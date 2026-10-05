@@ -1,4 +1,5 @@
 'use client';
+import {useVisibleInterval} from '@/app/components/AnimationScope';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {Camera,Pause,Play,RotateCcw,RotateCw,Home,Move,ArrowLeft,X,Download,Check,MapPin,Package,CarFront,Palette} from 'lucide-react';
 import {useWorld} from './useWorld';
@@ -12,7 +13,8 @@ export default function FocusWorld({road=false}:{road?:boolean}){
  const sceneKey=road?`road-${stop}-${paint}-${trailer}-${decor.join('-')}`:`town-${kind}-${color}-${buildings.length}`;
  const world=useWorld(()=>road?createDust(stop,decor,paint,trailer):createTown(buildings,kind,color),sceneKey,settings);
  function finish(){setRunning(false);setDone(true);setRemaining(0);if(demo)setPreviewCount(n=>n+1);else setFocusSeconds(n=>n+total);if(road){setDistance(d=>d+destinations[stop%3].distance);setMaterials(n=>n+12);setMessage('到站了。找到 12 份材料，可以给房车添点东西。')}else{const moved=world.engine.current?.snapshot()||[];setBuildings(old=>{const [x,z]=townPlots[old.length%townPlots.length];return [...old.map(b=>({...b,...moved.find(m=>m.id===b.id)})),{id:Date.now(),kind,color,x,z,rotation:0}]});setMessage('新建筑已经落成。试试拖动它，给小镇排个新布局。')}}finishRef.current=finish;
- useEffect(()=>{if(!running)return;deadline.current=Date.now()+remainingRef.current*1000;const tick=()=>{const left=Math.max(0,(deadline.current-Date.now())/1000);setRemaining(left);if(left===0)finishRef.current()};const timer=setInterval(tick,200);return()=>clearInterval(timer)},[running]);
+ useEffect(()=>{if(running)deadline.current=Date.now()+remainingRef.current*1000},[running]);
+ useVisibleInterval(()=>{const left=Math.max(0,(deadline.current-Date.now())/1000);setRemaining(left);if(left===0)finishRef.current()},running?500:null);
  useEffect(()=>{if(!road)world.engine.current?.progress(done?0:progress)},[progress,done,road,sceneKey]);
  useEffect(()=>{world.engine.current?.setArrange(arrange)},[arrange,sceneKey]);
  useEffect(()=>{if(!road)return;const api=world.engine.current;if(view===0)api?.aim([2.37,1.87,-.74],[1.25,1.7,.12]);else if(view===1)api?.aim([1.6,1.78,.55],[1.35,1.6,-24]);else api?.aim([8.6,3.45,-8.3],[1.7,1.13,.2])},[view,road,sceneKey]);

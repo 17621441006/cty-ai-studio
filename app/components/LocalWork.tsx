@@ -3,10 +3,12 @@ import {useEffect,useRef,useState} from 'react';
 import {Maximize2,RotateCw} from 'lucide-react';
 import {AppId,AppInfo} from '@/lib/desktop-apps';
 import Icon from './DesktopIcon';
-import MusicRooms,{MoonPlayer} from './MusicRooms';
+const MusicRooms=dynamic(()=>import('./MusicRooms'),{ssr:false,loading:()=> <AppLoading name="音乐房间"/>});
+const MoonPlayer=dynamic(()=>import('./MusicRooms').then(m=>m.MoonPlayer),{ssr:false,loading:()=> <AppLoading name="月相唱机"/>});
 import OriginalWorld,{originalWorlds} from './OriginalWorld';
 import dynamic from 'next/dynamic';
 import AppLoading from './AppLoading';
+import {useWindowVisible} from './AnimationScope';
 const ArtTours=dynamic(()=>import('./ArtTours'),{ssr:false});
 const DragonFlight=dynamic(()=>import('./worlds/DragonFlight'),{ssr:false,loading:()=> <AppLoading name="尘路 · 龙背上的木叶" detail="正在载入飞行引擎"/>});
 const FocusWorld=dynamic(()=>import('./worlds/FocusWorld'),{ssr:false,loading:()=> <AppLoading name="创作世界" detail="正在载入场景引擎"/>});
@@ -20,12 +22,14 @@ const demos:Demo[]=catalogue;
 const modelNames:Record<string,string>={opus:'Opus 5.5',sol:'GPT-6 Sol',luna:'GPT-6 Luna',astra:'GPT-6 Astra'};
 const groups=[['pelican','鹈鹕骑车'],['websites','十种网站'],['dinosaur','恐龙小城'],['promo','创作短片'],['matterhorn','雪山 3D']];
 const asset=(path:string)=>'/works/benchmark/'+path;
-function Movie({demo}:{demo:Demo}){return <div className="local-cinema"><header><b>{demo.title}</b><span>模型创作短片</span></header><video key={demo.video} src={asset(demo.video!)} controls playsInline preload="metadata" poster={demo.model==='opus'?asset('covers/opus-promo-cover.webp'):undefined}/></div>}
+function Movie({demo}:{demo:Demo}){const video=useRef<HTMLVideoElement>(null),visible=useWindowVisible();useEffect(()=>{if(!visible)video.current?.pause()},[visible]);return <div className="local-cinema"><header><b>{demo.title}</b><span>模型创作短片</span></header><video ref={video} key={demo.video} src={asset(demo.video!)} controls playsInline preload="none" poster={demo.model==='opus'?asset('covers/opus-promo-cover.webp'):undefined}/></div>}
 function FittedDemo({demo}:{demo:Demo}){
+ const visible=useWindowVisible();
+ useEffect(()=>{if(!visible)setLoaded(false)},[visible]);
  const container=useRef<HTMLDivElement>(null),frame=useRef<HTMLIFrameElement>(null),[box,setBox]=useState({w:1,h:1}),[fit,setFit]=useState(true),[revision,setRevision]=useState(0),[fullError,setFullError]=useState(false),[loaded,setLoaded]=useState(false);
  useEffect(()=>{const el=container.current;if(!el)return;const observer=new ResizeObserver(entries=>{const rect=entries[0].contentRect;setBox({w:Math.max(1,rect.width),h:Math.max(1,rect.height)})});observer.observe(el);return()=>observer.disconnect()},[]);
  const scale=fit?Math.min(1,box.w/demo.viewport.width,box.h/demo.viewport.height):1;
- return <><div ref={container} className="fitted-stage" style={!fit?{overflow:'auto',display:'block'}:undefined}><div className="fitted-canvas" style={{width:demo.viewport.width*scale,height:demo.viewport.height*scale,...(!fit?{position:'relative',top:0,left:0,transform:'none'}:{})}}><iframe ref={frame} onLoad={()=>setLoaded(true)} key={demo.path+revision} src={asset(demo.path)} title={demo.title+' · '+modelNames[demo.model]} width={demo.viewport.width} height={demo.viewport.height} style={{width:demo.viewport.width,height:demo.viewport.height,transform:`scale(${scale})`}} sandbox="allow-scripts allow-same-origin allow-downloads allow-pointer-lock" allow="fullscreen; autoplay" allowFullScreen/></div>{!loaded&&<AppLoading name={demo.title} detail="正在载入作品"/>}</div><div className="local-work-status"><span>{fullError?'请用窗口右上角最大化。':fit?'完整画面 · '+Math.round(scale*100)+'%':demo.scroll?'原尺寸 · 向下滚动浏览':'原尺寸 · 可滚动查看'}</span><button onClick={()=>setFit(v=>!v)}>{fit?'原尺寸':'适应窗口'}</button><button aria-label="重播作品" onClick={()=>{setLoaded(false);setRevision(v=>v+1)}}><RotateCw size={14}/></button><button aria-label="全屏作品" onClick={()=>{setFullError(false);frame.current?.requestFullscreen?.().catch(()=>setFullError(true))}}><Maximize2 size={14}/></button></div></>;
+ return <><div ref={container} className="fitted-stage" style={!fit?{overflow:'auto',display:'block'}:undefined}><div className="fitted-canvas" style={{width:demo.viewport.width*scale,height:demo.viewport.height*scale,...(!fit?{position:'relative',top:0,left:0,transform:'none'}:{})}}>{visible&&<iframe ref={frame} onLoad={()=>setLoaded(true)} key={demo.path+revision} src={asset(demo.path)} title={demo.title+' · '+modelNames[demo.model]} width={demo.viewport.width} height={demo.viewport.height} style={{width:demo.viewport.width,height:demo.viewport.height,transform:`scale(${scale})`}} sandbox="allow-scripts allow-same-origin allow-downloads allow-pointer-lock" allow="fullscreen; autoplay" allowFullScreen/>}</div>{!loaded&&<AppLoading name={demo.title} detail="正在载入作品"/>}</div><div className="local-work-status"><span>{fullError?'请用窗口右上角最大化。':fit?'完整画面 · '+Math.round(scale*100)+'%':demo.scroll?'原尺寸 · 向下滚动浏览':'原尺寸 · 可滚动查看'}</span><button onClick={()=>setFit(v=>!v)}>{fit?'原尺寸':'适应窗口'}</button><button aria-label="重播作品" onClick={()=>{setLoaded(false);setRevision(v=>v+1)}}><RotateCw size={14}/></button><button aria-label="全屏作品" onClick={()=>{setFullError(false);frame.current?.requestFullscreen?.().catch(()=>setFullError(true))}}><Maximize2 size={14}/></button></div></>;
 }
 function Benchmark({cinema=false}:{cinema?:boolean}){
  const [group,setGroup]=useState(cinema?'promo':'pelican'),[selected,setSelected]=useState('');const options=demos.filter(d=>d.group===group),demo=options.find(d=>d.path===selected)||options[0];

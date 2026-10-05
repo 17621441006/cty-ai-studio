@@ -1,4 +1,5 @@
 'use client';
+import {useAnimationClock} from "@/app/components/AnimationScope";
 import {useEffect,useRef,type MutableRefObject} from 'react';
 import type {TrafficState} from '@/lib/desktop-scenery';
 import {portalSequence,shieldGeometry,shieldSequence,sampleTrafficTrick} from '@/lib/cat-traffic';
@@ -9,6 +10,7 @@ const TAU=Math.PI*2;
   }
 
 export default function TrafficMagic({traffic,floor}:{traffic:MutableRefObject<TrafficState>;floor:MutableRefObject<number>}){
+ const animationClock=useAnimationClock(),{requestFrame,cancelFrame}=animationClock;
  const canvas=useRef<HTMLCanvasElement>(null);
  useEffect(()=>{const el=canvas.current,ctx=el?.getContext('2d');if(!el||!ctx)return;let raf=0,painted=false,dpr=1,w=0,h=0;
   const resize=()=>{w=window.innerWidth;h=window.innerHeight;dpr=Math.min(2,devicePixelRatio||1);el.width=w*dpr;el.height=h*dpr};resize();window.addEventListener('resize',resize);
@@ -16,10 +18,10 @@ export default function TrafficMagic({traffic,floor}:{traffic:MutableRefObject<T
    for(let i=0;i<84;i++){const a=i*2.39996+age*(reverse?-4.7:4.7),life=(age*1.7+i*.618)%1,r=1+life*.85,rx=19*r,ry=47*r,x=Math.cos(a)*rx,y=Math.sin(a)*ry;ctx.globalAlpha=(1-life)*.85;ctx.strokeStyle=i%4?'#ffa62c':'#fff3b3';ctx.lineWidth=i%5?1:1.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-Math.sin(a)*(2+life*8),y+Math.cos(a)*(4+life*10));ctx.stroke()}
    ctx.restore();
   }
-  const tick=()=>{raf=requestAnimationFrame(tick);const t=traffic.current.trick;if(document.hidden)return;if(!t&&!painted)return;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);painted=!!t;el.dataset.kind=t?.kind||'';if(!t)return;
+  const tick=()=>{raf=requestFrame(tick);const t=traffic.current.trick;if(document.hidden)return;if(!t&&!painted)return;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);painted=!!t;el.dataset.kind=t?.kind||'';if(!t)return;
    const open=Math.min(1,t.elapsed/.17,(t.duration-t.elapsed)/.27),ease=Math.max(0,open)*Math.max(0,open)*(3-2*Math.max(0,open));
    if(t.kind==='portal'){const radius=Math.max(46,t.height/2+15),cy=floor.current-radius+3,sequence=portalSequence(t);if(sequence.entryOpen>0)portal(t.entry,cy,t.elapsed,sequence.entryOpen,false,radius/46);if(sequence.exitOpen>0)portal(t.exit,cy,t.elapsed,sequence.exitOpen,true,radius/46)}else{const face=-t.direction,g=shieldGeometry(t.catX,t.direction),sequence=shieldSequence(t);paintTrafficShield(ctx,g.cx,floor.current+g.cy,face,ease);if(t.elapsed>=sequence.approach&&t.elapsed<sequence.launch+.16){const pose=sampleTrafficTrick(t),k=(t.elapsed-sequence.approach)/sequence.ramp;ctx.globalAlpha=.7;ctx.strokeStyle='#ffdf8b';for(let i=0;i<7;i++){const a=i*.45-2.9,x=pose.frontX??g.tipX,y=floor.current-(pose.frontLift??g.rise);ctx.beginPath();ctx.moveTo(x+Math.cos(a)*k*10,y+Math.sin(a)*k*10);ctx.lineTo(x+Math.cos(a)*k*27,y+Math.sin(a)*k*27);ctx.stroke()}ctx.globalAlpha=1}}
-  };raf=requestAnimationFrame(tick);return()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',resize)};
+  };raf=requestFrame(tick);return()=>{cancelFrame(raf);window.removeEventListener('resize',resize)};
  },[floor,traffic]);
  return <canvas ref={canvas} className="traffic-magic" aria-hidden="true"/>;
 }

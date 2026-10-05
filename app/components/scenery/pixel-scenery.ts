@@ -1,29 +1,21 @@
+import {getDefaultFrameClock,type FrameClock} from '@/lib/animation-clock';
 import { drawHarbor } from './pixel-harbor';
 import { createShanghaiLandmarks } from './shanghai-landmarks';
 
 export type PixelSceneryKind = 'shanghai' | 'harbor';
 export type PixelShop = { id: string; label: string; subLabel: string; app: string; x: number; y: number; width: number; height: number; color: string };
-type SceneryOptions = { getLight: () => number; getMoonX: () => number; onReady?: () => void };
+type SceneryOptions = { getLight: () => number; getMoonX: () => number; onReady?: () => void; clock?: FrameClock };
 type PixelWindow = { x: number; y: number; w: number; h: number; seed: number; color: number; period: number };
 type Building = { id: number; x: number; y: number; w: number; h: number; plane: number; color: string; trim: string; windows: PixelWindow[]; antenna: boolean; heritage?: 'colonnade' | 'dome' | 'clock' | 'pyramid' };
 const clamp = (n: number, a: number, b: number) => Math.max(a, Math.min(b, n));
 const hash = (n: number) => { const q = Math.sin(n * 127.1 + 311.7) * 43758.5453; return q - Math.floor(q); };
-const shopSpecs = [
-  { id: 'family', label: 'FamilyMart 全家', subLabel: '24H · 灵感补给', app: 'cat', x: 0, w: 108, color: '#49e8c0' },
-  { id: 'pancake', label: '老上海葱油饼', subLabel: '热乎的街头故事', app: 'zp-sweetrove', x: 0, w: 108, color: '#ffc575' },
-  { id: 'zhen', label: '振鼎鸡', subLabel: '今夜也有好味道', app: 'works', x: 0, w: 90, color: '#ff787e' },
-  { id: 'tims', label: 'TIMS COFFEE', subLabel: '咖啡与一首唱片', app: 'music', x: 0, w: 112, color: '#ff9aaf' },
-];
-export function getShopLayout(width: number, height: number): PixelShop[] {
-  const signHeight = clamp(height * .028, 20, 25), road = clamp(height * .0493, 36, 44), body = clamp(height * .056, 40, 54);
-  const factor=clamp(width/1364,.65,1.2), gap=12*factor, total=shopSpecs.reduce((n,s)=>n+s.w*factor,0)+gap*3;
-  let left=width*.54-total/2;
-  return shopSpecs.map(s => { const x=left; left+=s.w*factor+gap; return ({ id: s.id, label: s.label, subLabel: s.subLabel, app: s.app, x, y: height - road - body - signHeight, width: s.w*factor, height: signHeight, color: s.color }); });
-}
+import {getShopLayout} from './shop-layout';
+export {getShopLayout} from './shop-layout';
 
 /** Pixel geometry is independent of devicePixelRatio: one painted pixel stays visible. */
 export function createPixelScenery(canvas: HTMLCanvasElement, kind: PixelSceneryKind, options: SceneryOptions) {
-  const ctx = canvas.getContext('2d', { alpha: false });
+  const {requestFrame,cancelFrame}=options.clock||getDefaultFrameClock();
+  let ctx = canvas.getContext('2d', { alpha: false });
   if (!ctx) throw new Error('Canvas 2D is unavailable');
   const scenery = document.createElement('canvas'), sky = document.createElement('canvas'), distant = document.createElement('canvas');
   const sceneryCtx = scenery.getContext('2d')!, skyCtx = sky.getContext('2d')!, distantCtx = distant.getContext('2d')!;
@@ -276,7 +268,8 @@ export function createPixelScenery(canvas: HTMLCanvasElement, kind: PixelScenery
       ctx!.restore();
     }
   }
-  function drawCityDynamic(t: number, light: number) {
+  const roomLights=document.createElement('canvas');let roomLightTime=-Infinity;
+  function paintCityRoomLights(t:number){
     drawHeritageLights(t);
     for(const b of buildings){
       const plane=b.plane;if(plane===0)continue;
@@ -299,6 +292,10 @@ export function createPixelScenery(canvas: HTMLCanvasElement, kind: PixelScenery
     // Neon breathes almost imperceptibly; the lettered DOM signs remain crisp.
     const neon=.08+(Math.sin(t*.7)+1)*.025;
     for(let i=0;i<shops.length;i++){const s=shops[i];ctx!.globalAlpha=neon;rect(ctx!,s.x-2,s.y-2,s.width+4,s.height+4,s.color);ctx!.globalAlpha=1;}
+}
+  function drawCityDynamic(t: number, light: number) {
+    if(t-roomLightTime>=1/6){const screen=ctx;ctx=roomLights.getContext('2d')!;ctx.clearRect(0,0,w,h);paintCityRoomLights(t);ctx=screen;roomLightTime=t;}
+    ctx!.drawImage(roomLights,0,0);
     // Broken, horizontal puddle reflections -- no blurry mirrored photographic wash.
     const floor=h-clamp(cssH*.0493,36,44)*scale;
     for(let i=0;i<135;i++){
@@ -331,7 +328,7 @@ export function createPixelScenery(canvas: HTMLCanvasElement, kind: PixelScenery
   }
   function tick(now: number) {
     if(disposed)return;
-    raf=requestAnimationFrame(tick);
+    raf=requestFrame(tick);
     if(document.hidden){last=now;return;}
     const frameDelay=reduced?.matches?180:1000/24;
     if(now-last<frameDelay)return;
@@ -345,13 +342,13 @@ export function createPixelScenery(canvas: HTMLCanvasElement, kind: PixelScenery
   function resize(width: number,height: number) {
     if(disposed||width<=0||height<=0)return;
     cssW=width;cssH=height;w=Math.min(960,Math.max(160,Math.round(width/2)));scale=w/width;h=Math.max(120,Math.round(height*scale));
-    canvas.width=w;canvas.height=h;scenery.width=w;scenery.height=h;sky.width=w;sky.height=h;distant.width=w;distant.height=h;
+    roomLights.width=w;roomLights.height=h;roomLightTime=-Infinity;canvas.width=w;canvas.height=h;scenery.width=w;scenery.height=h;sky.width=w;sky.height=h;distant.width=w;distant.height=h;
     ctx!.imageSmoothingEnabled=false;drawSky();if(kind==='shanghai')buildCity();render();
   }
   const visibility=()=>{last=performance.now();if(!document.hidden)render();};
   document.addEventListener('visibilitychange',visibility);
   const motion=()=>{last=0;render();};reduced?.addEventListener?.('change',motion);
   resize(canvas.clientWidth||window.innerWidth,canvas.clientHeight||window.innerHeight);
-  raf=requestAnimationFrame(tick);
-  return { resize, dispose(){disposed=true;cancelAnimationFrame(raf);document.removeEventListener('visibilitychange',visibility);reduced?.removeEventListener?.('change',motion);buildings=[];landmarks=null;} };
+  raf=requestFrame(tick);
+  return { resize, dispose(){disposed=true;cancelFrame(raf);document.removeEventListener('visibilitychange',visibility);reduced?.removeEventListener?.('change',motion);buildings=[];landmarks=null;} };
 }
