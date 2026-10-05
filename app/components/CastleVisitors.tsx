@@ -3,7 +3,6 @@ import {useAnimationClock} from "@/app/components/AnimationScope";
 import {useEffect,useRef,type MutableRefObject} from 'react';
 import {sampleCastleEncounter,sampleDementor,smooth,FIRE_LAUNCH_START,FIRE_BURST_AT,fireCelebrationAnchor,fireBurstCenter,type CastleEncounter} from '@/lib/castle-encounters';
 import {catGroundLevel} from '@/lib/desktop-scenery';
-import {paintPhoenixRig} from '@/lib/phoenix-rig';
 const TAU=Math.PI*2;
 export type CharacterArt={harry:HTMLImageElement;dumbledore:HTMLImageElement;voldemort:HTMLImageElement;dementor:HTMLImageElement;clap:HTMLImageElement;phoenix:HTMLImageElement};
 const clamp=(n:number)=>Math.max(0,Math.min(1,n));
@@ -63,13 +62,15 @@ function paintFireCelebration(ctx:CanvasRenderingContext2D,e:CastleEncounter,w:n
   }
  }
  if(f.phoenix>0){
-  const fly=Math.max(0,q-8.7),p=Math.min(1,fly/5.4),x=f.x+d*(p*w*.29+Math.sin(p*6)*25),y=ground-92-p*(ground+80);
-  const transform=Math.sin(Math.min(1,(q-8.1)/1.0)*Math.PI);
-  glow(ctx,f.x,ground-89,100*scale,'#ffc260',transform*.75);
-  glow(ctx,x,y,75,'#e9631b',f.phoenix*.32*(1-smooth((p-.85)/.15)));
-  for(let j=0;j<65;j++){const age=(q*1.1+j*.618)%1,a=j*2.4,rad=age*(40+transform*80);ctx.globalAlpha=(1-age)*f.phoenix*.8*(1-p*.7);ctx.fillStyle=j%4?'#ffad41':'#ffebae';ctx.fillRect(x-d*age*55+Math.cos(a)*rad*.3,y+age*100+Math.sin(a)*rad*.2,1.5,3)}
-  const img=art.phoenix;if(img.complete&&img.naturalWidth){const size=130*scale,height=size*img.naturalHeight/img.naturalWidth;ctx.save();ctx.globalAlpha=f.phoenix*(1-smooth((p-.90)/.1));ctx.translate(x,y);ctx.rotate(d*-.12);ctx.scale(d,1);ctx.translate(-size/2,-height/2);paintPhoenixRig(ctx,img,size,fly);ctx.restore();}
-  ctx.globalAlpha=1;
+  // Settle at the transformation point, then dissolve without flight or resizing.
+  const age=q-8.1,x=f.x,y=ground-89*scale,opacity=f.phoenix*(1-smooth((age-.8)/2.6));
+  const emberAlpha=f.phoenix*(1-smooth((age-1.5)/2.3));
+  glow(ctx,x,y,56*scale,'#ffb348',opacity*.22);
+  const img=art.phoenix;if(opacity>0&&img.complete&&img.naturalWidth){const size=130*scale,height=size*img.naturalHeight/img.naturalWidth;ctx.save();ctx.globalAlpha=opacity;ctx.translate(x,y);ctx.scale(d,1);ctx.drawImage(img,-size/2,-height/2,size,height);ctx.restore();}
+  if(emberAlpha>0){ctx.save();ctx.globalCompositeOperation='lighter';const count=w<500?12:18;
+   for(let j=0;j<count;j++){const p=(age*.42+j*.618)%1,a=j*2.4;ctx.globalAlpha=Math.sin(p*Math.PI)*emberAlpha*.7;ctx.fillStyle=j%4?'#ffac48':'#ffe5a0';ctx.fillRect(x+Math.cos(a)*(19+p*19)*scale,y+Math.sin(a)*24*scale-p*36*scale,j%5?1:1.5,2)}
+   ctx.restore();
+  }
  }
 }
 function paintPatronus(ctx:CanvasRenderingContext2D,e:CastleEncounter,w:number,ground:number){

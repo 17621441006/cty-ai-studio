@@ -13,7 +13,7 @@ export function newCastleEncounter(kind:CastleEncounterKind,width:number,catX:nu
  const direction:1|-1=catX<width/2?-1:1,range=kind==='dumbledore'?88:Math.min(240,Math.max(124,width*.21));
  const stopX=clamp(catX-direction*range,38,width-38),startX=direction===1?-75:width+75;
  const approach=kind==='dementors'?4.9:clamp(Math.abs(stopX-startX)/(kind==='dumbledore'?115:68),1.6,9);
- return {kind,elapsed:0,duration:kind==='harry'?10.5:kind==='dumbledore'?approach+14.5:kind==='duel'?approach+6.8:12.5,seed:random()*1000,catX,direction,startX,stopX,approach};
+ return {kind,elapsed:0,duration:kind==='harry'?10.5:kind==='dumbledore'?approach+12:kind==='duel'?approach+6.8:12.5,seed:random()*1000,catX,direction,startX,stopX,approach};
 }
 export function sampleCastleEncounter(e:CastleEncounter,w:number,ground:number){
  const {elapsed:t,kind,direction:d,approach:a}=e,q=t-a;

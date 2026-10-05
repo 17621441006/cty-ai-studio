@@ -45,9 +45,9 @@ export function createCastleLightMap(image:HTMLImageElement):CastleWindow[]{
  return result;
 }
 export function castleWindowLight(window:Pick<CastleWindow,'phase'|'period'>,time:number){
- const t=(time+window.phase)/window.period,cycle=Math.floor(t),p=t-cycle;
+ const period=window.period*.75,t=(time+window.phase)/period,cycle=Math.floor(t),p=t-cycle;
  const on=Math.sin(cycle*12.9898+window.phase*8.31)>-.25,previous=Math.sin((cycle-1)*12.9898+window.phase*8.31)>-.25;
- const e=Math.min(1,p*window.period/1.15),fade=e*e*(3-2*e);return (previous?1:.04)+(Number(on)-Number(previous))*.96*fade;
+ const e=Math.min(1,p*period/1.5),fade=e*e*(3-2*e);return (previous?1:.04)+(Number(on)-Number(previous))*.96*fade;
 }
 /** Broad, slow architectural lighting, never a moving scan across the building. */
-export function castleFacadeLight(id:string,time:number){const period=id==='stone-bridge'?22:id==='waterside-chapel'?17:29;return .53+.47*(.5+.5*Math.sin(time*Math.PI*2/period+(id==='stone-bridge'?1.8:0)));}
+export function castleFacadeLight(id:string,time:number){const period=id==='stone-bridge'?18:id==='waterside-chapel'?14:25,phase=id==='stone-bridge'?1.8:id==='waterside-chapel'?4.1:id==='astronomy-court'?2.7:id==='clock-gate'?.9:0;return .3+.7*(.5+.5*Math.sin(time*Math.PI*2/period+phase));}

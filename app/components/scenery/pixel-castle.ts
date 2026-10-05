@@ -20,17 +20,24 @@ export function createPixelCastle(canvas:HTMLCanvasElement,{getLight,clock=getDe
   const b=base.getContext('2d')!;b.imageSmoothingEnabled=false;b.fillStyle='#020d26';b.fillRect(0,0,w,h);b.drawImage(background,0,top,w,height);
   const g=b.createLinearGradient(0,Math.max(0,top-1),0,top+height*.13);g.addColorStop(0,'#020d26');g.addColorStop(1,'#020d2600');b.fillStyle=g;b.fillRect(0,Math.max(0,top-1),w,height*.13+1);
   const m=masonry.getContext('2d')!;m.imageSmoothingEnabled=false;m.translate(0,top);m.scale(sx,sy);for(const object of castleObjects){m.save();traceCastleObject(m,object);m.clip();m.drawImage(background,0,0,1536,1024);m.restore()}
-  // Even spatial sampling retains active windows in every tower, chapel and bridge.
-  const budget=w<380?48:96;lights=[];let remaining=budget;
-  castleObjects.forEach((object,index)=>{const group=allLights.filter(l=>l.objectId===object.id).sort((a,b)=>a.y-b.y||a.x-b.x),count=Math.min(group.length,Math.ceil(remaining/(castleObjects.length-index)));for(let i=0;i<count;i++)lights.push(group[Math.floor((i+.5)*group.length/count)]);remaining-=count});
+  // Reserve the large, legible windows first, then distribute the rest spatially.
+  // A modest 50% increase keeps the same four canvases and 6 Hz lighting budget.
+  const budget=w<380?72:144;lights=[];let remaining=budget;
+  castleObjects.forEach((object,index)=>{
+   const group=allLights.filter(l=>l.objectId===object.id&&l.w*l.h>=9).sort((a,b)=>a.y-b.y||a.x-b.x),count=Math.min(group.length,Math.ceil(remaining/(castleObjects.length-index)));
+   const landmarks=[...group].sort((a,b)=>b.w*b.h-a.w*a.h).slice(0,Math.floor(count*.4)),pool=group.filter(light=>!landmarks.includes(light)),fill=count-landmarks.length;
+   lights.push(...landmarks);for(let i=0;i<fill;i++)lights.push(pool[Math.floor((i+.5)*pool.length/fill)]);remaining-=count;
+  });
   lightTime=-Infinity;
  }
  function paintLights(){
   if(!lampAtlas.complete||!lampAtlas.naturalWidth||time-lightTime<1/6)return;lightTime=time;const l=lighting.getContext('2d')!,{top,sx,sy}=layout();l.setTransform(1,0,0,1,0,0);l.clearRect(0,0,w,h);l.save();l.translate(0,top);l.scale(sx,sy);const t=motion.matches?0:time;
-  for(const light of lights){const bright=castleWindowLight(light,t),accent=castleFacadeLight(light.objectId,t);l.globalCompositeOperation='source-over';l.globalAlpha=1-bright;l.drawImage(lampAtlas,light.maskX,light.maskY,light.w,light.h,light.x,light.y,light.w,light.h);l.globalCompositeOperation='lighter';l.globalAlpha=bright*accent*.30;
+  for(const light of lights){const bright=castleWindowLight(light,t),accent=castleFacadeLight(light.objectId,t);l.globalCompositeOperation='source-over';l.globalAlpha=1-bright;l.drawImage(lampAtlas,light.maskX,light.maskY,light.w,light.h,light.x,light.y,light.w,light.h);l.globalCompositeOperation='lighter';l.globalAlpha=bright*accent*.46;
    l.drawImage(lampAtlas,light.haloX,light.haloY,light.w+12,light.h+12,light.x-6,light.y-6,light.w+12,light.h+12);
   }
-  l.globalCompositeOperation='lighter';l.globalAlpha=castleFacadeLight('stone-bridge',t);for(let i=0;i<8;i++)l.drawImage(bridgeGlow,615+i*21,527+i*3.5,48,66);l.restore();
+  l.globalCompositeOperation='lighter';l.globalAlpha=castleFacadeLight('stone-bridge',t);for(let i=0;i<8;i++)l.drawImage(bridgeGlow,615+i*21,527+i*3.5,48,66);
+  // Reuse the tiny glow sprite for a softly breathing chapel facade, clipped to stone.
+  l.save();traceCastleObject(l,castleObjects.find(object=>object.id==='waterside-chapel')!);l.clip();l.globalAlpha=castleFacadeLight('waterside-chapel',t)*.85;l.drawImage(bridgeGlow,1045,665,145,135);l.restore();l.restore();
  }
  function drawFlight(){if(!flight||!rider.complete||!rider.naturalWidth)return;const p=(time-flightStart)/flight.duration,a=sampleCastleFlight(flight,p-.035,w,h),snitch=sampleCastleFlight(flight,p+.06,w,h),sw=29,sh=sw*rider.naturalHeight/rider.naturalWidth;
   ctx.save();ctx.translate(a.x,a.y);ctx.rotate(a.angle*a.direction);ctx.scale(a.direction,1);ctx.drawImage(rider,-sw/2,-sh/2,sw,sh);ctx.restore();
