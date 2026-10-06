@@ -22,16 +22,13 @@ function load(file){
  function localRequire(name){if(name.endsWith('.css'))return {};if(name.startsWith('@/')||name.startsWith('.')){let p=name.startsWith('@/')?path.join(root,name.slice(2)):path.resolve(path.dirname(file),name);if(!path.extname(p)){p=['.ts','.tsx','.js'].map(x=>p+x).find(x=>fs.existsSync(x))}return load(p)}return require(name)}
  vm.runInNewContext(code,{module:m,exports:m.exports,require:localRequire,document,window,Image,Math:math,ResizeObserver:class{observe(){}disconnect(){}},localStorage:{getItem:()=>null,setItem(){}},setTimeout:()=>0,requestAnimationFrame:f=>{frames.set(++id,f);return id},cancelAnimationFrame:n=>frames.delete(n)});return m.exports;
 }
-const {safeLearningPath,learningSection,learningOrigin}=load('lib/learning-preview.ts');
-assert.equal(safeLearningPath('//evil.example/'),'/');assert.equal(safeLearningPath('/learn?lesson=context'),'/learn?lesson=context');
-assert.equal(learningSection('/tools?task=ppt'),'tools');assert.equal(learningSection('/ontology'),'ontology');
-const Preview=load('app/components/AILearningPreview.tsx').default;
-for(const route of ['/learn?lesson=context','/agents','/tools','/ontology']){
- const html=renderToStaticMarkup(React.createElement(Preview,{initialPath:route}));
- assert.ok(!/<iframe|<video|<audio/.test(html),'exhibit must not mount full applications/media');
- assert.ok(html.includes(learningOrigin+route));assert.ok(html.includes('进入完整研习所'));
- const remoteSources=[...html.matchAll(/src="(https?:[^\"]*)"/g)];assert.equal(remoteSources.length,0,'exhibit assets must stay local');
-}
+const {safeLearningPath,learningUrl,learningOrigin}=load('lib/learning-navigation.ts');
+assert.equal(safeLearningPath('//evil.example/'),'/');
+for(const route of ['/learn?lesson=context','/agents','/tools','/ontology','/projects'])assert.equal(learningUrl(route),learningOrigin+route);
+assert.equal(learningUrl('https://evil.example/'),learningOrigin+'/');
+const page=fs.readFileSync(path.join(root,'app/page.tsx'),'utf8');
+assert.ok(page.includes("case 'ai':return <OriginalApp"),'AI learning must open the full original application');
+assert.ok(!page.includes('AILearningPreview'),'do not substitute selected excerpts');
 const {createStarsRuntime}=load('app/components/arcade/original-stars/stars-runtime-adapter.js');
 let hits=0;const game=createStarsRuntime({emit(){},isActive:()=>true},{sound:{error(){hits++}}});
 game.onShow();game.start();const canvas=game.el.querySelector('canvas');assert.equal(canvas.width,320,'double pixel density preserves the cat face');
@@ -43,4 +40,4 @@ game.pause();const frozen=game.peek();tick(2);assert.equal(game.peek().time,froz
 game.onHide();assert.equal(frames.size,0);game.onShow();game.resume();tick(.2);assert.ok(game.peek().time<frozen.time);
 assert.deepEqual(images,['/assets/cat-avatars.webp'],'use our existing local Persian cat atlas');
 game.destroy();assert.equal(frames.size,0);assert.equal([...document.listeners.values()].reduce((n,s)=>n+s.size,0),0);
-console.log('PASS: local AI previews/deep links, no external embeds/media, original cat atlas, star catches, block penalty, pause/hide/resume and cleanup.');
+console.log('PASS: full AI application/deep links, original cat atlas, star catches, block penalty, pause/hide/resume and cleanup.');

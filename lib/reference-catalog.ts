@@ -3,6 +3,7 @@ const artwork=(file:string)=>['voxel-rampage','christmas-walk','rain-lamp','long
 export const referenceWorks:ReferenceWork[]=[
  {id:'vangogh-tour',name:'梵高 · 漫游星夜',category:'文艺复兴',description:'从夜间咖啡馆出发，穿过罗讷河、星夜与画中的村庄。',image:'/works/art-tours/assets/panorama.jpg',status:'可体验',playable:true,icon:22},
  {id:'wizard-tour',name:'哈利波特 · 魔法漫游',category:'文艺复兴',description:'飞越对角巷与古灵阁，穿过雪中霍格莫德，抵达黑湖和霍格沃茨。',image:'/works/art-tours/assets/wizard-alley2.jpg',status:'可体验',playable:true,icon:22},
+ {id:'inkwave',name:'INKWAVE · 墨浪',category:'游戏厅',description:'4 对 4 墨水争地：涂地、潜游、切换武器，在七张地图挑战电脑队伍。支持占点、练习与首领战。',image:'/games/inkwave/assets/stages/halyard-day-sm.webp',status:'可试玩',playable:true,icon:10},
  {id:'loire',name:'圣旗纪元 · 卢瓦尔河畔',category:'游戏厅',description:'征服者风格的原试玩版：贞德、村庄经营、波斯敌军与部队指挥。推荐电脑或横屏体验。',image:'/games/loire/cover.jpg',status:'可试玩',playable:true,icon:10},
  {id:'afterspan',name:'AFTERSPAN · 时隙',category:'游戏厅',image:'/games/afterspan/cover.png',description:'在 2076 与 2091 之间切换，穿过 22 间研究站。支持触屏操作与本机关卡存档。',status:'可试玩',playable:true,icon:10},
  {id:'benchmark',name:'AI 创作实验室',category:'编程与学习',description:'21 件模型作品：鹈鹕骑车、十种网站、恐龙、短片与雪山。',image:'/works/covers/ai-lab.webp',status:'可体验',playable:true,icon:17},
@@ -36,6 +37,6 @@ export const extraReferenceWorks:ReferenceWork[]=[
   ['pixel','像素关卡','把歌曲变成一关可玩的像素旅程。'],
  ].map(([id,name,description])=>({id:'room-'+id,name,description,category:'音乐与影像',status:'音乐房间',playable:true,icon:11,catalogue:false})),
 ];
-const available=new Set(['vangogh-tour','wizard-tour','loire','afterspan','benchmark','promo','music-rooms','original-music','faroe','room-vinyl','room-ink','room-train','room-live','room-pixel','pixel-focus','dust-road','matterhorn','stillroom','three-worlds','aquas-duel','jianfeng','stars','voxel-rampage','christmas-walk','rain-lamp','long-journey','hunger-guy','terraria-bridge','sweetrove']);
+const available=new Set(['inkwave','vangogh-tour','wizard-tour','loire','afterspan','benchmark','promo','music-rooms','original-music','faroe','room-vinyl','room-ink','room-train','room-live','room-pixel','pixel-focus','dust-road','matterhorn','stillroom','three-worlds','aquas-duel','jianfeng','stars','voxel-rampage','christmas-walk','rain-lamp','long-journey','hunger-guy','terraria-bridge','sweetrove']);
 const localLabels:Record<string,string>={'aquas-duel':'规则练习',jianfeng:'规则练习','long-journey':'核心演示','hunger-guy':'核心演示','terraria-bridge':'回路演示','voxel-rampage':'可试玩','christmas-walk':'场景演示','rain-lamp':'夜班演示'};
 export const allReferenceWorks=[...referenceWorks,...extraReferenceWorks].map(w=>({...w,status:available.has(w.id)?localLabels[w.id]||'可体验':w.id==='next-ai'?'待补内容':'待重构',playable:available.has(w.id)}));

@@ -3,6 +3,7 @@ import {rankEntries,resolveEntries,type SearchEntry} from './fuzzy-search';
 export const appAliases:Record<string,string[]>={
  'zp-arcade':['游戏机','游戏','游戏厅','小游戏'],
  'zp-loire':['帝国时代','帝国时代2','征服者','圣旗纪元','卢瓦尔','贞德','AOE','RTS'],
+ 'zp-inkwave':['inkwave','墨浪','喷墨','墨水大战','涂地','争地战'],
  'zp-afterspan':['AFTERSPAN','时隙','时空平台','穿越游戏'],
  photos:['相册','照片','Q版','Q版相册','Q版AI相册','AI相册','全家福','家人','xiangce','photo album'],
  cat:['AI小脏','小脏','猫咪','助手','聊天'], minecraft:['Minecraft','Python','方块','我的世界'],

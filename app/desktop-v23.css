@@ -9,3 +9,6 @@
  .mobile-home .desktop-icons .normalized-icon{width:43px!important;height:43px!important}
  .mobile-home .desktop-icons.movable-icons>button>.desktop-icon-label{width:100%;font-size:12px;line-height:16px;margin:0!important;padding:0 1px}
 }
+
+/* Transparent cutout keeps smooth fur edges in every icon size. */
+.desktop-icons .normalized-icon.sticker-wind-icon>svg,.utility-icon.sticker-wind-icon>svg{image-rendering:auto}

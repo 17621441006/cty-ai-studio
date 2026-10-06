@@ -1,6 +1,6 @@
 import type {TrafficTrick} from './cat-traffic';
 export const wallpapers=[
- {id:'castle',name:'霍格沃茨之夜',detail:'塔楼灯火，追逐金色飞贼的扫帚'},
+ {id:'castle',name:'魔法之夜',detail:'塔楼灯火，追逐金色飞贼的扫帚'},
 
  {id:'clouds',name:'月下云海',detail:'云慢慢走，星星偶尔来'},
  {id:'shanghai',name:'雨夜外滩',detail:'万国建筑、夜行车流与不打烊的小店'},

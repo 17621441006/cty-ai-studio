@@ -1,0 +1,16 @@
+import {createRequire} from 'node:module';
+import {mkdir,rm,writeFile,readFile} from 'node:fs/promises';
+import path from 'node:path';
+const require=createRequire(import.meta.url);
+const {build}=createRequire(require.resolve('vite'))('esbuild');
+const root=path.resolve('vendor/inkwave'),out=path.resolve('public/games/inkwave');
+await rm(path.join(out,'runtime'),{recursive:true,force:true});
+await mkdir(path.join(out,'runtime'),{recursive:true});
+await build({entryPoints:[path.join(root,'src/main.js')],outdir:path.join(out,'runtime'),entryNames:'main',chunkNames:'chunks/[name]-[hash]',bundle:true,splitting:true,format:'esm',target:['es2022'],minify:true,legalComments:'linked',alias:{three:path.join(root,'vendor/three/build/three.module.js'),'three/addons':path.join(root,'vendor/three/jsm')},logLevel:'warning',logOverride:{'duplicate-object-key':'silent','duplicate-class-member':'silent'}});
+let html=await readFile(path.join(root,'index.html'),'utf8');
+html=html.replace('lang="en"','lang="zh-CN"').replace(/<script type="importmap">[\s\S]*?<\/script>/,'');
+html=html.replace('<div id="app"></div>','<div id="cty-boot" role="status">INKWAVE <span>正在调配墨水，准备战场…</span></div><div id="app"></div>');
+html=html.replace('<link rel="stylesheet" href="styles/ui.css">','<link rel="stylesheet" href="styles/ui.css"><link rel="stylesheet" href="styles/cty.css">');
+html=html.replace('<script type="module" src="./src/main.js"></script>','<script src="./cty-host.js"></script><script type="module" src="./runtime/main.js"></script>');
+await writeFile(path.join(out,'index.html'),html);
+console.log('INKWAVE: local ESM chunks built; assets load only when the game opens.');

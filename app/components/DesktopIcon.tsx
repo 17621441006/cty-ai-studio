@@ -27,7 +27,7 @@ function Art({n,normalized=false}:{n:number;normalized?:boolean}){let art:ReactN
  return <svg viewBox={normalized?iconInk(n).join(" "):"0 0 32 32"} preserveAspectRatio="xMidYMax meet" fill="none" shapeRendering="crispEdges">{art}</svg>
 }
 export default function DesktopIcon({n,small=false,normalized=false}:{n:number;small?:boolean;normalized?:boolean}){
- if(n===7)return <span aria-hidden="true" data-normalized={normalized||undefined} className={`utility-icon pixel-drawn utility-7 sticker-wind-icon ${small?'small':''} ${normalized?'normalized-icon':''}`}><svg viewBox={normalized?"1 1 30 30":"0 0 32 32"} preserveAspectRatio="xMidYMax meet"><rect x="1" y="1" width="30" height="30" rx="2" fill="#efd8a1"/><svg x="2" y="2" width="28" height="28" viewBox="8 14 176 173"><image href="/assets/icons/bobo-wind-original.png" width="189" height="195"/></svg></svg></span>;
+ if(n===7)return <span aria-hidden="true" data-normalized={normalized||undefined} className={`utility-icon pixel-drawn utility-7 sticker-wind-icon ${small?'small':''} ${normalized?'normalized-icon':''}`}><svg viewBox={normalized?iconInk(7).join(" "):"0 0 32 32"} preserveAspectRatio="xMidYMax meet"><image href="/assets/icons/bobo-wind.png" width="32" height="32"/></svg></span>;
  if(normalized){
   const [x,y,w,h]=iconInk(n),box=[n%4*443.5+x,Math.floor(n/4)*443.5+y,w,h];
   return <span aria-hidden="true" data-normalized="true" className={`${n<8?'pixel-icon':'utility-icon pixel-drawn'} normalized-icon`}>

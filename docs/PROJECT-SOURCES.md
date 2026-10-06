@@ -50,3 +50,9 @@ USACO 恢复源提交：`56d71b0fa49819fdc042416a004ab2bab6cfb069`。完整源�
 | USACO | `56d71b0fa49819fdc042416a004ab2bab6cfb069` | `4bc043a1881b9b0db958ad0e7ce7d3a52758e710` |
 
 两个远端提交的完整文件树分别与其本地来源完全一致，包括内容、文件名及文件权限。本记录随后更新为实际完成状态。一次性导入工作流已移除。
+
+## 2026-10-06 · INKWAVE
+
+`vendor/inkwave/` 保存 MIT 原源码、three.js 运行依赖与房间服务器代码。`public/games/inkwave/` 是本站分块发布资源和地图素材。固定上游提交 `98ea29694ab3eebaaeaa995c2b525ac883a48de5`，来源 <https://github.com/jaydendavisnc/inkwave>。当前集成为本地电脑对战，服务器源码已收录，但多人 relay 未部署。
+
+AI 研习所的完整内容继续由 AI-cat 原站提供，本次原站六张大图压缩与更新一并同步到 `17621441006/ai-cat`，不再使用 v29 精选替代页。
