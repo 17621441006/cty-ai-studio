@@ -5,12 +5,12 @@ import {createPain} from './pain-character';
 import {presentHumanoid,actorTileY} from './actor-presentation';
 export type CodeActor={id:number;type:string;x:number;y:number;z:number};
 export type ShowcaseActor={root:THREE.Group;tick:(dt:number,time:number,moving:number,flying:boolean)=>void;dispose:()=>void};
-export async function loadShowcaseActor(type:string,signal:AbortSignal):Promise<ShowcaseActor>{
+export async function loadShowcaseActor(type:string,signal:AbortSignal,options:{compact?:boolean}={}):Promise<ShowcaseActor>{
  if(type==='fire_dragon'||type==='storm_dragon'){
   const d=await loadDragon(signal,type==='storm_dragon'?'storm':'fire');return {root:d.root,tick:(dt,t,m,f)=>d.animate(dt,t,f,m,0,0,false),dispose:d.dispose};
  }
  if(type!=='pain'&&type!=='kakashi')throw Error(`当前展览可召唤 fire_dragon、storm_dragon、pain、kakashi（收到 ${type}）。`);
- const a=type==='pain'?createPain(true):createSuppliedKakashi(true);
+ const a=type==='pain'?createPain(true):createSuppliedKakashi(true,options.compact);
  const abort=()=>a.dispose();signal.addEventListener('abort',abort,{once:true});const ok=await a.ready;signal.removeEventListener('abort',abort);
  if(!ok||signal.aborted){a.dispose();throw Error('角色贴图载入失败，请重新运行示例。');}
  return {root:a.root,tick:(_dt,t,m,f)=>a.animate(t,m,false,f),dispose:a.dispose};

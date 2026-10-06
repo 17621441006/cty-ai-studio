@@ -1,8 +1,13 @@
 import * as THREE from 'three';
 const leafPalette=["#e9dca6", "#e0cc92", "#d5c196", "#dcbf76", "#d6b478", "#bbb493", "#d5ac69", "#b6ac87", "#c5a183", "#c7a068", "#d4a142", "#c29d4a", "#ada077", "#919d8c", "#bc9163", "#c09138", "#a88f61", "#94907d", "#948e55", "#798e7d", "#ad7f5f", "#9c7d5b", "#a78035", "#a07434", "#8c8069", "#8b7461", "#8c7a3c", "#718073", "#6f7469", "#737f42", "#6f7441", "#597968", "#457765", "#9c6842", "#8c6544", "#846445", "#78694a", "#785c40", "#646859", "#54685a", "#605c53", "#5f6830", "#5f5c2d", "#85503c", "#705037", "#5c514a", "#5c502c", "#823f37", "#703c34", "#5c4030", "#5b302b", "#486563", "#486332", "#2e647c", "#34633b", "#445049", "#445021", "#2f4f4e", "#3f413a", "#3e401d", "#403426", "#293a2e", "#302821", "#1a211e"];
 export function decodeVillageDistance(data:ArrayBuffer){
- const v=new DataView(data),count=data.byteLength>=8?v.getUint32(4,true):0;
- if(data.byteLength!==8+count*14||count%4||v.getUint32(0)!==0x42434633)throw Error('村庄静态资源不完整');
+ let v=new DataView(data);const count=data.byteLength>=8?v.getUint32(4,true):0,magic=data.byteLength>=8?v.getUint32(0):0;
+ if(data.byteLength!==8+count*14||count%4||(magic!==0x42434633&&magic!==0x42434634))throw Error('村庄静态资源不完整');
+ if(magic===0x42434634){
+  const source=new Uint8Array(data,8),interleaved=new Uint8Array(data.byteLength);
+  for(let lane=0;lane<14;lane++)for(let i=0;i<count;i++)interleaved[8+i*14+lane]=source[lane*count+i];
+  v=new DataView(interleaved.buffer);
+ }
  const positions=new Uint16Array(count*3),normals=new Int8Array(count*3),uvs=new Uint16Array(count*2),colors=new Uint8Array(count*3),blockUV=new Uint8Array(count*2),indices=new Uint32Array(count/4*6),palette=leafPalette.map(c=>new THREE.Color(c).toArray()),corners=[[0,255],[0,0],[255,255],[255,0]];
  for(let i=0;i<count;i++){const o=8+i*14,color=v.getUint8(o+9);if(!palette[color])throw Error('静态材质无效');
   for(let j=0;j<3;j++){positions[i*3+j]=v.getUint16(o+j*2,true);normals[i*3+j]=v.getInt8(o+6+j);colors[i*3+j]=Math.round(palette[color][j]*255);}
@@ -18,4 +23,3 @@ export function applyLeafBlockShader(s:THREE.WebGLProgramParametersWithUniforms)
     s.fragmentShader='varying vec2 leafBlockUv; varying vec3 leafFallbackColor;\n'+s.fragmentShader;
     s.fragmentShader=s.fragmentShader.replace('#include <map_fragment>','#include <map_fragment>\ndiffuseColor.rgb=mix(leafFallbackColor,diffuseColor.rgb,diffuseColor.a); diffuseColor.a=1.;\nvec2 leafEdge=min(leafBlockUv,1.-leafBlockUv); diffuseColor.rgb*=mix(0.88,1.0,smoothstep(0.0,0.035,min(leafEdge.x,leafEdge.y)));');
 }
-
