@@ -1,0 +1,15 @@
+/* One compact identity/time row; the moon has its own space below it. */
+.window-titlebar .moon-window-back{display:inline-flex;align-items:center;gap:3px;flex-shrink:0;padding:3px 7px;color:#ecd294;font:12px system-ui,sans-serif;border:1px solid #647c89;background:#193448;cursor:pointer}
+.window-titlebar .moon-window-back:hover{background:#294963}
+@media(max-width:759px){
+ .mobile-studio-intro.mobile-clock{grid-template-columns:minmax(0,1fr) 92px;gap:7px 12px;min-height:130px;padding:6px 0 8px}
+ .mobile-studio-intro .mobile-studio-heading{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:9px;min-width:0}
+ .mobile-studio-intro .mobile-studio-heading h1{font-size:clamp(18px,5.3vw,27px);line-height:1.2;letter-spacing:-.6px;white-space:nowrap;margin:0;color:#ead49b}
+ .mobile-studio-intro .mobile-studio-heading .mobile-studio-time{font:500 clamp(18px,5vw,25px)/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:-.8px;font-variant-numeric:tabular-nums;color:#e9dab6;flex-shrink:0}
+ .mobile-studio-intro .mobile-studio-copy{align-self:center;min-width:0}
+ .mobile-studio-intro .mobile-studio-copy p{font-size:12px;line-height:1.65;margin:0 0 6px;color:#ddc98e;max-width:27em}
+ .mobile-studio-intro .mobile-studio-copy time{font-size:10px;line-height:1.5;color:#91abc2}
+ .mobile-studio-intro.mobile-clock .moon-corner.moon-compact{width:92px!important;justify-self:end}
+ .window-titlebar .moon-window-back{border:0;background:none;padding:4px 0;font-size:11px;gap:0}
+ .window-titlebar .moon-window-back span{display:none}
+}
