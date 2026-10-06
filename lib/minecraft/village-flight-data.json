@@ -1,0 +1,1031 @@
+{
+  "stride": 1,
+  "origin": [
+    -928,
+    -8,
+    432
+  ],
+  "tiles": [
+    {
+      "id": "0,0",
+      "url": "/regions/hidden-leaf/flight-0-0-v32.bin.gz",
+      "origin": [
+        -928,
+        432
+      ],
+      "sha256": "0888faf12f9cd521104e7dbd7608bbaa53bb15108299d237935c79b71d4a81be",
+      "vertices": 106880,
+      "bytes": 237218,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 12
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 12,
+          "count": 13404
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 13416,
+          "count": 12
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 13428,
+          "count": 1076
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 14504,
+          "count": 92376
+        }
+      ]
+    },
+    {
+      "id": "0,1",
+      "url": "/regions/hidden-leaf/flight-0-1-v32.bin.gz",
+      "origin": [
+        -928,
+        560
+      ],
+      "sha256": "835518cf48a9a3aa5dd95812cdfb7cd691f655794015c77c46f26eb421dd7b4d",
+      "vertices": 133988,
+      "bytes": 338144,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 128
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 128,
+          "count": 11292
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 11420,
+          "count": 128
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 11548,
+          "count": 576
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 12124,
+          "count": 121312
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 133436,
+          "count": 520
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 133956,
+          "count": 16
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 133972,
+          "count": 16
+        }
+      ]
+    },
+    {
+      "id": "0,2",
+      "url": "/regions/hidden-leaf/flight-0-2-v32.bin.gz",
+      "origin": [
+        -928,
+        688
+      ],
+      "sha256": "e2a646c5e51e88b5266eff50c8fdd8cccbe6c29789ad13717940bf575bc90a53",
+      "vertices": 85652,
+      "bytes": 210839,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 608
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 608,
+          "count": 11012
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 11620,
+          "count": 620
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 12240,
+          "count": 1576
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 13816,
+          "count": 4300
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 18116,
+          "count": 1852
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 19968,
+          "count": 1388
+        },
+        {
+          "id": 89,
+          "data": 0,
+          "top": false,
+          "start": 21356,
+          "count": 328
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 21684,
+          "count": 62496
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 84180,
+          "count": 472
+        },
+        {
+          "id": 5,
+          "data": 1,
+          "top": false,
+          "start": 84652,
+          "count": 416
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 85068,
+          "count": 144
+        },
+        {
+          "id": 45,
+          "data": 0,
+          "top": false,
+          "start": 85212,
+          "count": 360
+        },
+        {
+          "id": 35,
+          "data": 14,
+          "top": false,
+          "start": 85572,
+          "count": 40
+        },
+        {
+          "id": 35,
+          "data": 10,
+          "top": false,
+          "start": 85612,
+          "count": 40
+        }
+      ]
+    },
+    {
+      "id": "0,3",
+      "url": "/regions/hidden-leaf/flight-0-3-v32.bin.gz",
+      "origin": [
+        -928,
+        816
+      ],
+      "sha256": "1a0197965b4492c6083c62da0329381c611aafb81a12ea73785b5e1d0562ff11",
+      "vertices": 44,
+      "bytes": 115,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 12
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 12,
+          "count": 8
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 20,
+          "count": 12
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 32,
+          "count": 12
+        }
+      ]
+    },
+    {
+      "id": "1,0",
+      "url": "/regions/hidden-leaf/flight-1-0-v32.bin.gz",
+      "origin": [
+        -800,
+        432
+      ],
+      "sha256": "b4f7c7dc1d46255421d7583c9d98f0ad328ff23f558d930097f5fcd877732f37",
+      "vertices": 282056,
+      "bytes": 697408,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 8
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 8,
+          "count": 12472
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 12480,
+          "count": 8
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 12488,
+          "count": 324
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 12812,
+          "count": 269244
+        }
+      ]
+    },
+    {
+      "id": "1,1",
+      "url": "/regions/hidden-leaf/flight-1-1-v32.bin.gz",
+      "origin": [
+        -800,
+        560
+      ],
+      "sha256": "beee7a1eba59a3130325cda3a9ea1c27990941b9efec1816ba67b586fec74c76",
+      "vertices": 341880,
+      "bytes": 982031,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 329872
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 329872,
+          "count": 8
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 329880,
+          "count": 16
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 329896,
+          "count": 11424
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 341320,
+          "count": 8
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 341328,
+          "count": 40
+        },
+        {
+          "id": 5,
+          "data": 1,
+          "top": false,
+          "start": 341368,
+          "count": 4
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 341372,
+          "count": 48
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 341420,
+          "count": 260
+        },
+        {
+          "id": 45,
+          "data": 0,
+          "top": false,
+          "start": 341680,
+          "count": 108
+        },
+        {
+          "id": 35,
+          "data": 3,
+          "top": false,
+          "start": 341788,
+          "count": 12
+        },
+        {
+          "id": 89,
+          "data": 0,
+          "top": false,
+          "start": 341800,
+          "count": 80
+        }
+      ]
+    },
+    {
+      "id": "1,2",
+      "url": "/regions/hidden-leaf/flight-1-2-v32.bin.gz",
+      "origin": [
+        -800,
+        688
+      ],
+      "sha256": "03b35ada4cdf8442e3448e6bc8fbc2510b4ad71d691eabd591cc73273dff0002",
+      "vertices": 197584,
+      "bytes": 552998,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 174740
+        },
+        {
+          "id": 5,
+          "data": 1,
+          "top": false,
+          "start": 174740,
+          "count": 196
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 174936,
+          "count": 60
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 174996,
+          "count": 208
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 175204,
+          "count": 11600
+        },
+        {
+          "id": 4,
+          "data": 0,
+          "top": false,
+          "start": 186804,
+          "count": 1532
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 188336,
+          "count": 764
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 189100,
+          "count": 4108
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 193208,
+          "count": 1504
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 194712,
+          "count": 884
+        },
+        {
+          "id": 17,
+          "data": 0,
+          "top": false,
+          "start": 195596,
+          "count": 752
+        },
+        {
+          "id": 45,
+          "data": 0,
+          "top": false,
+          "start": 196348,
+          "count": 68
+        },
+        {
+          "id": 89,
+          "data": 0,
+          "top": false,
+          "start": 196416,
+          "count": 320
+        },
+        {
+          "id": 35,
+          "data": 10,
+          "top": false,
+          "start": 196736,
+          "count": 28
+        },
+        {
+          "id": 35,
+          "data": 14,
+          "top": false,
+          "start": 196764,
+          "count": 60
+        },
+        {
+          "id": 35,
+          "data": 6,
+          "top": false,
+          "start": 196824,
+          "count": 32
+        },
+        {
+          "id": 24,
+          "data": 0,
+          "top": false,
+          "start": 196856,
+          "count": 496
+        },
+        {
+          "id": 2,
+          "data": 0,
+          "top": true,
+          "start": 197352,
+          "count": 212
+        },
+        {
+          "id": 35,
+          "data": 4,
+          "top": false,
+          "start": 197564,
+          "count": 16
+        },
+        {
+          "id": 35,
+          "data": 3,
+          "top": false,
+          "start": 197580,
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "1,3",
+      "url": "/regions/hidden-leaf/flight-1-3-v32.bin.gz",
+      "origin": [
+        -800,
+        816
+      ],
+      "sha256": "72ea4d51531893318326f7c3d06bccb19239ac6401b0dcd0f20c26c8b08a435b",
+      "vertices": 5132,
+      "bytes": 11893,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 8
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 8,
+          "count": 8
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 16,
+          "count": 424
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 440,
+          "count": 952
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 1392,
+          "count": 3740
+        }
+      ]
+    },
+    {
+      "id": "2,0",
+      "url": "/regions/hidden-leaf/flight-2-0-v32.bin.gz",
+      "origin": [
+        -672,
+        432
+      ],
+      "sha256": "b9150aee638cda86672ef5a70d99f974b7e1c214f451fd26c64e0ba365bcf9ec",
+      "vertices": 280952,
+      "bytes": 658012,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 8
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 8,
+          "count": 18900
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 18908,
+          "count": 8
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 18916,
+          "count": 828
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 19744,
+          "count": 261208
+        }
+      ]
+    },
+    {
+      "id": "2,1",
+      "url": "/regions/hidden-leaf/flight-2-1-v32.bin.gz",
+      "origin": [
+        -672,
+        560
+      ],
+      "sha256": "e9ca6af66917cb07e3948eb413431e77694ecf2c0e865e75ca9896ff201a5ba6",
+      "vertices": 520564,
+      "bytes": 1399274,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 506712
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 506712,
+          "count": 4
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 506716,
+          "count": 4
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 506720,
+          "count": 13844
+        }
+      ]
+    },
+    {
+      "id": "2,2",
+      "url": "/regions/hidden-leaf/flight-2-2-v32.bin.gz",
+      "origin": [
+        -672,
+        688
+      ],
+      "sha256": "7e73843727bb230f6603a71694c72da294082f4176c93d9f1b9b102e3c0880f1",
+      "vertices": 350212,
+      "bytes": 908522,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 326616
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 326616,
+          "count": 4
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 326620,
+          "count": 28
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 326648,
+          "count": 22300
+        },
+        {
+          "id": 98,
+          "data": 0,
+          "top": false,
+          "start": 348948,
+          "count": 124
+        },
+        {
+          "id": 5,
+          "data": 0,
+          "top": false,
+          "start": 349072,
+          "count": 144
+        },
+        {
+          "id": 35,
+          "data": 0,
+          "top": false,
+          "start": 349216,
+          "count": 64
+        },
+        {
+          "id": 24,
+          "data": 0,
+          "top": false,
+          "start": 349280,
+          "count": 20
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 349300,
+          "count": 912
+        }
+      ]
+    },
+    {
+      "id": "2,3",
+      "url": "/regions/hidden-leaf/flight-2-3-v32.bin.gz",
+      "origin": [
+        -672,
+        816
+      ],
+      "sha256": "d00745b09462d39c9dc12aac8c741ad2f2e76a30bb7dbbc7d770c80851a1dc01",
+      "vertices": 25844,
+      "bytes": 48857,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 19152
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 19152,
+          "count": 8
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 19160,
+          "count": 8
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 19168,
+          "count": 5112
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 24280,
+          "count": 1564
+        }
+      ]
+    },
+    {
+      "id": "3,0",
+      "url": "/regions/hidden-leaf/flight-3-0-v32.bin.gz",
+      "origin": [
+        -544,
+        432
+      ],
+      "sha256": "34b3bef86645969299c3b85e1dacc8f5300131958371b7e5a4d0b2f725bf2d3d",
+      "vertices": 4324,
+      "bytes": 8640,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 12
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 12,
+          "count": 1064
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 1076,
+          "count": 12
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 1088,
+          "count": 312
+        },
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 1400,
+          "count": 2924
+        }
+      ]
+    },
+    {
+      "id": "3,1",
+      "url": "/regions/hidden-leaf/flight-3-1-v32.bin.gz",
+      "origin": [
+        -544,
+        560
+      ],
+      "sha256": "af757ffe2bf2f3d42631cfcb67ee37e08e407a9d4d4e2638bdbc7a8765f3857c",
+      "vertices": 137008,
+      "bytes": 312588,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 128284
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 128284,
+          "count": 8
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 128292,
+          "count": 8
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 128300,
+          "count": 8228
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 136528,
+          "count": 480
+        }
+      ]
+    },
+    {
+      "id": "3,2",
+      "url": "/regions/hidden-leaf/flight-3-2-v32.bin.gz",
+      "origin": [
+        -544,
+        688
+      ],
+      "sha256": "a21e1772f8f9685320501435724fde488d92f59e59cd92bf50261207115e315e",
+      "vertices": 29984,
+      "bytes": 56247,
+      "groups": [
+        {
+          "id": 251,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 22168
+        },
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 22168,
+          "count": 8
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 22176,
+          "count": 8
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 22184,
+          "count": 6880
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 29064,
+          "count": 920
+        }
+      ]
+    },
+    {
+      "id": "3,3",
+      "url": "/regions/hidden-leaf/flight-3-3-v32.bin.gz",
+      "origin": [
+        -544,
+        816
+      ],
+      "sha256": "bc4e7a398b3a09c443db67d65bd5fc17b3217df4392804f3b06732269d820f23",
+      "vertices": 44,
+      "bytes": 104,
+      "groups": [
+        {
+          "id": 7,
+          "data": 0,
+          "top": false,
+          "start": 0,
+          "count": 12
+        },
+        {
+          "id": 12,
+          "data": 0,
+          "top": false,
+          "start": 12,
+          "count": 12
+        },
+        {
+          "id": 9,
+          "data": 0,
+          "top": false,
+          "start": 24,
+          "count": 12
+        },
+        {
+          "id": 1,
+          "data": 0,
+          "top": false,
+          "start": 36,
+          "count": 8
+        }
+      ]
+    }
+  ],
+  "texture": "/regions/hidden-leaf/village-atlas-flight-v32.webp"
+}
