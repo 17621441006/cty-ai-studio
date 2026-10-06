@@ -15,6 +15,6 @@ export default function MoonCorner({phase,onChange,width,height,compact=false,on
    {!compact&&moonPhases.map((p,i)=>{const a=(i*45-90)*Math.PI/180;return <button data-phase key={p.name} style={{left:`${50+47*Math.cos(a)}%`,top:`${50+47*Math.sin(a)}%`}} onClick={()=>onChange(i)} aria-label={`切换到${p.name}`} aria-pressed={i===phase} title={p.name}><span aria-hidden="true">{p.glyph}</span></button>})}
   </div>
   <div className="moon-caption" aria-live="polite">{compact?<button onClick={()=>onChange((phase+1)%8)} aria-label={`当前${choice.name}，切换月相`}>{choice.glyph} {choice.name} · 切换</button>:<><span>{choice.name}</span><i/>月相拨盘</>}</div>
-  <div className="desktop-brand"><h1>CTY AI STUDIO</h1></div>
+  {!compact&&<div className="desktop-brand"><h1>CTY AI STUDIO</h1></div>}
  </aside>
 }
