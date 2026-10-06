@@ -4,11 +4,13 @@ import * as THREE from 'three';
 import {useAnimationClock} from '../AnimationScope';
 import {moonCameraDistance, moonFramePose, nearestAngle, type MoonWork} from '@/lib/moon-gallery';
 import type {AppId} from '@/lib/desktop-apps';
+import {moonFrameTurn} from '@/lib/moon-motion';
 import {createFrameGeometry, createLunarStars, createMosaicMoon, pickMoonExhibit} from './moon-model';
 
-export type MoonGalleryHandle = {focus: (id: AppId) => void};
-export type MoonGalleryProps = {works: MoonWork[]; selected: AppId; paused: boolean; onSelect: (id: AppId) => void; onOpen: (id: AppId) => void; onReady: () => void; onFallback: () => void};
-type Frame = {work: MoonWork; group: THREE.Group; picture: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>; gold: THREE.MeshStandardMaterial; canvas: HTMLCanvasElement; texture: THREE.CanvasTexture; pose: ReturnType<typeof moonFramePose>};
+export type MoonGalleryHandle = {focus: (id: AppId) => void; activate: (id: AppId) => void};
+export type MoonGallerySnapshot = {yaw: number; pitch: number; elapsed: number; orbitTime: number; works: string};
+export type MoonGalleryProps = {works: MoonWork[]; selected: AppId; paused: boolean; memory: {current: MoonGallerySnapshot | null}; onSelect: (id: AppId) => void; onOpen: (id: AppId) => void; onReady: () => void; onFallback: () => void};
+type Frame = {work: MoonWork; anchor: THREE.Group; group: THREE.Group; picture: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>; reverse: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>; gold: THREE.MeshStandardMaterial; canvas: HTMLCanvasElement; texture: THREE.CanvasTexture; reverseTexture: THREE.CanvasTexture; pose: ReturnType<typeof moonFramePose>};
 type Controller = MoonGalleryHandle & {setWorks: (works: MoonWork[], selected: AppId) => void};
 const ease = (value: number) => 1 - (1 - value) ** 3;
 
@@ -42,7 +44,7 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
   const host = useRef<HTMLDivElement>(null), tooltip = useRef<HTMLDivElement>(null), callbacks = useRef(props), controller = useRef<Controller | null>(null);
   callbacks.current = props;
   const clock = useAnimationClock();
-  useImperativeHandle(ref, () => ({focus: id => controller.current?.focus(id)}), []);
+  useImperativeHandle(ref, () => ({focus: id => controller.current?.focus(id), activate: id => controller.current?.activate(id)}), []);
   useEffect(() => {
     const mount = host.current; if (!mount) return;
     const compact = matchMedia('(max-width: 759px), (pointer: coarse)').matches;
@@ -70,9 +72,12 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
     for (let i = 0; i < 10; i++) {const star = new THREE.LineSegments(sparkleGeometry, sparkleMaterial); star.position.set(Math.sin(i * 2.4) * (8 + i), Math.cos(i * 1.7) * (5 + i / 2), -4); scene.add(star);}
     const frameGeometry = createFrameGeometry(), planeGeometry = new THREE.PlaneGeometry(1.78, 1.3), backGeometry = new THREE.BoxGeometry(1.86, 1.38, .13);
     const backMaterial = new THREE.MeshStandardMaterial({color: '#293342', roughness: 1});
-    let frames: Frame[] = [], disposed = false, request = 0, width = 1, height = 1, lastRender = 0, start = -1, elapsed = 0, orbitTime = 0;
+    const saved = callbacks.current.memory.current;
+    let frames: Frame[] = [], disposed = false, request = 0, width = 1, height = 1, lastRender = 0, start = -1, elapsed = saved?.elapsed ?? 0, orbitTime = saved?.orbitTime ?? 0;
     let dirty = true, hoverDirty = false, hovered: Frame | undefined, down = false, pointerId = -1, travel = 0, lastX = 0, lastY = 0, vx = 0, vy = 0, holdUntil = 0;
-    let yaw = .17, pitch = .08, target: {yaw: number; pitch: number} | null = null, loading = new AbortController();
+    let yaw = saved?.yaw ?? .17, pitch = saved?.pitch ?? .08, target: {yaw: number; pitch: number} | null = null, loading = new AbortController();
+    let restored = false, nextFlip = elapsed + 4.2, flipIndex = 0;
+    let flip: {frame: Frame; progress: number; duration: number; open: boolean} | null = null;
     const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2(5, 5);
     const images = new Map<string, ImageBitmap>(), imageAbort = new AbortController();
     let textureGeneration = 0;
@@ -98,13 +103,13 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
     }).catch(() => {});
     function clearHover() {hovered = undefined; if (tooltip.current) tooltip.current.hidden = true; canvas.style.cursor = down ? 'grabbing' : 'grab';}
     function pick(): Frame | undefined {
-      if (elapsed < 1.6 && !reduce.matches) return;
+      if (!saved && elapsed < 1.6 && !reduce.matches) return;
       world.updateMatrixWorld(true); raycaster.setFromCamera(pointer, camera);
-      const hit = pickMoonExhibit(raycaster, frames.map(frame => frame.picture));
-      return hit ? frames.find(frame => frame.picture === hit) : undefined;
+      const hit = pickMoonExhibit(raycaster, frames.flatMap(frame => [frame.picture, frame.reverse]));
+      return hit ? frames.find(frame => frame.picture === hit || frame.reverse === hit) : undefined;
     }
     function updateHover() {
-      const next = down ? undefined : pick();
+      const next = down || flip?.open ? undefined : pick();
       if (next !== hovered) {hovered = next; dirty = true; if (next) callbacks.current.onSelect(next.work.id);}
       const label = tooltip.current;
       if (label) {
@@ -118,22 +123,35 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
       target = {yaw: nearestAngle(yaw, -frame.pose.longitude), pitch: frame.pose.latitude}; vx = vy = 0; holdUntil = elapsed + 4.5; dirty = true; clearHover();
       if (reduce.matches) {yaw = target.yaw; pitch = target.pitch; target = null;}
     };
-    function clearFrames() {for (const frame of frames) {globe.remove(frame.group); frame.gold.dispose(); frame.picture.material.dispose(); frame.texture.dispose();} frames = [];}
+    const activate = (id: AppId) => {
+      if (flip?.open) return;
+      const frame = frames.find(item => item.work.id === id); if (!frame) return;
+      callbacks.current.onSelect(id); holdUntil = elapsed + 4; vx = vy = 0; clearHover();
+      if (reduce.matches) {callbacks.current.onOpen(id); return;}
+      flip = {frame, progress: 0, duration: .78, open: true}; dirty = true;
+    };
+    function clearFrames() {flip = null; for (const frame of frames) {globe.remove(frame.anchor); frame.gold.dispose(); frame.picture.material.dispose(); frame.reverse.material.dispose(); frame.texture.dispose(); frame.reverseTexture.dispose();} frames = [];}
     function setWorks(works: MoonWork[], selected: AppId) {
       loading.abort(); loading = new AbortController(); const signal = loading.signal, generation = ++textureGeneration;
       clearHover(); clearFrames();
       frames = works.map((work, index) => {
-        const pose = moonFramePose(index, works.length), group = new THREE.Group();
-        group.position.set(pose.x, pose.y, pose.z); group.lookAt(group.position.clone().multiplyScalar(2));
+        const pose = moonFramePose(index, works.length), anchor = new THREE.Group(), group = new THREE.Group();
+        anchor.position.set(pose.x, pose.y, pose.z); anchor.lookAt(anchor.position.clone().multiplyScalar(2)); anchor.add(group);
         const gold = new THREE.MeshStandardMaterial({color: '#dfbe77', metalness: .48, roughness: .44, emissive: '#aa6f17', emissiveIntensity: .035});
         group.add(new THREE.Mesh(frameGeometry, gold));
         const backing = new THREE.Mesh(backGeometry, backMaterial); backing.position.z = -.055; group.add(backing);
         const sheet = document.createElement('canvas'); sheet.width = 384; sheet.height = 280; paintExhibit(sheet, work);
         const texture = new THREE.CanvasTexture(sheet); texture.colorSpace = THREE.SRGBColorSpace; texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-        const picture = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({map: texture, toneMapped: false})); picture.position.z = .089; group.add(picture); globe.add(group);
-        return {work, group, gold, canvas: sheet, texture, picture, pose};
+        const picture = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({map: texture, toneMapped: false})); picture.position.z = .089; group.add(picture);
+        const reverseSheet = document.createElement('canvas'); reverseSheet.width = 384; reverseSheet.height = 280; paintExhibit(reverseSheet, work);
+        const ctx = reverseSheet.getContext('2d'); if (ctx) {ctx.textAlign = 'center'; ctx.fillStyle = '#dfbe77'; ctx.font = '14px monospace'; ctx.fillText('CTY / LUNAR ARCHIVE', 192, 49); ctx.font = '14px system-ui'; ctx.fillText('轻触，打开这份灵感', 192, 181);}
+        const reverseTexture = new THREE.CanvasTexture(reverseSheet); reverseTexture.colorSpace = THREE.SRGBColorSpace;
+        const reverse = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({map: reverseTexture, toneMapped: false})); reverse.position.z = -.125; reverse.rotation.y = Math.PI; group.add(reverse); globe.add(anchor);
+        return {work, anchor, group, gold, canvas: sheet, texture, picture, reverse, reverseTexture, pose};
       });
-      focus(selected); dirty = true;
+      if (restored || !saved || saved.works !== works.map(work => work.id).join('|')) focus(selected);
+      else holdUntil = elapsed + 2;
+      restored = true; dirty = true;
       // Three small thumbnails at a time; stale orbit requests are cancelled.
       const queue = [...frames].sort((a, b) => Number(b.work.id === selected) - Number(a.work.id === selected));
       const loadNext = async () => {
@@ -144,9 +162,9 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
       };
       for (let i = 0; i < 3; i++) void loadNext();
     }
-    controller.current = {focus, setWorks};
+    controller.current = {focus, activate, setWorks};
     const pointerPosition = (event: PointerEvent) => {const rect = canvas.getBoundingClientRect(); pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);};
-    const pointerDown = (event: PointerEvent) => {if (event.button !== 0 || down) return; pointerPosition(event); down = true; pointerId = event.pointerId; lastX = event.clientX; lastY = event.clientY; travel = 0; vx = vy = 0; target = null; canvas.setPointerCapture(pointerId); clearHover();};
+    const pointerDown = (event: PointerEvent) => {if (event.button !== 0 || down || flip?.open) return; pointerPosition(event); down = true; pointerId = event.pointerId; lastX = event.clientX; lastY = event.clientY; travel = 0; vx = vy = 0; target = null; canvas.setPointerCapture(pointerId); clearHover();};
     const pointerMove = (event: PointerEvent) => {
       pointerPosition(event); hoverDirty = true;
       if (!down || event.pointerId !== pointerId) return;
@@ -154,7 +172,7 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
       vx = dx / Math.min(width, height) * 3.8; vy = dy / Math.min(width, height) * 2.5;
       yaw += vx; pitch = THREE.MathUtils.clamp(pitch + vy, -1.12, 1.12); dirty = true; holdUntil = elapsed + 3;
     };
-    const release = (event: PointerEvent) => {if (event.pointerId !== pointerId) return; const click = down && travel < 8 && event.type !== 'pointercancel'; down = false; pointerId = -1; if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId); pointerPosition(event); if (reduce.matches) vx = vy = 0; if (click) {const frame = pick(); if (frame) callbacks.current.onOpen(frame.work.id);} hoverDirty = true; dirty = true;};
+    const release = (event: PointerEvent) => {if (event.pointerId !== pointerId) return; const click = down && travel < 8 && event.type !== 'pointercancel'; down = false; pointerId = -1; if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId); pointerPosition(event); if (reduce.matches) vx = vy = 0; if (click) {const frame = pick(); if (frame) activate(frame.work.id);} hoverDirty = true; dirty = true;};
     const leave = () => {if (!down) {pointer.set(5, 5); clearHover(); dirty = true;}};
     const cancelDrag = () => {down = false; pointerId = -1; vx = vy = 0; pointer.set(5, 5); clearHover(); dirty = true;};
     const lost = (event: Event) => {event.preventDefault(); callbacks.current.onFallback();};
@@ -164,10 +182,10 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
     const render = (now: number) => {
       if (disposed) return; request = clock.requestFrame(render);
       if (compact && now - lastRender < 32) return;
-      if (start < 0) start = now;
+      if (start < 0) start = now - (saved?.elapsed ?? 0) * 1000;
       const dt = Math.min(.05, (now - lastRender) / 1000 || .016); lastRender = now; elapsed = (now - start) / 1000;
-      const intro = reduce.matches ? 1 : ease(Math.min(1, elapsed / 1.7));
-      const auto = !callbacks.current.paused && !reduce.matches && !down && !hovered && !target && elapsed > holdUntil;
+      const intro = saved || reduce.matches ? 1 : ease(Math.min(1, elapsed / 1.7));
+      const auto = !callbacks.current.paused && !reduce.matches && !down && !hovered && !target && !flip?.open && elapsed > holdUntil;
       let moving = auto || down || intro < 1;
       if (target) {
         const amount = 1 - Math.exp(-dt * 7); yaw += (target.yaw - yaw) * amount; pitch += (target.pitch - pitch) * amount; moving = true;
@@ -175,16 +193,40 @@ const MoonGalleryScene = forwardRef<MoonGalleryHandle, MoonGalleryProps>(functio
       } else if (!down && !reduce.matches && Math.abs(vx) + Math.abs(vy) > .0001) {
         yaw += vx * dt * 42; pitch = THREE.MathUtils.clamp(pitch + vy * dt * 42, -1.12, 1.12); vx *= Math.exp(-dt * 7); vy *= Math.exp(-dt * 7); moving = true;
       } else if (auto) yaw += dt * .042;
-      if (!moving && !dirty && !hoverDirty) return;
       world.scale.setScalar(.45 + intro * .55); globe.rotation.set(pitch, yaw + (1 - intro) * 1.35, 0, 'XYZ');
-      for (const frame of frames) frame.gold.emissiveIntensity = frame === hovered ? .55 : frame.work.id === callbacks.current.selected ? .2 : .035;
+      if (auto && !flip && elapsed > nextFlip) {
+        world.updateMatrixWorld(true);
+        const visible = frames.filter(frame => {const normal = new THREE.Vector3(0, 0, 1).transformDirection(frame.anchor.matrixWorld), at = frame.anchor.getWorldPosition(new THREE.Vector3()); return normal.dot(camera.position.clone().sub(at).normalize()) > .7;});
+        if (visible.length) flip = {frame: visible[flipIndex++ % visible.length], progress: 0, duration: 1.45, open: false};
+        nextFlip = elapsed + 7.5;
+      }
+      let completed: AppId | undefined;
+      if (flip) {
+        const advancing = !callbacks.current.paused || flip.open;
+        if (advancing) flip.progress += dt / flip.duration;
+        if (reduce.matches) flip.progress = 1;
+        if (flip.progress >= 1) {if (flip.open) completed = flip.frame.work.id; flip = null; nextFlip = elapsed + 7.5;}
+        moving = moving || advancing;
+      }
+      for (const frame of frames) {
+        const turning = flip?.frame === frame ? moonFrameTurn(flip.progress) : {angle: 0, lift: 0};
+        const hoverLift = frame === hovered && !reduce.matches ? .2 : 0, lift = turning.lift + hoverLift;
+        if (Math.abs(frame.group.position.z - lift) > .001) moving = true;
+        frame.group.position.z = flip?.frame === frame ? lift : THREE.MathUtils.lerp(frame.group.position.z, lift, 1 - Math.exp(-dt * 12));
+        frame.group.rotation.y = turning.angle;
+        frame.group.rotation.z = frame === hovered && !reduce.matches ? -.035 : 0;
+        frame.gold.emissiveIntensity = frame === hovered ? .55 : frame.work.id === callbacks.current.selected ? .2 : .035;
+      }
+      if (!moving && !dirty && !hoverDirty && !completed) return;
       if (hoverDirty) {updateHover(); hoverDirty = false;}
       if (!reduce.matches && !callbacks.current.paused) orbitTime += dt * .06;
       beads.forEach((bead, index) => {const angle = index * Math.PI / 2 + orbitTime; bead.position.set(Math.cos(angle) * 6.95, Math.sin(angle) * 5.75, -1.6);});
       renderer.render(scene, camera); dirty = false;
+      if (completed) callbacks.current.onOpen(completed);
     };
     request = clock.requestFrame(render); callbacks.current.onReady();
     return () => {
+      callbacks.current.memory.current = {yaw, pitch, elapsed, orbitTime, works: frames.map(frame => frame.work.id).join('|')};
       disposed = true; loading.abort(); imageAbort.abort(); controller.current = null; clock.cancelFrame(request); observer.disconnect(); reduce.removeEventListener('change', motion);
       canvas.removeEventListener('pointerdown', pointerDown); canvas.removeEventListener('pointermove', pointerMove); canvas.removeEventListener('pointerup', release); canvas.removeEventListener('pointercancel', release); canvas.removeEventListener('pointerleave', leave); canvas.removeEventListener('webglcontextlost', lost);
       canvas.removeEventListener('lostpointercapture', cancelDrag); window.removeEventListener('blur', cancelDrag);

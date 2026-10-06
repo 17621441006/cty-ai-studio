@@ -50,7 +50,32 @@ async function main(){
   assert.ok(instances<(compact?3200:5500));assert.ok(triangles<80000);console.log(`PASS: ${compact?'phone':'desktop'} moon uses ${instances} batched tesserae, ${triangles.toLocaleString()} triangles.`);
  }
  const frame=model.createFrameGeometry();frame.computeBoundingBox();assert.ok(frame.boundingBox.max.x<1.1&&frame.boundingBox.max.y<.9);
- const page=fs.readFileSync(path.join(root,'app/page.tsx'),'utf8');assert.match(page,/moonOpen&&<MoonSpace open onChange=\{setMoonOpen\} onOpen=\{open\}/);
+ const {moonFrameTurn}=load('lib/moon-motion.ts');
+ for(let step=0;step<=480;step++){
+  const turn=moonFrameTurn(step/480),group=new THREE.Group();group.rotation.y=turn.angle;group.position.z=5.39+turn.lift;group.updateMatrixWorld(true);
+  // Include the backing, not just the front photo: neither face may pass through the moon.
+  for(let x=-1.06;x<=1.061;x+=.106)for(let y=-.81;y<=.811;y+=.162)for(const z of [-.125,.24]){
+   const point=group.localToWorld(new THREE.Vector3(x,y,z));assert.ok(point.length()>5.18,`frame entered the lunar tiles at ${step}/480`);
+  }
+ }
+ assert.ok(Math.abs(moonFrameTurn(1).lift)<1e-8);assert.equal(moonFrameTurn(0).angle,0);
+ console.log('PASS: 481 flip poses keep both faces outside the moon, with a complete 360-degree turn.');
+ const {initialMoonNavigation,moonNavigationReducer:nav,returnsToMoon}=load('lib/moon-navigation.ts');
+ let state=nav(initialMoonNavigation,{type:'enter'});assert.equal(state.screen,'moon');
+ state=nav(state,{type:'open',id:'zp-dust-road'});assert.equal(returnsToMoon(state,'zp-dust-road'),true);
+ state=nav(state,{type:'open',id:'photos'});assert.equal(returnsToMoon(state,'zp-dust-road'),false,'old close timer must not dismiss a new work');
+ assert.equal(returnsToMoon(state,'terminal'),false,'unrelated desktop app must not navigate');
+ state=nav(state,{type:'forget',id:'zp-dust-road'});assert.equal(state.screen,'work');assert.equal(returnsToMoon(state,'photos'),true);
+ state=nav(state,{type:'open',id:'photos'});assert.equal(state.workIds.length,1,'restoring a work must not duplicate it');
+ state=nav(state,{type:'return'});assert.equal(state.screen,'moon');assert.equal(state.workIds.length,0);
+ state=nav(state,{type:'desktop'});assert.equal(state.screen,'desktop');assert.equal(nav(state,{type:'open',id:'photos'}).screen,'desktop');
+ assert.equal(returnsToMoon(state,'photos'),false,'leaving the moon explicitly cancels its return destination');
+ const {mobileGreeting}=load('lib/mobile-greeting.ts');
+ assert.match(mobileGreeting('01:27'),/夜深了.*还没睡/);assert.match(mobileGreeting('23:50'),/这么晚了/);
+ assert.match(mobileGreeting('08:00'),/早上好/);assert.match(mobileGreeting('10:59'),/上午好/);assert.match(mobileGreeting('13:00'),/午间好/);assert.match(mobileGreeting('17:30'),/下午好/);assert.match(mobileGreeting('20:00'),/晚上好/);
+ assert.match(mobileGreeting(''),/你好/);
+ console.log('PASS: moon return, nested apps, delayed closes, explicit desktop exit, and seven greeting periods.');
+ const page=fs.readFileSync(path.join(root,'app/page.tsx'),'utf8');assert.match(page,/moonSession&&<MoonSpace open=\{moonOpen\} onChange=\{setMoonOpen\} onOpen=\{open\}/);
  assert.match(page,/const MoonSpace=dynamic/);assert.match(page,/sceneryPaused=moonOpen/);
  console.log('PASS: gallery remains an on-demand module and reuses the desktop open callback/background pause.');
 }
