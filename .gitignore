@@ -44,3 +44,9 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Kimi portable build / generated sources / local server state
+/.kimi/
+/.kimi-data/
+/dist-server/
+*.tsbuildinfo
