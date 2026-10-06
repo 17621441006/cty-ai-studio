@@ -7,7 +7,7 @@ export const apps:AppInfo[]=[
  {id:'works',name:'作品集',icon:4,category:'桌面',description:'所有创作，收在同一台电脑里。'},
  {id:'home',name:'3D 房屋设计',icon:2,category:'设计',description:'庭间的前八套原设计 · 六十四个空间。',url:'https://tingjian-space-lab.jackchen911006.chatgpt.site',image:'/works/home/dusk-living.webp'},
  {id:'about',name:'我是谁.txt',icon:18,category:'桌面',description:'这台电脑背后的人'},
- {id:'ai',name:'AI 研习所',icon:3,category:'编程与学习',description:'AI-cat · AI 学习与实践的完整工作台。',url:'https://ai-cat.jackchen911006.chatgpt.site',image:'/works/covers/ai.webp'},
+ {id:'ai',name:'AI 研习所',icon:3,category:'编程与学习',description:'精选课程与互动示例，进入原站继续完整学习。',url:'https://ai-cat.jackchen911006.chatgpt.site',image:'/works/covers/ai.webp'},
  {id:'photos',name:'AI Q版相册',icon:6,category:'记忆',description:'十张 Q 版照片，收藏家人、旅途与想象。',image:'/works/photos/family-1.webp'},
  {id:'usaco',name:'USACO Lab',icon:5,category:'编程与学习',description:'铜组到银组，回到原来的题目与算法练习。',url:'https://usaco-bronze-lab.jackchen911006.chatgpt.site',image:'/works/covers/usaco.webp'},
  {id:'stickers',name:'脏脏包表情',icon:7,category:'设计',description:'十六个日常表情，和不同世界的猫咪。',image:'/works/sticker-collection.png'},

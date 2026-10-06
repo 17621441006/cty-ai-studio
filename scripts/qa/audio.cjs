@@ -38,7 +38,7 @@ vm.runInNewContext(compiled,{module:exported,exports:exported.exports,AudioConte
   ctx.advance(2);const before=ctx.sources.length;player.play(cue);assert.ok(ctx.sources.length>before,`${cue} has no sound`);
   const count=ctx.sources.length;player.play(cue);assert.equal(ctx.sources.length,count,'immediate repeats must be suppressed');
   for(const n of ctx.sources.slice(before)){
-   assert.ok(['sine','triangle'].includes(n.type));assert.ok(n.stopAt-n.startAt<1,'a cue must not leave an endless oscillator');
+   assert.ok((cue==='meow'?['sine','sawtooth']:['sine','triangle']).includes(n.type));assert.ok(n.stopAt-n.startAt<1,'a cue must not leave an endless oscillator');
    for(const e of n.frequency.events)assert.ok(e.value>=200&&e.value<=1000,'avoid sub-bass/high-pitched shocks');
   }
   ctx.advance(2);for(const n of ctx.sources.slice(before)){assert.ok(n.ended&&n.disconnected,'voices must release their graph')}
@@ -48,6 +48,7 @@ vm.runInNewContext(compiled,{module:exported,exports:exported.exports,AudioConte
   assert.ok(attack.time-events[0].time>=.025,'avoid instantaneous gain clicks');assert.ok(attack.value<=.16);
   assert.ok(g.disconnected);
  }
+ ctx.advance(2);player.play('land');const beforeMeow=ctx.sources.length;player.play('meow');assert.ok(ctx.sources.length>beforeMeow,'a landing cue must not swallow the meow');ctx.advance(2);
  let count=ctx.sources.length;document.hidden=true;player.play('shield');assert.equal(ctx.sources.length,count);document.hidden=false;
  player.setEnabled(false);player.play('clash');assert.equal(ctx.sources.length,count);assert.equal(master.gain.events.at(-1).value,0);
  player.setEnabled(true);player.setDucking(true);assert.ok(master.gain.events.at(-1).value<=.04);player.setDucking(false);

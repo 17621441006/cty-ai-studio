@@ -1,10 +1,12 @@
 import type {ReactNode} from 'react';
 import {iconInk} from '@/lib/icon-art-bounds';
+import {PIXEL_CAT_ATLAS,PIXEL_CAT_CROP} from '@/lib/pixel-cat';
 // Deliberate pixel silhouettes, sharing the navy / parchment / brass desktop palette.
 const ink='#09182c',gold='#f2c66d',light='#fff0bb',brass='#a97436',blue='#5596c3',ice='#b6dddf',deep='#244d79';
 const R=({x,y,w,h,c}:{x:number;y:number;w:number;h:number;c:string})=><rect x={x} y={y} width={w} height={h} fill={c}/>;
 function Art({n,normalized=false}:{n:number;normalized?:boolean}){let art:ReactNode;
  switch(n){
+ case 23:art=<><svg x="2" y="8" width="25" height="24" viewBox={`${PIXEL_CAT_CROP.x} ${PIXEL_CAT_CROP.y} ${PIXEL_CAT_CROP.width} ${PIXEL_CAT_CROP.height}`}><image href={PIXEL_CAT_ATLAS} width="2172" height="724"/></svg><path fill={brass} d="M24 0h2v4h4v2h2v2h-5v5h-3V9h-4V6h4z"/><path fill={gold} d="M24 1h2v4h4v2h-4v4h-2V7h-4V5h4z"/><path fill={light} d="M24 4h2v4h-2zM22 5h6v2h-6zM4 2h2v2h2v2H6v2H4V6H2V4h2z"/></>;break;
  case 22:art=<><path fill={brass} d="M2 8h12l3 4h13v17H2z"/><path fill={gold} d="M2 7h11l3 4h13v16H2z"/><path fill={deep} d="M6 13h7l3 2 3-2h7v11h-7l-3 2-3-2H6z"/><path fill={ice} d="M7 14h6v9H7zM19 14h6v9h-6z"/><path fill={light} d="M15 15h2v9h-2zM22 3h2v2h2v2h-2v2h-2V7h-2V5h2z"/></>;break;
  case 8:art=<><path fill={brass} d="M3 23h26v6H3zM5 6h22v19H5z"/><path fill={gold} d="M4 4h24v20H4z"/><path fill={light} d="M4 4h24v2H4zM4 4h2v20H4z"/><path fill={ink} d="M11 6h9v2h4v4h2v7h-3v3H10v-2H7V10h4z"/><path fill={deep} d="M12 8h7v2h3v7h-2v3h-9v-3H9v-5h3z"/><path fill={gold} d="M13 12h5v6h-5zM25 7h2v10h-4v-2h2z"/><R x={15} y={14} w={2} h={2} c={light}/><R x={6} y={26} w={5} h={2} c={ink}/><R x={23} y={26} w={3} h={2} c={light}/></>;break;
  case 9:art=<><path fill={brass} d="M3 5h26v22H3z"/><R x={3} y={4} w={25} h={20} c={gold}/><R x={5} y={6} w={21} h={15} c={ink}/><path fill={ice} d="M8 9h2v2h2v2h-2v2H8v-2h2v-2H8zM15 16h7v2h-7z"/><R x={9} y={26} w={14} h={3} c={blue}/><R x={13} y={24} w={6} h={2} c={deep}/><R x={5} y={4} w={21} h={1} c={light}/></>;break;
@@ -25,6 +27,7 @@ function Art({n,normalized=false}:{n:number;normalized?:boolean}){let art:ReactN
  return <svg viewBox={normalized?iconInk(n).join(" "):"0 0 32 32"} preserveAspectRatio="xMidYMax meet" fill="none" shapeRendering="crispEdges">{art}</svg>
 }
 export default function DesktopIcon({n,small=false,normalized=false}:{n:number;small?:boolean;normalized?:boolean}){
+ if(n===7)return <span aria-hidden="true" data-normalized={normalized||undefined} className={`utility-icon pixel-drawn utility-7 sticker-wind-icon ${small?'small':''} ${normalized?'normalized-icon':''}`}><svg viewBox={normalized?"1 1 30 30":"0 0 32 32"} preserveAspectRatio="xMidYMax meet"><rect x="1" y="1" width="30" height="30" rx="2" fill="#efd8a1"/><svg x="2" y="2" width="28" height="28" viewBox="8 14 176 173"><image href="/assets/icons/bobo-wind-original.png" width="189" height="195"/></svg></svg></span>;
  if(normalized){
   const [x,y,w,h]=iconInk(n),box=[n%4*443.5+x,Math.floor(n/4)*443.5+y,w,h];
   return <span aria-hidden="true" data-normalized="true" className={`${n<8?'pixel-icon':'utility-icon pixel-drawn'} normalized-icon`}>

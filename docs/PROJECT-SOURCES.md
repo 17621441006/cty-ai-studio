@@ -6,7 +6,7 @@
 
 | 桌面入口 | 运行方式 | 已核实的 GitHub 源码 |
 | --- | --- | --- |
-| AI-cat / AI研习所 / AI小脏 | `ai-cat.jackchen911006.chatgpt.site`，助手为 `/desktop-assistant` | https://github.com/17621441006/ai-cat （非空，含助手路由） |
+| AI-cat / AI研习所 / AI小脏 | v29 主站研习所为本地精选体验；点击进入 `ai-cat.jackchen911006.chatgpt.site` 后加载完整工作台，助手仍为 `/desktop-assistant` | https://github.com/17621441006/ai-cat （非空，含助手路由） |
 | USACO | `usaco-bronze-lab.jackchen911006.chatgpt.site` | https://github.com/17621441006/usaco-bronze-lab （完整源码已上传，Public） |
 | Minecraft Python | 演示程序、Pyodide、模型已内置；完整学习项目仍有外部入口 | https://github.com/17621441006/blockcraft-academy （非空，私有） |
 | 3D房屋 / 庭间 | 64 张设计图内置；完整工作台外部打开 | https://github.com/17621441006/tingjian-studio （非空） |
@@ -20,6 +20,7 @@ USACO 恢复源提交：`56d71b0fa49819fdc042416a004ab2bab6cfb069`。完整源�
 - 帝国时代风格 / Loire 试玩：`public/games/loire/index.html`，配套 `desktop-bridge.js`、`cover.jpg`。游戏脚本、Three.js 和 17 张内嵌图片包含在本项目，不依赖另一个游戏站点运行。
 - 文艺复兴的梵高与魔法漫游：`public/works/art-tours/`，包含世界脚本、Three.js 依赖和纹理。
 - AFTERSPAN、像素游戏、音乐场景、隅间、工作台等本地重构：应用组件及对应 `public` 资源随主仓库保存。
+- 接星星：`app/components/arcade/Stars.tsx`、`original-stars/stars-runtime-adapter.js`、`lib/pixel-cat.ts` 和 `public/assets/cat-avatars.webp` 均在本仓库。原版规则和场景代码已内置，v29 使用自己的脏脏包角色，不跳转外部游戏。
 - 模型实测展示：`public/works/benchmark/` 已本地化，含视频、字体和运行依赖；原始来源仓库 https://github.com/Zp-Peter/gpt6-opus55-benchmark-showcase 已存在。
 
 ## 仍然依赖外部页面的 3D 原作

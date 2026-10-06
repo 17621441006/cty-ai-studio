@@ -13,7 +13,7 @@ export function createCompanionSound(){
  function play(cue:CompanionCue){
   if(!enabled||!ctx||!master||ctx.state!=='running'||document.hidden||voices.size>=12)return;
   const now=ctx.currentTime,gap=cue==='meow'?1.6:cue==='firework'?.85:.25;
-  if(now-lastCue<.10||now-(last.get(cue)??-10)<gap)return;last.set(cue,now);lastCue=now;
+  if((cue!=='meow'&&now-lastCue<.10)||now-(last.get(cue)??-10)<gap)return;last.set(cue,now);lastCue=now;
   const tone=(frequency:number,end:number,delay:number,duration:number,volume:number,type:OscillatorType='sine')=>{
    if(voices.size>=12)return;const c=ctx!,o=c.createOscillator(),g=c.createGain(),start=now+delay;
    o.type=type;o.frequency.setValueAtTime(frequency,start);o.frequency.exponentialRampToValueAtTime(end,start+duration);
@@ -21,11 +21,12 @@ export function createCompanionSound(){
    o.connect(g);g.connect(master!);voices.add(o);o.onended=()=>{voices.delete(o);o.disconnect();g.disconnect()};o.start(start);o.stop(start+duration+.025);
   };
   switch(cue){
-   case 'meow':{ // A short, warm voiced bend; rounded harmonics keep it gentle.
-    const c=ctx!,o=c.createOscillator(),f=c.createBiquadFilter(),g=c.createGain();o.type='triangle';
-    o.frequency.setValueAtTime(430,now);o.frequency.exponentialRampToValueAtTime(610,now+.11);o.frequency.exponentialRampToValueAtTime(370,now+.40);
-    f.type='lowpass';f.frequency.value=1300;f.Q.value=.5;g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.16,now+.07);g.gain.exponentialRampToValueAtTime(.0001,now+.44);
-    o.connect(f);f.connect(g);g.connect(master);voices.add(o);o.onended=()=>{voices.delete(o);o.disconnect();f.disconnect();g.disconnect()};o.start(now);o.stop(now+.47);tone(432,370,.025,.40,.035);break;
+   case 'meow':{ // Restore the voiced "myaow" formant sweep, at the softer v28 volume.
+    const c=ctx!,o=c.createOscillator(),f=c.createBiquadFilter(),g=c.createGain();o.type='sawtooth';
+    o.frequency.setValueAtTime(570,now);o.frequency.exponentialRampToValueAtTime(805,now+.10);o.frequency.exponentialRampToValueAtTime(410,now+.43);
+    f.type='bandpass';f.frequency.setValueAtTime(1450,now);f.frequency.exponentialRampToValueAtTime(780,now+.43);f.Q.value=1.3;
+    g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.14,now+.07);g.gain.exponentialRampToValueAtTime(.0001,now+.47);
+    o.connect(f);f.connect(g);g.connect(master);voices.add(o);o.onended=()=>{voices.delete(o);o.disconnect();f.disconnect();g.disconnect()};o.start(now);o.stop(now+.50);tone(568,405,.015,.43,.035);break;
    }
    case 'jump':tone(392,587,0,.19,.12,'triangle');break;
    case 'land':tone(294,277,0,.17,.12);tone(587,554,.035,.18,.025);break;
