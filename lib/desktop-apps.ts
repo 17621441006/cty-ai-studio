@@ -14,7 +14,7 @@ export const apps:AppInfo[]=[
  {id:'music',name:'月光唱片机',icon:8,category:'音乐与影像',description:'自己的歌曲与封面，收起来就是随身听。',image:'/assets/mosaic-vinyl.webp'},
  {id:'terminal',name:'终端',icon:9,category:'桌面',description:'输入命令，控制猫咪星球桌面。'},
  {id:'guide',name:'使用说明.txt',icon:19,category:'桌面',description:'窗口、快捷键与安装到电脑的方法'},
- {id:'zp-art-review',name:'文艺复习',icon:22,category:'桌面',description:'梵高的星夜与哈利波特的魔法世界，两段画中旅程。',owner:'CTY STUDIO',collection:'文艺复习'},
+ {id:'zp-art-review',name:'文艺复兴',icon:22,category:'桌面',description:'梵高的星夜与哈利波特的魔法世界，两段画中旅程。',owner:'CTY STUDIO',collection:'文艺复兴'},
  {id:'zp-focus',name:'专注世界',icon:13,category:'桌面',description:'像素小镇与尘路，专注时世界也在生长。',owner:'CTY STUDIO',collection:'专注世界'},
  {id:'zp-rooms',name:'五个房间',icon:11,category:'桌面',description:'唱片行、墨、末班电车、Live House、像素关卡。',owner:'CTY STUDIO',referenceId:'music-rooms'},
  {id:'zp-gallery',name:'3D 展厅',icon:12,category:'桌面',description:'法罗群岛、马特洪峰、隅间、三寸人间。',owner:'CTY STUDIO',collection:'3D 展厅'},

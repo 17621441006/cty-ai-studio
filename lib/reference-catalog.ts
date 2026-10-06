@@ -1,8 +1,8 @@
 export type ReferenceWork = {id:string;name:string;category:string;description:string;url?:string;image?:string;status:string;playable:boolean;icon:number;catalogue?:boolean};
 const artwork=(file:string)=>['voxel-rampage','christmas-walk','rain-lamp','long-journey','hunger-guy'].includes(file)?'/works/arcade/'+file+'.webp':file==='sweetrove'?'/works/archives/sweetrove/watercolor/countries/france.webp':undefined;
 export const referenceWorks:ReferenceWork[]=[
- {id:'vangogh-tour',name:'梵高 · 漫游星夜',category:'文艺复习',description:'从夜间咖啡馆出发，穿过罗讷河、星夜与画中的村庄。',image:'/works/art-tours/assets/panorama.jpg',status:'可体验',playable:true,icon:22},
- {id:'wizard-tour',name:'哈利波特 · 魔法漫游',category:'文艺复习',description:'飞越对角巷与古灵阁，穿过雪中霍格莫德，抵达黑湖和霍格沃茨。',image:'/works/art-tours/assets/wizard-alley2.jpg',status:'可体验',playable:true,icon:22},
+ {id:'vangogh-tour',name:'梵高 · 漫游星夜',category:'文艺复兴',description:'从夜间咖啡馆出发，穿过罗讷河、星夜与画中的村庄。',image:'/works/art-tours/assets/panorama.jpg',status:'可体验',playable:true,icon:22},
+ {id:'wizard-tour',name:'哈利波特 · 魔法漫游',category:'文艺复兴',description:'飞越对角巷与古灵阁，穿过雪中霍格莫德，抵达黑湖和霍格沃茨。',image:'/works/art-tours/assets/wizard-alley2.jpg',status:'可体验',playable:true,icon:22},
  {id:'loire',name:'圣旗纪元 · 卢瓦尔河畔',category:'游戏厅',description:'征服者风格的原试玩版：贞德、村庄经营、波斯敌军与部队指挥。推荐电脑或横屏体验。',image:'/games/loire/cover.jpg',status:'可试玩',playable:true,icon:10},
  {id:'afterspan',name:'AFTERSPAN · 时隙',category:'游戏厅',image:'/games/afterspan/cover.png',description:'在 2076 与 2091 之间切换，穿过 22 间研究站。支持触屏操作与本机关卡存档。',status:'可试玩',playable:true,icon:10},
  {id:'benchmark',name:'AI 创作实验室',category:'编程与学习',description:'21 件模型作品：鹈鹕骑车、十种网站、恐龙、短片与雪山。',image:'/works/covers/ai-lab.webp',status:'可体验',playable:true,icon:17},

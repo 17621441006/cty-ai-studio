@@ -31,6 +31,7 @@ pnpm start
 | `public/works` | 艺术漫游、Minecraft 模型、模型实测等内置作品 |
 | `public/python` | 本地 Python / Pyodide 运行资源 |
 | `public/assets` | 桌面图像、角色、相册、场景、封面资源 |
+| `archive/source-art` | 原始美术素材备份，不进入部署包 |
 
 ## 备份边界
 
@@ -41,3 +42,5 @@ pnpm start
 2026-10-05 的性能修复与验证见 [v25 记录](docs/V25-PERFORMANCE.md) 和 [v26 按需加载与运行性能](docs/V26-PERFORMANCE.md)。
 
 v27 调整了凤凰原地渐隐、城堡灯火与月相自动轮换，见 [场景更新记录](docs/V27-SCENERY.md)。每次网站内容发布后，都应同步本 GitHub 仓库并核对源码一致。
+
+v28 柔化桌面与内置作品音效，修正“文艺复兴”名称，并移出已停用的部署素材；主站与 AI 研习所的体积核查见 [音效与体积记录](docs/V28-AUDIO-SIZE.md)。

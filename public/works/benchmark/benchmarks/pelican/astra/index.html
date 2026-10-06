@@ -85,7 +85,7 @@
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id), motion=matchMedia('(prefers-reduced-motion: reduce)');
-let playing=!motion.matches,speed=1,t=0,last=0,bellUntil=0,audio;
+let playing=!motion.matches,speed=1,t=0,last=0,bellUntil=0,lastBell=-1000,audio;
 const set=(id,a,v)=>$(id).setAttribute(a,v);
 function foot(id,x,y){set(id,'d',`M${x-12} ${y-10}q5-9 12-3l18 6 5 7h-37Z`)}
 function draw(){
@@ -110,8 +110,8 @@ function sync(){ $('toggle-label').textContent=playing?'歇一会儿':'继续出
 $('toggle').addEventListener('click',()=>{playing=!playing;sync()});
 $('speed').addEventListener('input',e=>{speed=Number(e.target.value);$('speed-value').textContent=speed+'×'});
 $('bell').addEventListener('click',()=>{
- bellUntil=performance.now()+850;
- try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume().catch(()=>{});const start=audio.currentTime;[0,.14].forEach(delay=>{[1397,2095,2794].forEach((freq,i)=>{const osc=audio.createOscillator(),gain=audio.createGain();osc.frequency.value=freq;gain.gain.setValueAtTime(0,start+delay);gain.gain.linearRampToValueAtTime(.09/(i+1),start+delay+.006);gain.gain.exponentialRampToValueAtTime(.0001,start+delay+.7);osc.connect(gain);gain.connect(audio.destination);osc.start(start+delay);osc.stop(start+delay+.75)})})}catch{}
+ const bellNow=performance.now();bellUntil=bellNow+850;if(document.hidden||bellNow-lastBell<300)return;lastBell=bellNow;
+ try{audio??=new(window.AudioContext||window.webkitAudioContext)();audio.resume().catch(()=>{});const start=audio.currentTime;[0,.14].forEach(delay=>{[880,1320,1760].forEach((freq,i)=>{const osc=audio.createOscillator(),gain=audio.createGain();osc.frequency.value=freq;gain.gain.setValueAtTime(0,start+delay);gain.gain.linearRampToValueAtTime(.035/(i+1),start+delay+.028);gain.gain.exponentialRampToValueAtTime(.0001,start+delay+.7);osc.connect(gain);gain.connect(audio.destination);osc.onended=()=>{osc.disconnect();gain.disconnect()};osc.start(start+delay);osc.stop(start+delay+.75)})})}catch{}
 });
 motion.addEventListener('change',e=>{playing=!e.matches;sync()});
 document.addEventListener('visibilitychange',()=>{last=0});

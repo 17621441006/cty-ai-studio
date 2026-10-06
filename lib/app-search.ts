@@ -10,7 +10,7 @@ export const appAliases:Record<string,string[]>={
  music:['音乐','唱片','随身听','听歌','歌曲'], 'zp-rooms':['音乐','房间','五个房间'],
  'zp-gallery':['3D','展厅','3D空间'], 'zp-builds':['建筑相册','建筑照片','Summerhouse'],
  'zp-stars':['接星星','借星星','星星','接星星小游戏'], 'zp-christmas-walk':['雪夜漫步','雪街','圣诞雪街','雪夜'],
- 'zp-art-review':['文艺复习','文艺','艺术漫游'], 'zp-vangogh-tour':['梵高','星夜','漫游星夜','画中漫游'], 'zp-wizard-tour':['哈利波特','霍格沃茨','对角巷','魔法漫游'],
+ 'zp-art-review':['文艺复兴','文艺复习','文艺','艺术漫游'], 'zp-vangogh-tour':['梵高','星夜','漫游星夜','画中漫游'], 'zp-wizard-tour':['哈利波特','霍格沃茨','对角巷','魔法漫游'],
  'zp-dust-road':['尘路','dust road','骑龙','卡卡西','木叶漫游'],works:['所有作品','全部作品','作品','作品集'],
  'zp-benchmark':['创作实验室','AI实验室','模型实测','OPUS5.5','大模型评测','评测','opus'],terminal:['命令行','控制台','终端'],
  stickers:['表情包','贴纸','猫表情'],guide:['帮助','说明','操作说明'],about:['作者','关于','我是谁'],

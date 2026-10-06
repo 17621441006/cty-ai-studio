@@ -18,7 +18,7 @@ USACO 恢复源提交：`56d71b0fa49819fdc042416a004ab2bab6cfb069`。完整源�
 ## 已完整内置，不需单独创建仓库
 
 - 帝国时代风格 / Loire 试玩：`public/games/loire/index.html`，配套 `desktop-bridge.js`、`cover.jpg`。游戏脚本、Three.js 和 17 张内嵌图片包含在本项目，不依赖另一个游戏站点运行。
-- 文艺复习的梵高与魔法漫游：`public/works/art-tours/`，包含世界脚本、Three.js 依赖和纹理。
+- 文艺复兴的梵高与魔法漫游：`public/works/art-tours/`，包含世界脚本、Three.js 依赖和纹理。
 - AFTERSPAN、像素游戏、音乐场景、隅间、工作台等本地重构：应用组件及对应 `public` 资源随主仓库保存。
 - 模型实测展示：`public/works/benchmark/` 已本地化，含视频、字体和运行依赖；原始来源仓库 https://github.com/Zp-Peter/gpt6-opus55-benchmark-showcase 已存在。
 
