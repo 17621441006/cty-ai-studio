@@ -1,3 +1,4 @@
+# Manual release packaging; application source is always checked out from kimi-deploy.
 name: Build Kimi dist release
 
 on:
