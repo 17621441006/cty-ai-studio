@@ -3,7 +3,7 @@ export type AppId='cat'|'minecraft'|'home'|'ai'|'usaco'|'works'|'about'|'photos'
 export type AppInfo={id:AppId;name:string;icon:number;category:string;description:string;url?:string;owner?:'CTY STUDIO';image?:string;desktop?:boolean;catalogue?:boolean;status?:string;referenceId?:string;collection?:string};
 export const apps:AppInfo[]=[
  {id:'cat',name:'猫助手',icon:0,category:'桌面',description:'AI 问答、桌面导航，和脏脏包的小日常',url:'https://ai-cat.jackchen911006.chatgpt.site/desktop-assistant'},
- {id:'minecraft',name:'Minecraft.py',icon:1,category:'编程与学习',description:'右边写 Python，左边让方块世界生长。',url:'https://blockcraft-academy.jackchen911006.chatgpt.site',image:'/works/covers/minecraft.webp'},
+ {id:'minecraft',name:'Minecraft.py',icon:1,category:'编程与学习',description:'右边写 Python，左边让方块世界生长。',url:'https://blockcraft.ok.kimi.link',image:'/works/covers/minecraft.webp'},
  {id:'works',name:'作品集',icon:4,category:'桌面',description:'所有创作，收在同一台电脑里。'},
  {id:'home',name:'3D 房屋设计',icon:2,category:'设计',description:'庭间的前八套原设计 · 六十四个空间。',url:'https://tingjian-space-lab.jackchen911006.chatgpt.site',image:'/works/home/dusk-living.webp'},
  {id:'about',name:'我是谁.txt',icon:18,category:'桌面',description:'这台电脑背后的人'},

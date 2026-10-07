@@ -1,0 +1,99 @@
+name: Build Kimi dist release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cty-dist-latest
+  cancel-in-progress: false
+
+jobs:
+  build-dist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - name: Check out kimi-deploy
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: kimi-deploy
+          persist-credentials: false
+
+      - name: Set up Node 20
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Record source revision
+        id: source
+        shell: bash
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Build main site and three sub-applications
+        run: node scripts/kimi/build.mjs
+
+      - name: Verify complete build
+        run: node scripts/kimi/check.mjs
+
+      - name: Package dist
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist/index.html
+          test -s dist/ai/index.html
+          test -s dist/desktop-assistant/index.html
+          test -s dist/usaco/index.html
+          test -s dist/tingjian/index.html
+          zip -q -r dist.zip dist
+          unzip -tq dist.zip
+          sha256sum dist.zip > dist.zip.sha256
+          du -h dist.zip
+
+      - name: Publish dist-latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > dist-release-notes.md <<EOF
+          CTY AI STUDIO — Kimi static build
+
+          Source: \`kimi-deploy\` at \`$SOURCE_SHA\`.
+          Built with Node $(node --version) using \`npm ci\` and \`node scripts/kimi/build.mjs\`.
+
+          Download \`dist.zip\`, extract it, and publish the complete contents of \`dist/\` as the web root.
+          Keep all subdirectories; do not upload only the top-level index.html.
+          AI, AI assistant, USACO and Tingjian entries use explicit index.html paths.
+          Block Academy original project: https://blockcraft.ok.kimi.link
+
+          This is the static bundle. Server-side AI APIs require the separate Node backend and its environment configuration.
+          Asset hashes and pinned subproject revisions are recorded in \`dist/deployment-manifest.json\`.
+          Verify the download with \`sha256sum -c dist.zip.sha256\`.
+
+          Build: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+          EOF
+          if gh release view dist-latest --repo "$GH_REPO" >/dev/null 2>&1; then
+            gh release upload dist-latest dist.zip dist.zip.sha256 --repo "$GH_REPO" --clobber
+            gh api --method PATCH "repos/$GH_REPO/git/refs/tags/dist-latest" \
+              -f sha="$SOURCE_SHA" -F force=true
+            gh release edit dist-latest --repo "$GH_REPO" \
+              --title "CTY AI STUDIO — Latest Kimi dist" \
+              --notes-file dist-release-notes.md --latest
+          else
+            gh release create dist-latest dist.zip dist.zip.sha256 --repo "$GH_REPO" \
+              --target "$SOURCE_SHA" \
+              --title "CTY AI STUDIO — Latest Kimi dist" \
+              --notes-file dist-release-notes.md --latest
+          fi
+          echo "Release: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/dist-latest" >> "$GITHUB_STEP_SUMMARY"
+          cat dist.zip.sha256 >> "$GITHUB_STEP_SUMMARY"
