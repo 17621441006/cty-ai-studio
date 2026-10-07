@@ -29,7 +29,9 @@ const usacoEntries=await entriesFor(path.join(sourceDir('usaco'),'public'));
 function adapt(code,file,id,entries){
  if(id==='main'){
   code=code.replace("const assistantOrigin='https://ai-cat.jackchen911006.chatgpt.site'","const assistantOrigin=window.location.origin");
-  if(file.endsWith('learning-navigation.ts'))code=code.replace("export const learningOrigin='https://ai-cat.jackchen911006.chatgpt.site'","export const learningOrigin=window.location.origin").replace('learningOrigin+safeLearningPath(path)',"learningOrigin+(safeLearningPath(path)==='/'?'/ai':safeLearningPath(path))");
+  // Kimi 静态托管不解析目录入口，iframe/外链必须指向显式的 index.html 文件。
+  code=code.replaceAll("assistantOrigin+'/desktop-assistant'","assistantOrigin+'/desktop-assistant/index.html'");
+  if(file.endsWith('learning-navigation.ts'))code=code.replace("export const learningOrigin='https://ai-cat.jackchen911006.chatgpt.site'","export const learningOrigin=window.location.origin").replace('learningOrigin+safeLearningPath(path)',"learningOrigin+((p:string)=>p==='/'?'/ai/index.html':p.replace(/([?#]|$)/,'/index.html$1'))(safeLearningPath(path))");
   code=code.replaceAll('(?:learn|','(?:ai|learn|');
  }else if(id==='usaco'){
   code=code.replaceAll("'/editor/vs'","'/usaco/editor/vs'").replace("new Worker('/python-worker.js')","new Worker('/usaco/python-worker.js',{type:'module'})");
@@ -67,7 +69,7 @@ async function buildApp(id,src,base,entry,entries=new Set()){
  await build({configFile:false,root:temp,base,publicDir:false,logLevel:'warn',plugins:[{name:'cty-portable-paths',enforce:'pre',transform(code,file){if(file.startsWith(src+'/')&&!file.includes('/node_modules/')&&/\.(tsx?|jsx?|json|css)$/.test(file))return {code:adapt(code,file,id,entries),map:null}}},react()],resolve:{alias:{'@':src,'next/dynamic':path.join(root,'scripts/kimi/dynamic.tsx')},dedupe:['react','react-dom']},css:{postcss:path.join(root,'postcss.config.mjs')},build:{outDir:path.join(out,base),emptyOutDir:false,chunkSizeWarningLimit:2500}});
 }
 await buildApp('main',root,'/',`import App from ${JSON.stringify(path.join(root,'app/page.tsx'))};`);
-await buildApp('ai',sourceDir('ai'),'/ai/',`import Hub from ${JSON.stringify(path.join(sourceDir('ai'),'components/hub.tsx'))};import Assistant from ${JSON.stringify(path.join(sourceDir('ai'),'app/desktop-assistant/page.tsx'))};import{navigationItems}from ${JSON.stringify(path.join(sourceDir('ai'),'lib/navigation.ts'))};const p=location.pathname.replace(/\\/$/,'');function App(){return p==='/desktop-assistant'?<Assistant/>:<Hub view={navigationItems.find(x=>x.href===p)?.id||'home'}/>}`,aiEntries);
+await buildApp('ai',sourceDir('ai'),'/ai/',`import Hub from ${JSON.stringify(path.join(sourceDir('ai'),'components/hub.tsx'))};import Assistant from ${JSON.stringify(path.join(sourceDir('ai'),'app/desktop-assistant/page.tsx'))};import{navigationItems}from ${JSON.stringify(path.join(sourceDir('ai'),'lib/navigation.ts'))};const p=location.pathname.replace(/\\/$/,'').replace(/\\/index\\.html$/,'');function App(){return p==='/desktop-assistant'?<Assistant/>:<Hub view={navigationItems.find(x=>x.href===p)?.id||'home'}/>}`,aiEntries);
 await buildApp('usaco',sourceDir('usaco'),'/usaco/',`import App from ${JSON.stringify(path.join(sourceDir('usaco'),'app/page.tsx'))};`,usacoEntries);
 async function copyPublic(src,dest,id,entries){
  await fs.mkdir(dest,{recursive:true});for(const d of await fs.readdir(src,{withFileTypes:true})){const from=path.join(src,d.name),to=path.join(dest,d.name);if(d.isDirectory()){await copyPublic(from,to,id,entries);continue}if(!d.isFile())continue;

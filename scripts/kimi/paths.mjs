@@ -7,11 +7,14 @@ export function publicPath(value,id,entries){
  if(entries.has(first))return (id==='ai'?'/ai-assets':id==='usaco'?'/usaco':'/tingjian')+value;
  return id==='ai'&&value==='/'?'/ai':value;
 }
+// Kimi 静态托管不会把目录重写为 index.html，因此入口必须是显式的 index.html，
+// 否则 /ai 这类目录地址会 404 或被套回主站（iframe 里出现“套娃”）。
+const explicit=p=>p.endsWith('/')||!p.includes('.',p.lastIndexOf('/'))?p.replace(/\/?$/,'/index.html'):p;
 export function desktopURL(value){
- if(value===originalAI)return '/ai';
- if(value.startsWith(originalAI+'/'))return value.slice(originalAI.length)==='/'?'/ai':value.slice(originalAI.length);
- if(value.startsWith('https://usaco-bronze-lab.jackchen911006.chatgpt.site'))return value.replace('https://usaco-bronze-lab.jackchen911006.chatgpt.site','/usaco');
- if(value.startsWith(originalHome))return value.replace(originalHome,'/tingjian');
+ if(value===originalAI)return '/ai/index.html';
+ if(value.startsWith(originalAI+'/')){const rest=value.slice(originalAI.length);return rest==='/'?'/ai/index.html':explicit(rest);}
+ if(value.startsWith('https://usaco-bronze-lab.jackchen911006.chatgpt.site'))return explicit(value.replace('https://usaco-bronze-lab.jackchen911006.chatgpt.site','/usaco'));
+ if(value.startsWith(originalHome))return explicit(value.replace(originalHome,'/tingjian'));
  return value;
 }
 export function rewriteTextAssets(text,id,entries){
