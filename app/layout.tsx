@@ -37,9 +37,16 @@ import "./desktop-v34.css";
 export const metadata: Metadata = {
   title: "CTY AI STUDIO | Personal Works",
   description: "打开 CTY AI STUDIO 的复古电脑桌面，试玩 Minecraft Python、参观庭间的原始房屋设计，看看 AI 学习作品和家庭相册。",
+  applicationName: "CTY AI STUDIO",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {capable: true, title: "CTY AI", statusBarStyle: "black"},
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: [
+      {url: "/icons/moon-cat-32-v1.png", sizes: "32x32", type: "image/png"},
+      {url: "/icons/moon-cat-192-v1.png", sizes: "192x192", type: "image/png"},
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{url: "/icons/moon-cat-180-v1.png", sizes: "180x180", type: "image/png"}],
   },
 };
 
