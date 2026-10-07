@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "CTY AI STUDIO",
+  "short_name": "CTY AI",
+  "description": "月光、脏脏包和我的 AI 作品。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#061426",
+  "theme_color": "#061426",
+  "icons": [
+    {"src": "/icons/moon-cat-192-v1.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/icons/moon-cat-512-v1.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}

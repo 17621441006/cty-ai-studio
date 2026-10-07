@@ -8,7 +8,7 @@ export const apps:AppInfo[]=[
  {id:'home',name:'3D 房屋设计',icon:2,category:'设计',description:'庭间的前八套原设计 · 六十四个空间。',url:'https://tingjian-space-lab.jackchen911006.chatgpt.site',image:'/works/home/dusk-living.webp'},
  {id:'about',name:'我是谁.txt',icon:18,category:'桌面',description:'这台电脑背后的人'},
  {id:'ai',name:'AI 研习所',icon:3,category:'编程与学习',description:'完整课程、智能体工坊、办公工具与 3D 实验。',url:'https://ai-cat.jackchen911006.chatgpt.site',image:'/works/covers/ai.webp'},
- {id:'photos',name:'AI Q版相册',icon:6,category:'记忆',description:'十张 Q 版照片，收藏家人、旅途与想象。',image:'/works/photos/family-1.webp'},
+ {id:'photos',name:'超Q相册',icon:6,category:'记忆',description:'十张 Q 版照片，收藏家人、旅途与想象。',image:'/works/photos/family-1.webp'},
  {id:'usaco',name:'USACO Lab',icon:5,category:'编程与学习',description:'铜组到银组，回到原来的题目与算法练习。',url:'https://usaco-bronze-lab.jackchen911006.chatgpt.site',image:'/works/covers/usaco.webp'},
  {id:'stickers',name:'脏脏包表情',icon:7,category:'设计',description:'十六个日常表情，和不同世界的猫咪。',image:'/works/sticker-collection.png'},
  {id:'music',name:'月光唱片机',icon:8,category:'音乐与影像',description:'自己的歌曲与封面，收起来就是随身听。',image:'/assets/mosaic-vinyl.webp'},
