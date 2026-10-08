@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600">
+<title>接星星 · 脏脏包的两分钟星夜冒险</title>
+<defs>
+ <linearGradient id="night" x2="0" y2="1"><stop stop-color="#071229"/><stop offset="1" stop-color="#173c60"/></linearGradient>
+ <radialGradient id="halo"><stop stop-color="#eacb851f"/><stop offset="1" stop-color="#eacb8500"/></radialGradient>
+ <linearGradient id="trail"><stop stop-color="#de763600"/><stop offset="1" stop-color="#ffbd73"/></linearGradient>
+ <pattern id="tiles" width="38" height="32" patternUnits="userSpaceOnUse"><path fill="#223f62" d="M0 0h34v28H0z"/><path fill="#7695ad" d="M0 0h34v4H0z"/><path fill="#5c7890" d="M38 0h-6v28h6z"/></pattern>
+ <g id="star"><path d="M0-15 5-5 15 0 5 5 0 15-5 5-15 0-5-5z" fill="#f4d993"/><path d="M0-6 2-2 6 0 2 2 0 6-2 2-6 0-2-2z" fill="#fff6d8"/></g>
+ <g id="bomb"><path d="M3-22Q7-48 29-27" fill="none" stroke="#c3a472" stroke-width="5"/><circle r="24" fill="#040b17" stroke="#687c91" stroke-width="3"/><path d="M-14-8Q-10-17-1-17" stroke="#8d9baa" stroke-width="4" fill="none"/><use href="#star" transform="translate(29 -27) scale(.45)"/></g>
+ <g id="shield"><path d="M-23-28H23V0L0 27-23 0Z" fill="#66c5da" stroke="#d4f7f4" stroke-width="4"/><path d="M0-18V9M-11-5H11" fill="none" stroke="#1b5e7a" stroke-width="5"/></g>
+</defs>
+<path fill="url(#night)" d="M0 0h960v600H0z"/>
+<circle cx="725" cy="192" r="240" fill="url(#halo)"/>
+<g fill="#7d9ab1"><path d="M51 88h3v3h-3zM327 59h4v4h-4zM442 129h3v3h-3zM571 77h4v4h-4zM861 182h3v3h-3zM826 317h4v4h-4zM94 405h3v3h-3zM224 332h4v4h-4zM411 420h3v3h-3zM892 83h4v4h-4zM574 433h3v3h-3zM921 396h4v4h-4z"/></g>
+<g opacity=".9"><use href="#star" transform="translate(426 62) scale(.3)"/><use href="#star" transform="translate(868 265) scale(.4)"/><use href="#star" transform="translate(532 238) scale(.6)"/><use href="#star" transform="translate(97 346) scale(.45)"/></g>
+<circle cx="807" cy="111" r="58" fill="#ebdcaf"/>
+<g fill="#97b7c8"><path d="M802 63h20v12h14v20h-27V84h-18V71h11zM765 109h17v16h15v16h-23v-10h-13zM820 135h23v13h-8v11h-24v-13h9z"/></g>
+<circle cx="807" cy="111" r="59" fill="none" stroke="#f5d994" stroke-width="2"/>
+<text x="67" y="104" fill="#acbdc8" font-family="monospace" font-size="17" letter-spacing="5">MOONLIGHT ARCADE</text>
+<text x="59" y="220" fill="#020c24" font-family="sans-serif" font-weight="800" font-size="91">接星星</text>
+<text x="55" y="214" fill="#ffedbd" font-family="sans-serif" font-weight="800" font-size="91">接星星</text>
+<text x="65" y="257" fill="#d7c89f" font-family="monospace" font-size="17" letter-spacing="3">A LITTLE CAT. A SKY OF WISHES.</text>
+<path d="M67 279H406" stroke="#aa96673d"/>
+<text x="65" y="316" fill="#abc0d1" font-family="sans-serif" font-size="23">星雨 · 护盾 · 躲开小麻烦</text>
+<g transform="translate(538 71) rotate(-34)"><path d="M-65-15 44-9 53 10-65 19z" fill="url(#trail)"/><path d="M38-15h22v9h10v19H60v9H37V9H28V-7h10z" fill="#e9a46e"/><path d="M39-9h20V8H39z" fill="#a87562"/></g>
+<use href="#star" transform="translate(459 320) scale(1.1)"/><use href="#star" transform="translate(505 381) scale(.7)"/>
+<use href="#shield" transform="translate(348 416) rotate(13) scale(.7)"/>
+<path d="M111 451Q170 335 254 396" fill="none" stroke="#e7c58555" stroke-width="2" stroke-dasharray="4 9"/>
+<use href="#bomb" transform="translate(237 410) rotate(18)"/>
+<g transform="translate(680 397)">
+ <ellipse cy="119" rx="129" ry="15" fill="#061326" opacity=".8"/>
+ <path d="M-70 87Q-156 112-146 57Q-137 21-112 43" fill="none" stroke="#855235" stroke-width="28"/>
+ <path d="M-70 81Q-146 102-135 61Q-132 41-116 46" fill="none" stroke="#d39a59" stroke-width="19"/>
+ <!-- Tawny tufted Persian, cream bib and little marching paws. -->
+ <path d="M-73-61-91-95-88-122-48-102-29-116 0-108 33-118 54-104 89-125 90-85 77-61 97-33 91-4 103 8 91 25 99 39 85 59 90 80 64 101H-66L-93 81-87 61-101 44-92 25-102 7-90-6-99-30z" fill="#6b4835"/>
+ <path d="M-68-61-80-94-77-108-49-88-28-101 1-95 30-103 55-89 78-109 79-88 66-60 85-34 80-9 91 9 81 25 90 37 76 57 78 80 57 95H-60L-80 77-76 58-89 43-80 24-90 8-78-9-86-32z" fill="#dc9c54"/>
+ <path d="M-66-56-62-82-42-75-20-86 3-78 30-86 49-75 65-84 67-58 82-32 66-17 71 8 51 24 37 9 15 19-2 8-25 22-46 9-67 24-79 5-69-16-81-33z" fill="#f0bb74"/>
+ <path d="M-67-91-73-107-50-91M54-93 75-110 71-90" fill="#cc8b72"/>
+ <path d="M-43 2-22 17-4 6 17 16 40 4 51 24 69 42 51 45 61 64 44 64 43 84 24 80 13 96-5 84-22 96-29 80-49 87-50 68-65 66-55 50-71 44-51 29z" fill="#fff0cd"/>
+ <path d="M-55 40-40 59-38 77-22 74-16 86-5 78 13 89 26 74 42 77 47 54 58 47 41 42 30 58 17 50 4 64-9 52-24 64-31 44z" fill="#e6d4ad"/>
+ <path d="M-61-45-47-56-27-50-17-41-29-21-50-24zM19-41 30-52 51-55 62-44 51-24 31-22z" fill="#563827"/>
+ <path d="M-51-43-38-47-27-40-31-28-45-29zM30-40 42-47 54-42 48-28H34z" fill="#dba850"/>
+ <path d="M-36-47h7v19h-7zM37-47h7v19h-7z" fill="#171c22"/>
+ <path d="M-30-3-23-22-9-23 0-14 10-25 25-20 30-2 15 12 0 9-14 13z" fill="#fff4d9"/>
+ <path d="M-9-13H9L2-4H-2z" fill="#ad7669"/><path d="M0-4V3M-8 5 0 3 8 5" fill="none" stroke="#77554a" stroke-width="3"/>
+ <path d="M-79-20-44-12M-84-8-46-6M47-11 83-20M46-4 87-7" stroke="#f8e3b6" stroke-width="2"/>
+ <path d="M-20-83-12-61H-4L-6-82M10-83 7-61h8l7-23M-63-7-74 3-68 12M62-5 75 5 67 14" fill="#be7c3d"/>
+ <path d="M-57 69-64 88-62 109-20 113-15 99-26 75z" fill="#ca8b48"/>
+ <path d="M20 73 20 94 33 103 68 96 65 79 55 68z" fill="#c68a4a"/>
+ <path d="M-64 95-49 95-44 98-26 96-20 103-24 116-65 113zM29 91 42 85 51 89 64 86 72 96 65 104 32 108z" fill="#fff0cf"/>
+ <path d="M-51 104v9M-39 105v9M45 96l3 8M57 93l3 8" stroke="#c8b38d" stroke-width="2"/>
+</g>
+<!-- Raised cyan canopy: the in-game five-second shield. -->
+<path d="M552 279Q664 215 797 278L792 290Q675 253 557 291z" fill="#80e0f028" stroke="#a4f1f1" stroke-width="4"/>
+<path d="M752 350 762 275" fill="none" stroke="#c7f8ef" stroke-width="5"/>
+<use href="#star" transform="translate(696 211) scale(1.5)"/><use href="#star" transform="translate(636 252) scale(.45)"/>
+<path d="M0 531h960v69H0z" fill="url(#tiles)"/><path d="M0 530h960v5H0z" fill="#d4bd89"/>
+<text x="66" y="574" fill="#e7d6ab" font-family="sans-serif" font-size="20">左右拖动 · 连击接星</text>
+<path d="M787 551h121v34H787z" fill="#eed18d"/>
+<text x="847" y="576" text-anchor="middle" fill="#14253b" font-family="monospace" font-weight="bold" font-size="22">02:00</text>
+</svg>
