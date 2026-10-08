@@ -11,7 +11,7 @@ export function loadingTheme(name:string):LoadingTheme{
  if(/相册|照片|表情|建筑相册/i.test(name))return 'album';
  if(/游戏|圣旗|帝国|afterspan|inkwave|墨浪|aquas|星星|关卡|见缝/i.test(name))return 'arcade';
  if(/文艺|梵高|哈利|星夜|甜境/i.test(name))return 'art';
- if(/3d|房屋|隅间|展厅|马特|法罗|尘路|雪夜|世界|漫游|空间/i.test(name))return 'spatial';
+ if(/3d|房屋|隅间|展厅|马特|法罗|尘路|雪夜|对角巷|世界|漫游|空间/i.test(name))return 'spatial';
  if(/ai|研习|助手|小脏|模型/i.test(name))return 'ai';
  return 'file';
 }
