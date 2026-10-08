@@ -2,10 +2,17 @@
 import {useWindowVisible} from '../AnimationScope';
 import {useEffect,useRef} from 'react';
 import {createStarsRuntime,type StarsRuntime} from './original-stars/stars-runtime-adapter';
+import {installGameFocusGuard} from './original-stars/stars-focus.mjs';
 export default function Stars(){
  const visible=useWindowVisible();
  const mount=useRef<HTMLDivElement>(null),runtime=useRef<StarsRuntime|null>(null);
- useEffect(()=>{const holder=mount.current;if(!holder)return;const game=createStarsRuntime({emit(){},isActive(){return holder.contains(document.activeElement) && (holder.closest('.retro-window')?.classList.contains('focused') ?? true)}},{storageKey:'cty-stars-best-120'});runtime.current=game;holder.appendChild(game.el);game.onShow();const focusout=(e:FocusEvent)=>{if(!holder.parentElement?.contains(e.relatedTarget as Node)&&game.state==='playing'){game.pause()}};holder.addEventListener('focusout',focusout);return()=>{holder.removeEventListener('focusout',focusout);game.destroy();game.el.remove();runtime.current=null}},[]);
+ useEffect(()=>{
+  const holder=mount.current;if(!holder)return;
+  const game=createStarsRuntime({emit(){},isActive(){return holder.contains(document.activeElement) && (holder.closest('.retro-window')?.classList.contains('focused') ?? true)}},{storageKey:'cty-stars-best-120'});
+  runtime.current=game;holder.appendChild(game.el);game.onShow();
+  const removeFocusGuard=installGameFocusGuard(holder.parentElement||holder,game);
+  return()=>{removeFocusGuard();game.destroy();game.el.remove();runtime.current=null};
+ },[]);
  useEffect(()=>{if(visible)runtime.current?.onShow();else runtime.current?.onHide()},[visible]);
  function toggle(){const game=runtime.current;if(!game)return;if(game.state==='paused'){game.resume()}else if(game.state==='playing'){game.pause()}}
  return <div className="stars-original"><div ref={mount} className="stars-original-mount"/><footer><span>闪光星 / 护盾：保护 5 秒 · 小心陨石与炸弹</span><button onMouseDown={e=>e.preventDefault()} onClick={toggle}>暂停 / 继续</button></footer></div>;
