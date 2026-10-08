@@ -1,121 +1,197 @@
-// CTY scratch adapter for original public Catch Stars module.
-// Gameplay/rendering are preserved; environment hooks and destroy() are isolated.
-import { palette as C } from './cat-pixels-original.js';
-import { createStarCatSkin, starCatBounds, STAR_CAT_SIZE } from '../../../../lib/pixel-cat';
-const B = (zh, en) => ({ zh, en });
-const R = value => value == null ? '' : typeof value === 'string' || typeof value === 'number' ? String(value) : value.zh ?? value.en ?? '';
-const V = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-const ye = () => () => { };
-function H(e, t = {}, ...n) { let r = document.createElement(e), i = t || {}; for (let [e, t] of Object.entries(i))
-    t != null && t !== !1 && (e === `class` ? r.className = t : e === `text` ? r.textContent = t : e === `html` ? r.innerHTML = t : e === `i18n` ? (r.dataset.zh = t.zh ?? t.en, r.dataset.en = t.en ?? t.zh) : e === `i18nAttr` ? r.dataset.i18nAttr = t : e === `style` && typeof t == `object` ? Object.assign(r.style, t) : e === `dataset` ? Object.assign(r.dataset, t) : e.startsWith(`on`) && typeof t == `function` ? r.addEventListener(e.slice(2), t) : r.setAttribute(e, t === !0 ? `` : t)); if (i.i18n) {
-    let e = R(i.i18n);
-    i.i18nAttr ? r.setAttribute(i.i18nAttr, e) : r.textContent = e;
-} for (let e of n.flat())
-    e != null && e !== !1 && r.append(e.nodeType ? e : document.createTextNode(String(e))); return r; }
-function u(e) { let t = 0, n = 0, r = 0, i = !1, a = o => { let s = n ? Math.min(.05, (o - n) / 1e3) : 1 / 60; n = o, r += s, e(s, r), i && (t = requestAnimationFrame(a)); }, o = () => { document.hidden ? cancelAnimationFrame(t) : i && (n = 0, t = requestAnimationFrame(a)); }, s = { start() { return i || (i = !0, n = 0, t = requestAnimationFrame(a)), s; }, stop() { return i = !1, cancelAnimationFrame(t), s; }, destroy() { return s.stop(), document.removeEventListener(`visibilitychange`, o), s; }, get running() { return i; }, get time() { return r; } }; return document.addEventListener(`visibilitychange`, o), s; }
-export function createStarsRuntime(host = { emit() { }, isActive() { return true; } }, { storageKey = 'cty-stars-best', sound = {} } = {}) {
-    const catSkin=createStarCatSkin();
-    const z = new Proxy(sound, { get: (target, name) => typeof target[name] === 'function' ? target[name] : () => { } });
-    var Gi = 160, Ki = 30, qi = storageKey, Ji = { 0: `111101101101111`, 1: `010110010010111`, 2: `111001111100111`, 3: `111001111001111`, 4: `101101111001001`, 5: `111100111001111`, 6: `111100111101111`, 7: `111001010010010`, 8: `111101111101111`, 9: `111101111001111`, "+": `000010111010000`, "-": `000000111000000`, x: `000101010101000` };
-    function Yi(e, t, n, r, i) { e.fillStyle = i; let a = n; for (let n of String(t)) {
-        let t = Ji[n];
-        if (t)
-            for (let n = 0; n < 15; n++)
-                t[n] === `1` && e.fillRect(a + n % 3, r + Math.floor(n / 3), 1, 1);
-        a += 4;
-    } }
-    var Xi = [`...g...`, `...g...`, `..gGg..`, `ggGWGgg`, `..gGg..`, `...g...`, `...g...`], Zi = [`....G....`, `....g....`, `...gGg...`, `..gGWGg..`, `GgGWWWGgG`, `..gGWGg..`, `...gGg...`, `....g....`, `....G....`], Qi = { g: C.gold, G: C.goldHi, W: C.creamHi };
-    function $i(e, t, n, r) { for (let i = 0; i < t.length; i++)
-        for (let a = 0; a < t[i].length; a++) {
-            let o = t[i][a];
-            o !== `.` && (e.fillStyle = Qi[o], e.fillRect(n + a, r + i, 1, 1));
-        } }
-    var ea = 0;
-    try {
-        ea = +(localStorage.getItem(qi) || 0) || 0;
+// CTY Catch Stars: original moonlit pixel stage, with an isolated 120-second game model.
+import {palette as C} from './cat-pixels-original.js';
+import {createStarCatSkin, STAR_CAT_SIZE} from '../../../../lib/pixel-cat';
+import {WIDTH, ROUND_SECONDS, clamp, createGame, startGame, stepGame, clearInput, resizeGame, formatTime, dragTarget} from './stars-game.mjs';
+
+function element(tag, className, text) {
+  const node=document.createElement(tag); if(className)node.className=className;
+  if(text!=null)node.textContent=text; return node;
+}
+function pixelStar(ctx,x,y,size=4,color=C.goldHi){
+  ctx.fillStyle=color;ctx.beginPath();
+  for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/2,r=i%2?size*.32:size;const px=x+Math.cos(a)*r,py=y+Math.sin(a)*r;i?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+  ctx.closePath();ctx.fill();ctx.fillStyle=C.creamHi;ctx.fillRect(Math.round(x),Math.round(y),1,1);
+}
+function shield(ctx,x,y,size=1){
+  ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx.fillStyle='#79def0';ctx.strokeStyle='#dafaff';ctx.lineWidth=.8;
+  ctx.beginPath();ctx.moveTo(-4,-5);ctx.lineTo(4,-5);ctx.lineTo(4,0);ctx.lineTo(0,5);ctx.lineTo(-4,0);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle='#246984';ctx.fillRect(-.7,-3,1.4,5);ctx.fillRect(-2,-1.7,4,1.4);ctx.restore();
+}
+export function createStarsRuntime(host={emit(){},isActive(){return true;}},{storageKey='cty-stars-best-120',sound={}}={}){
+  const skin=createStarCatSkin(), game=createGame();
+  const root=element('div','app game');root.tabIndex=-1;
+  const score=element('span','gm-score px','0'),timer=element('span','gm-time px','2:00'),best=element('span','gm-best px');
+  const timebar=element('span','gm-timebar');timebar.setAttribute('aria-hidden','true');
+  for(let i=0;i<15;i++)timebar.append(element('i','is-on'));
+  const hud=element('div','gm-hud'),left=element('span','gm-hud__l'),middle=element('span','gm-hud__m');
+  left.append(element('span','gm-star','★'),score);middle.append(timebar,timer);hud.append(left,middle,best);
+  const stage=element('div','gm-stage'),canvas=element('canvas','gm-cv'),overlay=element('div','gm-ov');
+  canvas.width=WIDTH*2;canvas.height=game.height*2;canvas.setAttribute('aria-label','接星星游戏：左右拖动小猫，或使用方向键。每局两分钟。');
+  const ctx=canvas.getContext('2d'),power=element('div','gm-power'),hint=element('div','gm-drag-hint','在画面任意位置左右拖动 · 不用按键');
+  power.setAttribute('role','status');power.setAttribute('aria-live','polite');stage.append(canvas,power,overlay);root.append(hud,stage,hint);
+  let high=0;try{high=Number(localStorage.getItem(storageKey))||0;}catch{}
+  let visible=false,destroyed=false,raf=0,lastFrame=0,paintTime=0,background=null,drag=null;
+  let parts=[],pops=[],rings=[],lastHud='',lastStatus='',newBest=false,smokeIn=0;
+  const soundCall=(name,...args)=>{if(typeof sound[name]==='function')sound[name](...args);};
+  const floor=()=>game.height-12;
+  function updateHud(){
+    const signature=[game.score,Math.ceil(game.time),Math.ceil(game.cat.invincible),Math.ceil(game.cat.shield),Math.ceil(game.cat.dizzy),high,game.state].join(':');
+    if(signature===lastHud)return;lastHud=signature;
+    score.textContent=String(game.score);timer.textContent=formatTime(game.time);best.textContent=`最高 ${high}`;
+    timer.setAttribute('aria-label',`剩余 ${Math.ceil(game.time)} 秒`);
+    const segments=Math.ceil(game.time/ROUND_SECONDS*15);Array.from(timebar.children).forEach((node,i)=>node.classList.toggle('is-on',i<segments));
+    root.classList.toggle('is-hurry',game.state==='playing'&&game.time<=10);
+    const statuses=[];if(game.cat.invincible>0)statuses.push(`✦ 无敌 ${Math.ceil(game.cat.invincible)}s`);
+    if(game.cat.shield>0)statuses.push(`◇ 护盾 ${Math.ceil(game.cat.shield)}s`);
+    if(game.cat.dizzy>0)statuses.push(`晕乎乎 ${game.cat.dizzy.toFixed(1)}s`);
+    const status=statuses.join('　');if(status!==lastStatus){power.textContent=status;lastStatus=status;}power.hidden=!status;
+  }
+  function button(label,action){const node=element('button','btn btn--gold gm-go',label);node.type='button';node.addEventListener('click',action);return node;}
+  function renderOverlay(){
+    overlay.replaceChildren();overlay.hidden=game.state==='playing';if(overlay.hidden)return;
+    if(game.state==='title'){
+      overlay.append(element('small','gm-eyebrow','MOONLIGHT ARCADE · 02:00'),element('div','gm-ov__t px','接星星'),element('p','gm-ov__p','跟着脏脏包，在月光下接一场星星雨。'));
+      const legend=element('div','gm-ov__legend');
+      for(const [mark,text] of [['★','金星 +1 · 连击加分'],['✦','闪光星 +5 · 无敌 5 秒'],['◇','头顶护盾 · 挡伤害 5 秒'],['■','蓝方块 −3 · 短暂眩晕'],['☄','斜落陨石 −10 · 眩晕 2.8 秒'],['●','抛物线炸弹 −7 · 变成小煤球']]){const row=element('span');row.append(element('b','',mark),document.createTextNode(text));legend.append(row);}
+      overlay.append(legend,element('p','gm-ov__keys','手机左右拖动 · 电脑 ← → / A D / 鼠标'),button('开始 · 2 分钟',start));
+    }else if(game.state==='paused'){
+      overlay.append(element('div','gm-ov__t px','休息一下'),element('p','gm-ov__p','时间和道具效果都已暂停。'),button('继续接星星',resume));
+    }else{
+      overlay.append(element('div','gm-ov__t px','星夜收工！'),element('div','gm-ov__score px',`★ ${game.score}`),element('p','gm-ov__p',`接住 ${game.caught} 颗 · 最高连击 ${game.maxCombo}`),element('p',newBest?'gm-ov__new px':'gm-ov__dim',newBest?'新纪录！':`两分钟最高分 ${high}`),button('再来一场星星雨',start));
     }
-    catch { }
-    function ta(e) { let t = H(`canvas`, { class: `gm-cv`, width: Gi * 2, height: 150 * 2, "aria-label": `` }), r = t.getContext(`2d`), a = H(`span`, { class: `gm-score px` }, `0`), o = H(`span`, { class: `gm-timebar` }, Array.from({ length: 15 }, () => H(`i`, { class: `is-on` }))), s = H(`span`, { class: `gm-time px` }, `0:${Ki}`), c = H(`span`, { class: `gm-best px` }), l = H(`div`, { class: `gm-hud` }, H(`span`, { class: `gm-hud__l` }, H(`span`, { class: `gm-star`, "aria-hidden": `true` }, `★`), a), H(`span`, { class: `gm-hud__m` }, o, s), c), d = H(`div`, { class: `gm-ov` }), f = H(`div`, { class: `gm-stage` }, t, d), p = H(`button`, { class: `gm-pad`, type: `button`, i18n: B(`向左`, `Left`), i18nAttr: `aria-label` }, `◀`), m = H(`button`, { class: `gm-pad`, type: `button`, i18n: B(`向右`, `Right`), i18nAttr: `aria-label` }, `▶`), h = H(`div`, { class: `gm-pads` }, p, m), g = H(`div`, { class: `app game`, tabindex: `-1` }, l, f, h), _ = 150, v = 3, y = { state: `title`, score: 0, time: Ki, combo: 0, maxCombo: 0, caught: 0, cat: { x: Gi / 2, vx: 0, face: 1, dizzy: 0, walkT: 0, blink: 0 }, items: [], parts: [], pops: [], spawnT: .4, shake: 0, target: null, keys: { l: !1, r: !1 }, visible: !1, newBest: !1, bgStars: [] }, b = () => _ - 12, x = null; function S() { x = document.createElement(`canvas`), x.width = Gi, x.height = _; let e = x.getContext(`2d`), t = e.createLinearGradient(0, 0, 0, _); t.addColorStop(0, C.night0), t.addColorStop(.7, C.night2), t.addColorStop(1, C.night3), e.fillStyle = t, e.fillRect(0, 0, Gi, _), e.fillStyle = `rgba(244,228,196,.10)`, e.beginPath(), e.arc(136, 22, 17, 0, Math.PI * 2), e.fill(); for (let t = -11; t <= 11; t++)
-        for (let n = -11; n <= 11; n++)
-            n * n + t * t > 121 || (e.fillStyle = (n * 7 + t * 13 + 99) % 9 == 0 || n > 2 && t < -3 && (n + t) % 3 == 0 ? C.blue8 : n + t < -6 ? C.creamHi : C.cream, e.fillRect(136 + n, 22 + t, 1, 1)); e.fillStyle = C.gold; for (let t = 0; t < 64; t++) {
-        let n = Math.round(136 + Math.cos(t / 10) * 12), r = Math.round(22 + Math.sin(t / 10) * 12);
-        e.fillRect(n, r, 1, 1);
-    } for (let t = 0; t < 46; t++)
-        e.fillStyle = t % 5 ? `#6c7f9c` : C.goldHi, e.fillRect(t * 37 % Gi, t * 53 % (_ - 40), 1, 1); let n = b(); for (let t = 0; t < Gi; t += 4) {
-        let r = 3 + Math.round(2 + Math.sin(t * .11) * 2 + Math.sin(t * .31) * 1.3);
-        for (let i = n - r + 2; i < _; i += 4) {
-            let r = i < n + 2, a = (t * 7 + i * 3) % 11;
-            e.fillStyle = r ? a < 4 ? C.goldHi : a < 7 ? C.creamHi : C.mist : a < 3 ? C.blue8 : a < 7 ? C.blue6 : C.blue5, e.fillRect(t, i, 3, 3), e.fillStyle = `rgba(255,255,255,.25)`, e.fillRect(t, i, 3, 1);
-        }
-    } } function w() { let e = g.clientWidth, n = g.clientHeight; if (!e || !n)
-        return; let r = Math.max(160, e - 24), i = Math.max(140, n - l.offsetHeight - (h.offsetParent ? h.offsetHeight + 12 : 0) - 36); v = Math.max(1, Math.min(Math.floor(r / Gi), Math.floor(i / 120))); let a = V(Math.floor(i / v), 120, 250); (a !== _ || !x) && (_ = a, t.height = _ * 2, S()), t.style.width = `${Gi * v}px`, t.style.height = `${_ * v}px`, f.style.width = `${Gi * v}px`, f.style.height = `${_ * v}px`, y.cat.x = V(y.cat.x, 10, 150), te(0); } function T() { if (d.replaceChildren(), y.state === `playing`) {
-        d.hidden = !0;
-        return;
-    } d.hidden = !1, y.state === `title` ? d.append(H(`div`, { class: `gm-ov__t px` }, R(B(`接星星`, `Catch Stars`))), H(`p`, { class: `gm-ov__p` }, R(B(`左右移动小猫，接住金色星星，躲开蓝色方块。30 秒一局。`, `Move the cat left and right. Catch gold stars, dodge blue blocks. 30 seconds.`))), H(`div`, { class: `gm-ov__keys px` }, H(`kbd`, {}, `←`), H(`kbd`, {}, `→`), H(`span`, {}, R(B(`或 拖动 / 触摸`, `or drag / touch`)))), H(`div`, { class: `gm-ov__legend px` }, H(`span`, {}, H(`i`, { class: `lg-star` }), `+1`), H(`span`, {}, H(`i`, { class: `lg-big` }), `+5`), H(`span`, {}, H(`i`, { class: `lg-blk` }), `−3`)), H(`button`, { class: `btn btn--gold gm-go`, type: `button`, onclick: D }, H(`span`, { class: `px` }, R(B(`开始`, `Start`))))) : y.state === `paused` ? d.append(H(`div`, { class: `gm-ov__t px` }, R(B(`暂停`, `Paused`))), H(`button`, { class: `btn btn--gold gm-go`, type: `button`, onclick: k }, H(`span`, { class: `px` }, R(B(`继续`, `Resume`))))) : y.state === `over` && d.append(H(`div`, { class: `gm-ov__t px` }, R(B(`时间到！`, `Time's up!`))), H(`div`, { class: `gm-ov__score px` }, `★ ${y.score}`), H(`p`, { class: `gm-ov__p` }, R(B(`接住 ${y.caught} 颗 · 最高连击 ${y.maxCombo}`, `${y.caught} caught · best combo ${y.maxCombo}`))), y.newBest ? H(`div`, { class: `gm-ov__new px` }, R(B(`新纪录！`, `New record!`))) : H(`p`, { class: `gm-ov__p gm-ov__dim px` }, R(B(`最高分 ${ea}`, `Best ${ea}`))), H(`button`, { class: `btn btn--gold gm-go`, type: `button`, onclick: D }, H(`span`, { class: `px` }, R(B(`再来一局`, `Play again`))))); } function E() { a.textContent = String(y.score); let e = Math.max(0, Math.ceil(y.time)); s.textContent = `0:${String(e).padStart(2, `0`)}`; let t = o.children.length, n = Math.ceil(y.time / Ki * t); for (let e = 0; e < t; e++)
-        o.children[e].classList.toggle(`is-on`, e < n); g.classList.toggle(`is-hurry`, y.state === `playing` && y.time <= 5), c.textContent = R(B(`最高 ${ea}`, `Best ${ea}`)); } function D() { Object.assign(y, { state: `playing`, score: 0, time: Ki, combo: 0, maxCombo: 0, caught: 0, items: [], parts: [], pops: [], spawnT: .5, newBest: !1 }), y.cat.dizzy = 0; for (let [e, t] of [[.12, .3], [.32, .7], [.52, .45]])
-        y.items.push({ type: `star`, x: 12 + 136 * (t + Math.random() * .2 - .1), y: _ * e, vy: _ / 150 * 34, vx: 0, phase: 0 }); z.select(), T(), E(), g.focus({ preventScroll: !0 }), ne.running || ne.start(), e.emit(`game`, { type: `start` }); } function O() { y.state === `playing` && (y.state = `paused`, T()); } function k() { y.state === `paused` && (y.state = `playing`, T(), g.focus({ preventScroll: !0 })); } function A() { if (y.state = `over`, y.score > ea) {
-        ea = y.score, y.newBest = !0;
-        try {
-            localStorage.setItem(qi, String(ea));
-        }
-        catch { }
-    } [0, 4, 7, 12].forEach((e, t) => setTimeout(() => z.blip(523 * 2 ** (e / 12), .09), t * 90)), y.newBest && setTimeout(() => { z.sparkle(), z.meow(), e.wall?.hop(); }, 420), T(), E(), e.emit(`game`, { type: `over`, score: y.score }); } let j = (e, t) => e + Math.random() * (t - e); function ee() { let e = 1 - y.time / Ki, t = Math.random(), n = t < .07 ? `big` : t < .27 + e * .1 ? `block` : `star`, r = _ / 150, i = { type: n, x: j(8, 152), y: -8, vx: 0, phase: Math.random() * 6 }; n === `star` && (i.vy = (38 + e * 26 + j(0, 12)) * r), n === `big` && (i.vy = (26 + e * 12) * r), n === `block` && (i.vy = (46 + e * 34 + j(0, 14)) * r, i.vx = j(-8, 8), i.c = [C.blue5, C.blue6, C.blue7][Math.floor(Math.random() * 3)]), y.items.push(i); } function M(e, t, n, r = 8, i = 40) { for (let a = 0; a < r; a++) {
-        let r = Math.random() * Math.PI * 2, o = j(i * .4, i);
-        y.parts.push({ x: e, y: t, vx: Math.cos(r) * o, vy: Math.sin(r) * o - 20, life: j(.3, .6), t: 0, c: n[a % n.length] });
-    } } function N(e, t, n, r) { y.pops.push({ x: e, y: t, text: n, color: r, t: 0 }); } function P(e) { if(y.state === 'paused')return;let t = y.cat; if (t.blink -= e, t.blink < -3 && (t.blink = .14), y.state !== `playing`) {
-        Math.random() < e * 1.2 && y.items.push({ type: `star`, x: j(8, 152), y: -8, vy: j(14, 22), vx: 0, phase: 0, ghost: !0 });
-        for (let t of y.items)
-            t.y += t.vy * e;
-        y.items = y.items.filter(e => e.y < b() + 4), F(e);
-        return;
-    } if (y.time -= e, y.time <= 0) {
-        y.time = 0, E(), A();
-        return;
-    } let n = 1 - y.time / Ki; y.spawnT -= e, y.spawnT <= 0 && (ee(), y.spawnT = (y.time <= 5 ? .24 : .62 - n * .3) * j(.75, 1.25)); let r = 0; if (t.dizzy > 0)
-        t.dizzy -= e;
-    else if (y.keys.l && --r, y.keys.r && (r += 1), !r && y.target != null) {
-        let e = y.target - t.x;
-        Math.abs(e) > 1.5 && (r = V(e / 10, -1, 1));
-    } t.vx += (r * 118 - t.vx) * Math.min(1, e * 14), t.x = V(t.x + t.vx * e, 11, 149), Math.abs(t.vx) > 8 && (t.face = t.vx > 0 ? 1 : -1, t.walkT += e); let i = b(), a = starCatBounds(t.x, i); for (let n of y.items) {
-        if (n.y += n.vy * e, n.x += n.vx * e, n.phase += e * 8, n.ghost)
-            continue;
-        let r = n.type === `big` ? 4 : 3;
-        if (n.x + r > a.x0 && n.x - r < a.x1 && n.y + r > a.y0 && n.y - r < a.y1) {
-            if (n.dead = !0, n.type === `block`)
-                t.dizzy <= 0 && (y.score = Math.max(0, y.score - 3), y.combo = 0, t.dizzy = .7, y.shake = .3, M(n.x, n.y, [C.blue5, C.blue7, C.blue8], 10, 50), N(n.x, n.y - 6, `-3`, C.blue8), z.error());
-            else {
-                let e = n.type === `big` ? 5 : 1;
-                y.combo++, y.caught++, y.maxCombo = Math.max(y.maxCombo, y.combo);
-                let r = n.type === `star` && y.combo >= 10 ? 2 : +(n.type === `star` && y.combo >= 5);
-                y.score += e + r, M(n.x, n.y, n.type === `big` ? [C.goldHi, C.creamHi, C.gold] : [C.gold, C.goldHi], n.type === `big` ? 14 : 8, n.type === `big` ? 60 : 40), N(n.x, n.y - 6, `+${e + r}`, n.type === `big` ? C.creamHi : C.goldHi), y.combo > 0 && y.combo % 5 == 0 && N(t.x, i - 30, `x${y.combo}`, C.tealHi), n.type === `big` ? z.sparkle() : z.hover(y.combo);
-            }
-            E();
-        }
-        else
-            n.y > i + 2 && (n.dead = !0, n.type === `block` ? M(n.x, i, [C.blue6], 3, 18) : (y.combo = 0, M(n.x, i, [C.mist, C.blue8], 3, 18)));
-    } y.items = y.items.filter(e => !e.dead), y.shake > 0 && (y.shake -= e), F(e), Math.floor(y.time * 4) !== y._lastHud && (y._lastHud = Math.floor(y.time * 4), E(), y.time <= 3.05 && Math.floor(y.time) !== y._lastTick && (y._lastTick = Math.floor(y.time), z.tick())); } function F(e) { for (let t of y.parts)
-        t.t += e, t.x += t.vx * e, t.y += t.vy * e, t.vy += 90 * e; y.parts = y.parts.filter(e => e.t < e.life); for (let t of y.pops)
-        t.t += e; y.pops = y.pops.filter(e => e.t < .8); } function te(e) { if (!x)
-        return; r.setTransform(2,0,0,2,0,0);r.imageSmoothingEnabled=false;r.save(), y.shake > 0 && r.translate(Math.round((Math.random() - .5) * 3), Math.round((Math.random() - .5) * 2)), r.drawImage(x, 0, 0); for (let t = 0; t < 8; t++)
-        Math.sin(e * (1 + t * .3) + t) > .6 && (r.fillStyle = C.creamHi, r.fillRect((t * 41 + 9) % Gi, (t * 29 + 11) % (_ - 50), 1, 1)); for (let e of y.items) {
-        let t = Math.round(e.x), n = Math.round(e.y);
-        e.type === `block` ? (r.fillStyle = C.grout, r.fillRect(t - 4, n - 4, 8, 8), r.fillStyle = e.c, r.fillRect(t - 3, n - 3, 6, 6), r.fillStyle = `rgba(255,255,255,.35)`, r.fillRect(t - 3, n - 3, 6, 1), r.fillStyle = `rgba(0,8,30,.35)`, r.fillRect(t - 3, n + 2, 6, 1)) : e.type === `big` ? (r.globalAlpha = .22 + .14 * Math.sin(e.phase), r.fillStyle = C.goldHi, r.fillRect(t - 3, n - 7, 7, 15), r.fillRect(t - 7, n - 3, 15, 7), r.fillRect(t - 5, n - 5, 11, 11), r.globalAlpha = 1, $i(r, Zi, t - 4, n - 4)) : (e.ghost && (r.globalAlpha = .45), $i(r, Xi, t - 3, n - 3), r.globalAlpha = 1, r.fillStyle = `rgba(248,216,160,.35)`, r.fillRect(t, n - 6, 1, 2));
-    } let t = y.cat, a = b(), o = Math.abs(t.vx) > 8 && y.state === `playing`;
-    r.fillStyle = `rgba(0,6,20,.35)`;r.fillRect(Math.round(t.x - 10), a - 1, 20, 2);
-    catSkin.draw(r,t.x,a,{walking:o,walkTime:t.walkT,face:t.face,dizzy:t.dizzy>0,time:e});
-    if (t.dizzy > 0)
-        for (let n = 0; n < 3; n++) {
-            let i = e * 8 + n * 2.1;
-            r.fillStyle = n ? C.blue8 : C.goldHi, r.fillRect(Math.round(t.x + Math.cos(i) * 7), Math.round(a - STAR_CAT_SIZE.height - 3 + Math.sin(i) * 2), 2, 2);
-        } for (let e of y.parts)
-        r.globalAlpha = 1 - e.t / e.life, r.fillStyle = e.c, r.fillRect(Math.round(e.x), Math.round(e.y), 1, 1); r.globalAlpha = 1; for (let e of y.pops) {
-        r.globalAlpha = 1 - e.t / .8;
-        let t = String(e.text).length * 4;
-        Yi(r, e.text, Math.round(e.x - t / 2), Math.round(e.y - e.t * 16), e.color);
-    } r.globalAlpha = 1, y.state === `playing` && y.time <= 5 && (r.fillStyle = `rgba(236,194,115,.07)`, r.fillRect(0, 0, Gi, _)), r.restore(); } let ne = u((e, t) => { y.visible && (P(e), te(t)); }), re = e => { let n = t.getBoundingClientRect(); return (e - n.left) / n.width * Gi; }; t.addEventListener(`pointerdown`, e => { y.target = re(e.clientX); try {
-        t.setPointerCapture(e.pointerId);
+  }
+  function releaseInput(){clearInput(game);const previous=drag;drag=null;if(previous){try{canvas.releasePointerCapture(previous.id);}catch{}}}
+  function start(){startGame(game);newBest=false;parts=[];pops=[];rings=[];smokeIn=0;releaseInput();renderOverlay();updateHud();root.focus({preventScroll:true});soundCall('select');host.emit('game',{type:'start'});}
+  function pause(){if(game.state==='playing'){game.state='paused';releaseInput();renderOverlay();updateHud();}}
+  function resume(){if(game.state==='paused'){game.state='playing';releaseInput();renderOverlay();updateHud();root.focus({preventScroll:true});}}
+  function makeBackground(){
+    background=document.createElement('canvas');background.width=WIDTH;background.height=game.height;
+    const b=background.getContext('2d'),gradient=b.createLinearGradient(0,0,0,game.height);
+    gradient.addColorStop(0,C.night0);gradient.addColorStop(.7,C.night2);gradient.addColorStop(1,C.night3);b.fillStyle=gradient;b.fillRect(0,0,WIDTH,game.height);
+    b.fillStyle='rgba(244,228,196,.09)';b.beginPath();b.arc(136,22,17,0,Math.PI*2);b.fill();
+    for(let y=-11;y<=11;y++)for(let x=-11;x<=11;x++)if(x*x+y*y<=121){b.fillStyle=(x*7+y*13+99)%9===0?C.blue8:x+y<-6?C.creamHi:C.cream;b.fillRect(136+x,22+y,1,1);}
+    for(let i=0;i<48;i++){b.fillStyle=i%5?'#617b9c':C.goldHi;b.fillRect((i*37)%WIDTH,(i*53)%(game.height-40),1,1);}
+    // Blue mosaic ground stays static and is drawn only when the viewport changes.
+    for(let x=0;x<WIDTH;x+=4)for(let y=floor();y<game.height;y+=4){const c=(x*7+y*3)%11;b.fillStyle=y===floor()?(c<6?C.goldHi:C.cream):(c<3?C.blue8:c<7?C.blue6:C.blue5);b.fillRect(x,y,3,3);b.fillStyle='rgba(255,255,255,.2)';b.fillRect(x,y,3,1);}
+  }
+  function resize(){
+    if(!root.clientWidth||!root.clientHeight)return;
+    const w=Math.max(1,Math.min(680,root.clientWidth-24)),h=Math.max(1,root.clientHeight-hud.offsetHeight-hint.offsetHeight-48);
+    const scale=Math.min(w/WIDTH,h/120),height=clamp(Math.floor(h/scale),120,260);
+    if(height!==game.height||!background){resizeGame(game,height);canvas.height=height*2;makeBackground();}
+    const width=WIDTH*scale,displayHeight=height*scale;
+    canvas.style.width=stage.style.width=`${width}px`;canvas.style.height=stage.style.height=`${displayHeight}px`;
+    draw();
+  }
+  function burst(x,y,colors,count=10){
+    for(let i=0;i<count&&parts.length<100;i++){const angle=Math.random()*Math.PI*2,speed=10+Math.random()*35;parts.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-12,life:.4+Math.random()*.3,age:0,color:colors[i%colors.length],smoke:false});}
+  }
+  function processEvents(){
+    for(const event of game.events){
+      if(event.kind==='over'){
+        if(game.score>high){high=game.score;newBest=true;try{localStorage.setItem(storageKey,String(high));}catch{}}
+        renderOverlay();soundCall('sparkle');host.emit('game',{type:'over',score:game.score});continue;
+      }
+      const warm=event.type==='meteor'||event.type==='bomb';
+      if(event.kind==='hit'){
+        burst(event.x,event.y,warm?['#ffc67d','#d9975d','#a59485']:[C.blue7,C.blue8],16);
+        if(event.type==='bomb')rings.push({x:event.x,y:event.y,age:0,color:'#ffdba0'});
+        pops.push({x:game.cat.x,y:floor()-31,text:`−${event.points}`,color:'#ffbe9d',age:0});soundCall('blip',220,.055);
+      }else if(event.kind==='blocked'){
+        burst(event.x,event.y,['#d8fcff','#79d9ec'],8);rings.push({x:event.x,y:event.y,age:0,color:'#a7ecf1'});
+      }else if(event.kind==='ground'){burst(event.x,event.y,['#728499','#b8a989'],4);}
+      else{
+        burst(event.x,event.y,event.type==='shield'?['#79def0','#dafaff']:[C.gold,C.goldHi,C.creamHi],12);
+        pops.push({x:event.x,y:event.y-4,text:event.type==='shield'?'护盾 5s':event.type==='flash'?'无敌 5s':`+${event.points}`,color:event.type==='shield'?'#99ebef':C.goldHi,age:0});soundCall(event.type==='star'?'hover':'sparkle',game.combo);
+      }
     }
-    catch { } y.state === `title` && D(); }), t.addEventListener(`pointermove`, e => { (e.pointerType === `mouse` || e.buttons || e.pressure > 0) && (y.target = re(e.clientX)); }), t.addEventListener(`pointerleave`, e => { e.pointerType === `mouse` && (y.target = null); }), t.addEventListener(`pointerup`, e => { e.pointerType !== `mouse` && (y.target = null); }); let ie = (e, t) => { let n = e => { e.preventDefault(), y.keys[t] = !0, y.target = null; }, r = () => { y.keys[t] = !1; }; e.addEventListener(`pointerdown`, n), e.addEventListener(`pointerup`, r), e.addEventListener(`pointerleave`, r), e.addEventListener(`pointercancel`, r); }; ie(p, `l`), ie(m, `r`); let I = (t, n) => { if (!y.visible || !e.isActive(`game`) || t.target.closest && t.target.closest(`input, textarea`))
-        return; let r = t.key; (r === `ArrowLeft` || r === `a` || r === `A`) && (y.keys.l = n, y.target = null, t.preventDefault()), (r === `ArrowRight` || r === `d` || r === `D`) && (y.keys.r = n, y.target = null, t.preventDefault()), n && (r === ` ` || r === `Enter`) && !t.target.closest?.(`button`) && (y.state === `title` || y.state === `over` ? (D(), t.preventDefault()) : y.state === `paused` && (k(), t.preventDefault())), !t.repeat && n && (r === `p` || r === `P` || r === `Escape`) && (y.state === `playing` ? O() : y.state === `paused` && k()); }; let keyDown = e => I(e, !0), keyUp = e => I(e, !1), sizeObserver = new ResizeObserver(() => { if(!g.clientWidth || !g.clientHeight){y.visible=false;O();y.keys.l=y.keys.r=false;ne.stop()}else{y.visible=true;w();ne.running||ne.start()} }); const clearInput=()=>{y.keys.l=y.keys.r=false;y.target=null};g.addEventListener(`focusout`,clearInput);const loseFocus=()=>{clearInput();O()};window.addEventListener(`blur`,loseFocus);document.addEventListener(`visibilitychange`,clearInput);sizeObserver.observe(g); return document.addEventListener(`keydown`, keyDown), document.addEventListener(`keyup`, keyUp), ye(() => { T(), E(), t.setAttribute(`aria-label`, R(B(`接星星游戏画面`, `Catch Stars game canvas`))); }), t.setAttribute(`aria-label`, R(B(`接星星游戏画面`, `Catch Stars game canvas`))), T(), E(), { el: g, destroy() { catSkin.dispose();y.visible = false; window.removeEventListener(`blur`,loseFocus);document.removeEventListener(`visibilitychange`,clearInput);g.removeEventListener(`focusout`,clearInput);ne.destroy(); sizeObserver.disconnect(); document.removeEventListener(`keydown`, keyDown); document.removeEventListener(`keyup`, keyUp); y.keys.l = y.keys.r = false; }, onShow() { y.visible = !0, w(), ne.start(), y.state === `paused` && T(); }, onHide() { y.visible = !1, O(), y.keys.l = y.keys.r = !1, ne.stop(); }, onResize() { y.visible && w(); }, focusTarget: () => y.state === `playing` ? g : d.querySelector(`button`) || g, start: D, pause: O, resume: k, get state() { return y.state; }, get score() { return y.score; }, peek() { let e = t.getBoundingClientRect(), n = e.width / Gi; return { cat: { x: e.left + y.cat.x * n, y: e.top + b() * n }, items: y.items.filter(e => !e.ghost).map(t => ({ type: t.type, x: e.left + t.x * n, y: e.top + t.y * n })), rect: { x: e.left, y: e.top, w: e.width, h: e.height }, time: y.time }; } }; }
-    return ta(host);
+    game.events.length=0;
+  }
+  function animateEffects(dt){
+    for(const p of parts){p.age+=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(!p.smoke)p.vy+=55*dt;}
+    parts=parts.filter(p=>p.age<p.life);for(const p of pops)p.age+=dt;pops=pops.filter(p=>p.age<1.1);
+    for(const ring of rings)ring.age+=dt;rings=rings.filter(r=>r.age<.5);
+    smokeIn-=dt;if(game.cat.soot>0&&smokeIn<=0){smokeIn=.13;if(parts.length<100)parts.push({x:game.cat.x+(Math.random()-.5)*11,y:floor()-25,vx:(Math.random()-.5)*5,vy:-8,life:.9,age:0,color:'#aeb8c8',smoke:true});}
+  }
+  function drawItem(item){
+    const x=item.x,y=item.y,time=item.age;
+    if(item.warning>0){
+      const edge=clamp(x,8,WIDTH-8);ctx.globalAlpha=.55+.35*Math.sin(paintTime*10);ctx.fillStyle='#ffca8f';ctx.fillRect(edge-4,8,8,9);ctx.fillStyle='#392a3b';ctx.font='bold 7px monospace';ctx.textAlign='center';ctx.fillText('!',edge,15);ctx.globalAlpha=1;return;
+    }
+    if(item.type==='meteor'){
+      const len=24,hypot=Math.hypot(item.vx,item.vy),dx=-item.vx/hypot,dy=-item.vy/hypot;
+      ctx.fillStyle='#dd7c4355';ctx.beginPath();ctx.moveTo(x+5,y);ctx.lineTo(x+dx*len,y+dy*len);ctx.lineTo(x-5,y);ctx.fill();
+      ctx.fillStyle='#ffcf86';ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#986d67';ctx.fillRect(x-3,y-3,6,6);ctx.fillStyle='#dca477';ctx.fillRect(x-3,y-3,4,2);
+    }else if(item.type==='bomb'){
+      ctx.save();ctx.translate(x,y);ctx.rotate(time*2);ctx.strokeStyle='#c59f65';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,-4);ctx.quadraticCurveTo(4,-9,5,-5);ctx.stroke();pixelStar(ctx,5,-5,1.8,'#ffd68b');ctx.fillStyle='#050b16';ctx.strokeStyle='#818d9e';ctx.beginPath();ctx.arc(0,0,4.5,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#919baa';ctx.fillRect(-2,-3,2,1);ctx.restore();
+    }else if(item.type==='block'){
+      ctx.fillStyle=C.grout;ctx.fillRect(x-4,y-4,8,8);ctx.fillStyle=C.blue6;ctx.fillRect(x-3,y-3,6,6);ctx.fillStyle=C.blue8;ctx.fillRect(x-3,y-3,6,1);
+    }else if(item.type==='shield')shield(ctx,x,y);
+    else{
+      const flash=item.type==='flash';if(flash){ctx.globalAlpha=.12+.1*Math.sin(time*8);ctx.fillStyle='#fff2b8';ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;pixelStar(ctx,x+7,y-5,1.5,'#b7eff3');}
+      pixelStar(ctx,x,y,flash?6:3.5,flash?(Math.sin(time*7)>0?'#fff8d9':'#efc46b'):C.goldHi);
+    }
+  }
+  function draw(){
+    if(!background||!ctx)return;
+    ctx.setTransform(2,0,0,2,0,0);ctx.imageSmoothingEnabled=false;ctx.globalAlpha=1;ctx.drawImage(background,0,0);
+    for(let i=0;i<8;i++){ctx.globalAlpha=.35+.45*(.5+.5*Math.sin(paintTime*(.6+i*.05)+i));pixelStar(ctx,(i*41+9)%WIDTH,(i*29+11)%(game.height-50),i%3?1:2,C.creamHi);}ctx.globalAlpha=1;
+    for(const item of game.items)drawItem(item);
+    const cat=game.cat,y=floor();ctx.fillStyle='#020a2155';ctx.fillRect(cat.x-11,y-1,22,2);
+    if(cat.invincible>0){ctx.strokeStyle='#fff0b8';ctx.fillStyle='#f6d78314';ctx.lineWidth=.8;ctx.beginPath();ctx.ellipse(cat.x,y-14,17,20,0,0,Math.PI*2);ctx.fill();ctx.stroke();for(let i=0;i<4;i++){const a=paintTime*2+i*Math.PI/2;pixelStar(ctx,cat.x+Math.cos(a)*17,y-14+Math.sin(a)*19,2,'#fff7c9');}}
+    skin.draw(ctx,cat.x,y,{walking:cat.moving>0&&cat.dizzy<=0&&game.state==='playing',walkTime:cat.walkT,face:cat.face,dizzy:cat.dizzy>0,soot:cat.soot>0,time:paintTime});
+    if(cat.shield>0){
+      ctx.strokeStyle='#92e7f3';ctx.lineWidth=1.3;ctx.fillStyle='#a2ecff30';ctx.beginPath();ctx.ellipse(cat.x,y-28,16,5,0,Math.PI,Math.PI*2);ctx.lineTo(cat.x+16,y-28);ctx.lineTo(cat.x-16,y-28);ctx.closePath();ctx.fill();ctx.stroke();
+      ctx.strokeStyle='#d9f9f7';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(cat.x+8,y-13);ctx.lineTo(cat.x+10,y-27);ctx.stroke();
+    }
+    if(cat.dizzy>0)for(let i=0;i<3;i++){const a=paintTime*6+i*2.1;pixelStar(ctx,cat.x+Math.cos(a)*8,y-STAR_CAT_SIZE.height-3+Math.sin(a)*2,1.6,i?'#a4d6eb':C.goldHi);}
+    for(const p of parts){ctx.globalAlpha=(1-p.age/p.life)*(p.smoke?.5:1);ctx.fillStyle=p.color;const size=p.smoke?2+p.age*3:1;ctx.fillRect(Math.round(p.x),Math.round(p.y),size,size);}ctx.globalAlpha=1;
+    for(const ring of rings){ctx.globalAlpha=1-ring.age/.5;ctx.strokeStyle=ring.color;ctx.lineWidth=1;ctx.beginPath();ctx.arc(ring.x,ring.y,3+ring.age*30,0,Math.PI*2);ctx.stroke();}ctx.globalAlpha=1;
+    ctx.textAlign='center';ctx.font='5px monospace';for(const p of pops){ctx.globalAlpha=Math.min(1,(1.1-p.age)*2);ctx.fillStyle=p.color;ctx.fillText(p.text,clamp(p.x,17,143),p.y-p.age*12);}ctx.globalAlpha=1;
+  }
+  function frame(now){
+    raf=0;if(destroyed||!visible||document.hidden)return;
+    const dt=lastFrame?Math.min((now-lastFrame)/1000,.06):0;lastFrame=now;
+    if(game.state!=='paused')paintTime+=dt;
+    if(game.state==='playing'){
+      // Fixed small collision steps prevent quick hazards tunnelling through the cat.
+      let remaining=dt;while(remaining>0){const step=Math.min(remaining,1/60);stepGame(game,step);remaining-=step;}
+      processEvents();animateEffects(dt);updateHud();
+    }
+    draw();raf=requestAnimationFrame(frame);
+  }
+  function startLoop(){if(!raf&&visible&&!document.hidden&&!destroyed){lastFrame=0;raf=requestAnimationFrame(frame);}}
+  function stopLoop(){cancelAnimationFrame(raf);raf=0;lastFrame=0;}
+  function pointerDown(event){
+    if(game.state!=='playing'||drag||(!event.isPrimary)||event.button>0)return;
+    event.preventDefault();root.focus({preventScroll:true});drag={id:event.pointerId,startClientX:event.clientX,startCatX:game.cat.x,width:canvas.getBoundingClientRect().width};
+    game.input.target=game.cat.x;game.input.dragging=true;canvas.setPointerCapture(event.pointerId);hint.classList.add('is-used');
+  }
+  function pointerMove(event){
+    if(game.state!=='playing')return;
+    if(drag&&event.pointerId===drag.id){event.preventDefault();game.input.target=dragTarget(drag.startCatX,drag.startClientX,event.clientX,drag.width);}
+    else if(event.pointerType==='mouse'&&!drag){const rect=canvas.getBoundingClientRect();game.input.target=clamp((event.clientX-rect.left)/rect.width*WIDTH,13,147);}
+  }
+  function pointerUp(event){if(drag&&event.pointerId===drag.id)releaseInput();}
+  function pointerLeave(event){if(!drag&&event.pointerType==='mouse')game.input.target=null;}
+  canvas.addEventListener('pointerdown',pointerDown);canvas.addEventListener('pointermove',pointerMove);canvas.addEventListener('pointerup',pointerUp);canvas.addEventListener('pointercancel',pointerUp);canvas.addEventListener('lostpointercapture',pointerUp);canvas.addEventListener('pointerleave',pointerLeave);
+  function key(event,pressed){
+    if(!visible||!host.isActive('game')||event.target.closest?.('input,textarea,select,[contenteditable]'))return;
+    if(['ArrowLeft','a','A','ArrowRight','d','D'].includes(event.key)){
+      game.input[['ArrowLeft','a','A'].includes(event.key)?'left':'right']=pressed;game.input.target=null;event.preventDefault();
+    }
+    if(pressed&&!event.repeat&&['p','P','Escape'].includes(event.key)){game.state==='playing'?pause():resume();event.preventDefault();}
+    if(pressed&&!event.repeat&&[' ','Enter'].includes(event.key)&&!event.target.closest?.('button')){if(game.state==='title'||game.state==='over')start();else if(game.state==='paused')resume();event.preventDefault();}
+  }
+  const keyDown=e=>key(e,true),keyUp=e=>key(e,false),blur=()=>{releaseInput();pause();};
+  const visibility=()=>{if(document.hidden){blur();stopLoop();}else startLoop();};
+  const observer=new ResizeObserver(()=>{if(root.clientWidth&&root.clientHeight)resize();});observer.observe(root);
+  window.addEventListener('blur',blur);document.addEventListener('visibilitychange',visibility);document.addEventListener('keydown',keyDown);document.addEventListener('keyup',keyUp);
+  renderOverlay();updateHud();
+  return {el:root,start,pause,resume,get state(){return game.state;},get score(){return game.score;},
+    onShow(){visible=true;resize();startLoop();},onHide(){visible=false;pause();releaseInput();stopLoop();},onResize:resize,
+    focusTarget:()=>game.state==='playing'?root:overlay.querySelector('button')||root,
+    peek(){return {cat:{...game.cat},items:game.items.map(item=>({...item})),time:game.time};},
+    destroy(){destroyed=true;visible=false;stopLoop();releaseInput();skin.dispose();observer.disconnect();window.removeEventListener('blur',blur);document.removeEventListener('visibilitychange',visibility);document.removeEventListener('keydown',keyDown);document.removeEventListener('keyup',keyUp);parts=[];pops=[];rings=[];game.items=[];}
+  };
 }
