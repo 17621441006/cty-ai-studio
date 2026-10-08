@@ -1,8 +1,8 @@
 /** Orange Persian portrait shared by CTY's games; articulated here for Catch Stars. */
 export const PIXEL_CAT_ATLAS='/assets/cat-avatars.webp';
 export const PIXEL_CAT_CROP={x:1102,y:139,width:485,height:505};
-export const STAR_CAT_SIZE={width:24,height:25};
-export const starCatBounds=(x:number,feet:number)=>({x0:x-10.5,x1:x+10.5,y0:feet-23,y1:feet});
+import {STAR_CAT_SCALE} from './star-cat-geometry.mjs';
+export {STAR_CAT_SIZE,starCatBounds} from './star-cat-geometry.mjs';
 type CatState={walking:boolean;walkTime:number;face:number;dizzy:boolean;time:number;soot?:boolean};
 
 export function createStarCatSkin(){
@@ -20,11 +20,14 @@ export function createStarCatSkin(){
   draw(ctx:CanvasRenderingContext2D,x:number,feet:number,state:CatState){
    const stride=state.walking?Math.sin(state.walkTime*18):0;
    const lift=Math.abs(stride)*.6,lean=state.dizzy?Math.sin(state.time*11)*.04:state.walking?.055:0;
-   ctx.save();ctx.translate(Math.round(x),feet);ctx.scale(state.face<0?-1:1,1);ctx.imageSmoothingEnabled=false;
-   // The tail trails behind the direction of travel, with a soft tip flick.
-   ctx.save();ctx.translate(-7,-8);ctx.rotate(-.35+Math.sin(state.walkTime*9+state.time*.7)*.16);
-   ctx.strokeStyle=state.soot?'#202432':'#bd773b';ctx.lineWidth=4;ctx.lineCap='square';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-7,-1);ctx.lineTo(-9,-5);ctx.lineTo(-8,-9);ctx.stroke();
-   ctx.strokeStyle=state.soot?'#303442':'#eab576';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-9,-5);ctx.lineTo(-8,-9);ctx.stroke();ctx.restore();
+   ctx.save();ctx.translate(x,feet);ctx.scale((state.face<0?-1:1)*STAR_CAT_SCALE,STAR_CAT_SCALE);ctx.imageSmoothingEnabled=false;
+   // A rooted, tapered curve: the tip follows the base with a gentle phase lag.
+   const sway=Math.sin(state.time*1.65)*1.3,tip=Math.sin(state.time*1.65-.65)*1.4;
+   ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+   const tail=()=>{ctx.beginPath();ctx.moveTo(-7,-5);ctx.bezierCurveTo(-13,-4,-17+sway,-7,-16+sway,-11);ctx.bezierCurveTo(-15+sway,-15,-12+tip,-16,-11+tip,-13.5);};
+   ctx.strokeStyle=state.soot?'#202432':'#9a5d31';ctx.lineWidth=4.4;tail();ctx.stroke();
+   ctx.strokeStyle=state.soot?'#303442':'#d99b56';ctx.lineWidth=3;tail();ctx.stroke();
+   ctx.strokeStyle=state.soot?'#363946':'#ecc18a';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(-15+sway,-11.5);ctx.bezierCurveTo(-14+sway,-14,-12+tip,-15,-11+tip,-13.5);ctx.stroke();ctx.restore();
    const skin=state.soot&&sooty?sooty:portrait;
    if(skin){
     // Paws have both forward travel and lift; the supporting paw remains grounded.

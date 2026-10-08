@@ -1,4 +1,5 @@
 /** Small, deterministic game model. Timers advance only while a round is playing. */
+import {starCatBounds,starShieldBounds} from '../../../../lib/star-cat-geometry.mjs';
 export const ROUND_SECONDS = 120;
 export const POWER_SECONDS = 5;
 export const WIDTH = 160;
@@ -105,8 +106,10 @@ export function stepGame(game, dt, random = Math.random) {
     advanceItem(item, dt);
     if (item.warning > 0) continue;
     const radius = item.type === 'meteor' ? 5 : item.type === 'star' ? 3 : 4;
-    const protectedTop = cat.shield > 0 && isHazard(item.type) ? floor - 32 : floor - 23;
-    if (item.x + radius > cat.x - 10.5 && item.x - radius < cat.x + 10.5 && item.y + radius > protectedTop && item.y - radius < floor) collectItem(game, item);
+    const overlaps = bounds => item.x + radius > bounds.x0 && item.x - radius < bounds.x1 && item.y + radius > bounds.y0 && item.y - radius < bounds.y1;
+    const bodyHit=overlaps(starCatBounds(cat.x,floor));
+    const shieldHit=cat.shield>0&&isHazard(item.type)&&overlaps(starShieldBounds(cat.x,floor));
+    if (bodyHit || shieldHit) collectItem(game, item);
     else if (item.y > floor + 3 || item.x < -24 || item.x > WIDTH + 24) {
       item.dead = true;
       if (item.type === 'star') game.combo = 0;

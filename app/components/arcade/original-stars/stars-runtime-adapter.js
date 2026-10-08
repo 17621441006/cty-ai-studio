@@ -1,6 +1,8 @@
 // CTY Catch Stars: original moonlit pixel stage, with an isolated 120-second game model.
 import {palette as C} from './cat-pixels-original.js';
 import {createStarCatSkin, STAR_CAT_SIZE} from '../../../../lib/pixel-cat';
+import {STAR_SHIELD} from '../../../../lib/star-cat-geometry.mjs';
+import {drawMoonShield,drawShieldPickup} from '../../../../lib/star-shield.mjs';
 import {WIDTH, ROUND_SECONDS, clamp, createGame, startGame, stepGame, clearInput, resizeGame, formatTime, dragTarget} from './stars-game.mjs';
 
 function element(tag, className, text) {
@@ -11,11 +13,6 @@ function pixelStar(ctx,x,y,size=4,color=C.goldHi){
   ctx.fillStyle=color;ctx.beginPath();
   for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/2,r=i%2?size*.32:size;const px=x+Math.cos(a)*r,py=y+Math.sin(a)*r;i?ctx.lineTo(px,py):ctx.moveTo(px,py);}
   ctx.closePath();ctx.fill();ctx.fillStyle=C.creamHi;ctx.fillRect(Math.round(x),Math.round(y),1,1);
-}
-function shield(ctx,x,y,size=1){
-  ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx.fillStyle='#79def0';ctx.strokeStyle='#dafaff';ctx.lineWidth=.8;
-  ctx.beginPath();ctx.moveTo(-4,-5);ctx.lineTo(4,-5);ctx.lineTo(4,0);ctx.lineTo(0,5);ctx.lineTo(-4,0);ctx.closePath();ctx.fill();ctx.stroke();
-  ctx.fillStyle='#246984';ctx.fillRect(-.7,-3,1.4,5);ctx.fillRect(-2,-1.7,4,1.4);ctx.restore();
 }
 export function createStarsRuntime(host={emit(){},isActive(){return true;}},{storageKey='cty-stars-best-120',sound={}}={}){
   const skin=createStarCatSkin(), game=createGame();
@@ -99,11 +96,11 @@ export function createStarsRuntime(host={emit(){},isActive(){return true;}},{sto
         if(event.type==='bomb')rings.push({x:event.x,y:event.y,age:0,color:'#ffdba0'});
         pops.push({x:game.cat.x,y:floor()-31,text:`−${event.points}`,color:'#ffbe9d',age:0});soundCall('blip',220,.055);
       }else if(event.kind==='blocked'){
-        burst(event.x,event.y,['#d8fcff','#79d9ec'],8);rings.push({x:event.x,y:event.y,age:0,color:'#a7ecf1'});
+        burst(event.x,event.y,['#fff3d0','#e8c284'],8);rings.push({x:event.x,y:event.y,age:0,color:'#f3d69d'});
       }else if(event.kind==='ground'){burst(event.x,event.y,['#728499','#b8a989'],4);}
       else{
-        burst(event.x,event.y,event.type==='shield'?['#79def0','#dafaff']:[C.gold,C.goldHi,C.creamHi],12);
-        pops.push({x:event.x,y:event.y-4,text:event.type==='shield'?'护盾 5s':event.type==='flash'?'无敌 5s':`+${event.points}`,color:event.type==='shield'?'#99ebef':C.goldHi,age:0});soundCall(event.type==='star'?'hover':'sparkle',game.combo);
+        burst(event.x,event.y,event.type==='shield'?['#e7c18c','#fff2ce']:[C.gold,C.goldHi,C.creamHi],12);
+        pops.push({x:event.x,y:event.y-4,text:event.type==='shield'?'护盾 5s':event.type==='flash'?'无敌 5s':`+${event.points}`,color:event.type==='shield'?'#f4d69c':C.goldHi,age:0});soundCall(event.type==='star'?'hover':'sparkle',game.combo);
       }
     }
     game.events.length=0;
@@ -112,7 +109,7 @@ export function createStarsRuntime(host={emit(){},isActive(){return true;}},{sto
     for(const p of parts){p.age+=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(!p.smoke)p.vy+=55*dt;}
     parts=parts.filter(p=>p.age<p.life);for(const p of pops)p.age+=dt;pops=pops.filter(p=>p.age<1.1);
     for(const ring of rings)ring.age+=dt;rings=rings.filter(r=>r.age<.5);
-    smokeIn-=dt;if(game.cat.soot>0&&smokeIn<=0){smokeIn=.13;if(parts.length<100)parts.push({x:game.cat.x+(Math.random()-.5)*11,y:floor()-25,vx:(Math.random()-.5)*5,vy:-8,life:.9,age:0,color:'#aeb8c8',smoke:true});}
+    smokeIn-=dt;if(game.cat.soot>0&&smokeIn<=0){smokeIn=.13;if(parts.length<100)parts.push({x:game.cat.x+(Math.random()-.5)*11,y:floor()-STAR_CAT_SIZE.height,vx:(Math.random()-.5)*5,vy:-8,life:.9,age:0,color:'#aeb8c8',smoke:true});}
   }
   function drawItem(item){
     const x=item.x,y=item.y,time=item.age;
@@ -127,7 +124,7 @@ export function createStarsRuntime(host={emit(){},isActive(){return true;}},{sto
       ctx.save();ctx.translate(x,y);ctx.rotate(time*2);ctx.strokeStyle='#c59f65';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,-4);ctx.quadraticCurveTo(4,-9,5,-5);ctx.stroke();pixelStar(ctx,5,-5,1.8,'#ffd68b');ctx.fillStyle='#050b16';ctx.strokeStyle='#818d9e';ctx.beginPath();ctx.arc(0,0,4.5,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#919baa';ctx.fillRect(-2,-3,2,1);ctx.restore();
     }else if(item.type==='block'){
       ctx.fillStyle=C.grout;ctx.fillRect(x-4,y-4,8,8);ctx.fillStyle=C.blue6;ctx.fillRect(x-3,y-3,6,6);ctx.fillStyle=C.blue8;ctx.fillRect(x-3,y-3,6,1);
-    }else if(item.type==='shield')shield(ctx,x,y);
+    }else if(item.type==='shield')drawShieldPickup(ctx,x,y);
     else{
       const flash=item.type==='flash';if(flash){ctx.globalAlpha=.12+.1*Math.sin(time*8);ctx.fillStyle='#fff2b8';ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;pixelStar(ctx,x+7,y-5,1.5,'#b7eff3');}
       pixelStar(ctx,x,y,flash?6:3.5,flash?(Math.sin(time*7)>0?'#fff8d9':'#efc46b'):C.goldHi);
@@ -138,13 +135,10 @@ export function createStarsRuntime(host={emit(){},isActive(){return true;}},{sto
     ctx.setTransform(2,0,0,2,0,0);ctx.imageSmoothingEnabled=false;ctx.globalAlpha=1;ctx.drawImage(background,0,0);
     for(let i=0;i<8;i++){ctx.globalAlpha=.35+.45*(.5+.5*Math.sin(paintTime*(.6+i*.05)+i));pixelStar(ctx,(i*41+9)%WIDTH,(i*29+11)%(game.height-50),i%3?1:2,C.creamHi);}ctx.globalAlpha=1;
     for(const item of game.items)drawItem(item);
-    const cat=game.cat,y=floor();ctx.fillStyle='#020a2155';ctx.fillRect(cat.x-11,y-1,22,2);
-    if(cat.invincible>0){ctx.strokeStyle='#fff0b8';ctx.fillStyle='#f6d78314';ctx.lineWidth=.8;ctx.beginPath();ctx.ellipse(cat.x,y-14,17,20,0,0,Math.PI*2);ctx.fill();ctx.stroke();for(let i=0;i<4;i++){const a=paintTime*2+i*Math.PI/2;pixelStar(ctx,cat.x+Math.cos(a)*17,y-14+Math.sin(a)*19,2,'#fff7c9');}}
+    const cat=game.cat,y=floor();ctx.fillStyle='#020a2155';ctx.fillRect(cat.x-STAR_CAT_SIZE.width/2,y-1,STAR_CAT_SIZE.width,2);
+    if(cat.invincible>0){ctx.strokeStyle='#fff0b8';ctx.fillStyle='#f6d78314';ctx.lineWidth=.8;ctx.beginPath();ctx.ellipse(cat.x,y-STAR_CAT_SIZE.height/2,13,14,0,0,Math.PI*2);ctx.fill();ctx.stroke();for(let i=0;i<4;i++){const a=paintTime*2+i*Math.PI/2;pixelStar(ctx,cat.x+Math.cos(a)*13,y-STAR_CAT_SIZE.height/2+Math.sin(a)*14,2,'#fff7c9');}}
     skin.draw(ctx,cat.x,y,{walking:cat.moving>0&&cat.dizzy<=0&&game.state==='playing',walkTime:cat.walkT,face:cat.face,dizzy:cat.dizzy>0,soot:cat.soot>0,time:paintTime});
-    if(cat.shield>0){
-      ctx.strokeStyle='#92e7f3';ctx.lineWidth=1.3;ctx.fillStyle='#a2ecff30';ctx.beginPath();ctx.ellipse(cat.x,y-28,16,5,0,Math.PI,Math.PI*2);ctx.lineTo(cat.x+16,y-28);ctx.lineTo(cat.x-16,y-28);ctx.closePath();ctx.fill();ctx.stroke();
-      ctx.strokeStyle='#d9f9f7';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(cat.x+8,y-13);ctx.lineTo(cat.x+10,y-27);ctx.stroke();
-    }
+    if(cat.shield>0)drawMoonShield(ctx,cat.x,y-STAR_SHIELD.centerHeight,1,paintTime);
     if(cat.dizzy>0)for(let i=0;i<3;i++){const a=paintTime*6+i*2.1;pixelStar(ctx,cat.x+Math.cos(a)*8,y-STAR_CAT_SIZE.height-3+Math.sin(a)*2,1.6,i?'#a4d6eb':C.goldHi);}
     for(const p of parts){ctx.globalAlpha=(1-p.age/p.life)*(p.smoke?.5:1);ctx.fillStyle=p.color;const size=p.smoke?2+p.age*3:1;ctx.fillRect(Math.round(p.x),Math.round(p.y),size,size);}ctx.globalAlpha=1;
     for(const ring of rings){ctx.globalAlpha=1-ring.age/.5;ctx.strokeStyle=ring.color;ctx.lineWidth=1;ctx.beginPath();ctx.arc(ring.x,ring.y,3+ring.age*30,0,Math.PI*2);ctx.stroke();}ctx.globalAlpha=1;

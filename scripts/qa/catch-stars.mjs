@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {starCatBounds,starShieldBounds} from '../../lib/star-cat-geometry.mjs';
 import {ROUND_SECONDS, POWER_SECONDS, DAMAGE, createGame, startGame, stepGame, makeItem, collectItem, advanceItem, dragTarget, clearInput, resizeGame, formatTime} from '../../app/components/arcade/original-stars/stars-game.mjs';
 const playing=()=>{const game=createGame();startGame(game);game.spawnIn=game.powerIn=game.hazardIn=Infinity;return game;};
 const item=(type,game)=>({...makeItem(type,game,()=>.5),x:game.cat.x,y:game.height-25,warning:0,vx:0,vy:0});
@@ -50,4 +51,17 @@ test('full rounds spawn both powerups and hazards, and resize preserves flight g
  const game=createGame();startGame(game);const seen=new Set();for(let i=0;i<7200;i++){stepGame(game,1/60,()=>.5);game.items.forEach(item=>seen.add(item.type));game.events.length=0;assert.ok(game.items.length<30);}
  for(const type of ['star','flash','shield','meteor','bomb'])assert.ok(seen.has(type),type);
  const resized=playing();resized.items=[makeItem('bomb',resized,()=>.25)];const before={...resized.items[0]};resizeGame(resized,240);const ratio=228/168;assert.equal(resized.items[0].y,before.y*ratio);assert.equal(resized.items[0].gravity,before.gravity*ratio);assert.equal(ROUND_SECONDS,120);
+});
+test('smaller visible cat has smaller collision bounds, without phantom hits from the old body size',()=>{
+ const game=playing(),bounds=starCatBounds(game.cat.x,game.height-12);game.score=30;
+ const outside=item('block',game);outside.x=bounds.x1+4.1;game.items=[outside];stepGame(game,1/60);
+ assert.equal(game.score,30);assert.equal(game.items.length,1);
+ outside.x=bounds.x1+3.9;stepGame(game,1/60);assert.equal(game.score,27);assert.equal(game.items.length,0);
+});
+test('moon shield catches its outer rim before the head, while stars fall through to the cat',()=>{
+ const game=playing(),bounds=starShieldBounds(game.cat.x,game.height-12);game.score=30;game.cat.shield=5;
+ const hazard=item('block',game);hazard.x=bounds.x1+3.9;hazard.y=bounds.y0+1;
+ const star=item('star',game);star.y=(bounds.y0+bounds.y1)/2;game.items=[hazard,star];stepGame(game,1/60);
+ assert.equal(game.score,30);assert.equal(game.items.length,1);assert.equal(game.items[0],star);assert.equal(game.events[0].kind,'blocked');
+ star.y=game.height-20;stepGame(game,1/60);assert.equal(game.score,31);assert.equal(game.items.length,0);
 });

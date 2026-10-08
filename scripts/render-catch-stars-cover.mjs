@@ -5,6 +5,7 @@ import {createRequire} from 'node:module';
 import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {PIXEL_CAT_ATLAS,PIXEL_CAT_CROP} from '../lib/pixel-cat.ts';
+import {drawMoonShield} from '../lib/star-shield.mjs';
 const require=createRequire(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES?path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES,'package.json'):import.meta.url);
 const {createCanvas,loadImage,GlobalFonts}=require('@napi-rs/canvas');
 GlobalFonts.loadSystemFonts();
@@ -29,13 +30,13 @@ const cat=createCanvas(48,50),p=cat.getContext('2d'),crop=PIXEL_CAT_CROP;
 p.imageSmoothingEnabled=true;p.imageSmoothingQuality='high';p.drawImage(atlas,crop.x,crop.y,crop.width,crop.height,0,0,48,50);
 ctx.fillStyle='#05102666';ctx.beginPath();ctx.ellipse(699,525,132,14,0,0,Math.PI*2);ctx.fill();
 ctx.imageSmoothingEnabled=false;ctx.drawImage(cat,557,224,288,300);ctx.imageSmoothingEnabled=true;
-// A light protective dome is above the head, leaving the face and original fur unobscured.
-ctx.strokeStyle='#a4e8ec';ctx.fillStyle='#75daec17';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(700,222,127,22,0,Math.PI,Math.PI*2);ctx.lineTo(827,222);ctx.lineTo(573,222);ctx.closePath();ctx.fill();ctx.stroke();
-star(697,167,22);star(501,296,19);star(459,358,13);star(353,416,17);star(524,94,9);star(886,344,10);
+// The same moon-engraved gold buckler as the playable scene.
+drawMoonShield(ctx,700,192,9,0);
+star(697,132,18);star(501,296,19);star(459,358,13);star(353,416,17);star(524,94,9);star(886,344,10);
 // Quiet diagonal meteor and a clearly visible round bomb, using in-game colours.
 const tail=ctx.createLinearGradient(370,51,436,117);tail.addColorStop(0,'#d18b4000');tail.addColorStop(1,'#efb174');ctx.fillStyle=tail;ctx.beginPath();ctx.moveTo(368,46);ctx.lineTo(442,104);ctx.lineTo(422,125);ctx.closePath();ctx.fill();ctx.fillStyle='#e7b281';ctx.fillRect(420,104,18,18);ctx.fillStyle='#986d67';ctx.fillRect(425,110,12,12);
 ctx.strokeStyle='#c7a267';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(192,418);ctx.quadraticCurveTo(195,393,214,407);ctx.stroke();star(214,407,7);
 ctx.fillStyle='#030c1b';ctx.strokeStyle='#657e92';ctx.beginPath();ctx.arc(189,438,23,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.strokeStyle='#9ba9b6';ctx.lineWidth=4;ctx.beginPath();ctx.arc(189,438,14,3.7,4.7);ctx.stroke();
 ctx.fillStyle='#edd8a0';ctx.fillRect(62,351,91,32);ctx.fillStyle='#182d43';ctx.font='13px StarsPixel';ctx.fillText('02:00',82,374);
-await writeFile('public/works/covers/catch-stars-v37.webp',await canvas.encode('webp',88));
+await writeFile('public/works/covers/catch-stars-v38.webp',await canvas.encode('webp',88));
 console.log('Rendered cover with the unchanged in-game cat atlas.');
