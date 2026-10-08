@@ -26,7 +26,7 @@ export const referenceWorks:ReferenceWork[]=[
  {id:'three-worlds',name:'三寸人间 · 六景',category:'3D 展厅',description:'六个微缩世界，调整天气与日照，看小人慢慢生活。',image:'/works/worlds/three-worlds-original.webp',status:'可体验',playable:true,icon:12},
 ];
 export const extraReferenceWorks:ReferenceWork[]=[
- {id:'stars',name:'接星星',category:'游戏厅',image:'/works/covers/catch-stars-v36.svg',description:'两分钟星夜冒险：拖动脏脏包接星星，拿无敌闪光星与护盾，躲开斜落陨石和抛物线炸弹。',status:'可试玩',playable:true,icon:23,catalogue:true},
+ {id:'stars',name:'接星星',category:'游戏厅',image:'/works/covers/catch-stars-v37.webp',description:'两分钟星夜冒险：拖动脏脏包接星星，拿无敌闪光星与护盾，躲开斜落陨石和抛物线炸弹。',status:'可试玩',playable:true,icon:23,catalogue:true},
  {id:'original-music',name:'月相唱机',category:'音乐与影像',description:'让自己的音乐与封面，随月相缓缓旋转。',image:'/assets/mosaic-vinyl.webp',status:'可体验',playable:true,icon:8,catalogue:true},
  {id:'promo',name:'创作短片',category:'音乐与影像',description:'两部模型创作短片。',status:'原版界面',playable:true,icon:14,catalogue:true},
  ...[

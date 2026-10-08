@@ -61,9 +61,10 @@ export function createStarsRuntime(host={emit(){},isActive(){return true;}},{sto
     }
   }
   function releaseInput(){clearInput(game);const previous=drag;drag=null;if(previous){try{canvas.releasePointerCapture(previous.id);}catch{}}}
-  function start(){startGame(game);newBest=false;parts=[];pops=[];rings=[];smokeIn=0;releaseInput();renderOverlay();updateHud();root.focus({preventScroll:true});soundCall('select');host.emit('game',{type:'start'});}
+  // Transfer focus while the old overlay still exists, before removing its focused button.
+  function start(){root.focus({preventScroll:true});startGame(game);newBest=false;parts=[];pops=[];rings=[];smokeIn=0;releaseInput();renderOverlay();updateHud();root.focus({preventScroll:true});soundCall('select');host.emit('game',{type:'start'});}
   function pause(){if(game.state==='playing'){game.state='paused';releaseInput();renderOverlay();updateHud();}}
-  function resume(){if(game.state==='paused'){game.state='playing';releaseInput();renderOverlay();updateHud();root.focus({preventScroll:true});}}
+  function resume(){if(game.state==='paused'){root.focus({preventScroll:true});game.state='playing';releaseInput();renderOverlay();updateHud();root.focus({preventScroll:true});}}
   function makeBackground(){
     background=document.createElement('canvas');background.width=WIDTH;background.height=game.height;
     const b=background.getContext('2d'),gradient=b.createLinearGradient(0,0,0,game.height);
