@@ -1,0 +1,95 @@
+{
+  "license": "CC0-1.0",
+  "license_url": "https://polyhaven.com/license",
+  "downloaded": "2026-10-09",
+  "sources": {
+    "cobble": {
+      "asset": "https://polyhaven.com/a/cobblestone_floor_09",
+      "author": "Charlotte Baglioni",
+      "metres_per_tile": 2.2,
+      "originals": {
+        "Diffuse": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_floor_09/cobblestone_floor_09_diff_1k.jpg",
+          "md5": "58f37eb8339e9cb4acbff0599e374c86",
+          "size": 822019
+        },
+        "nor_gl": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_floor_09/cobblestone_floor_09_nor_gl_1k.jpg",
+          "md5": "96d8b6f47b25e8c907aa3d04a5d73b9f",
+          "size": 1058703
+        },
+        "Rough": {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_floor_09/cobblestone_floor_09_rough_1k.jpg",
+          "md5": "caa646ebd658fe0cf956e22a957bbfe7",
+          "size": 594250
+        }
+      }
+    },
+    "brick": "https://polyhaven.com/a/brick_wall_001",
+    "plaster": "https://polyhaven.com/a/white_plaster_02",
+    "paving": "https://polyhaven.com/a/pavement_01"
+  },
+  "notes": "Brick, plaster and pavement maps recompressed from existing CC0 assets. Cobblestone maps downloaded from the official API, source MD5 verified. Only resizing/recompression. Original scene geometry; no external 3D model imported. Normal maps are OpenGL/linear; diffuse is sRGB.",
+  "files": [
+    {
+      "path": "diagon_brick_color.webp",
+      "bytes": 47902,
+      "sha256": "fce9361385b2fd508480425ff0c061eff828ddabe50428f682ca9be8fae89cbf"
+    },
+    {
+      "path": "diagon_brick_normal.jpg",
+      "bytes": 144854,
+      "sha256": "1f059eda765162ce0f58b62f23b2696325d60492f9eeb33cbe0f438b994002c9"
+    },
+    {
+      "path": "diagon_brick_roughness.webp",
+      "bytes": 16860,
+      "sha256": "2e5ad48dc9c5c2af2515f6015bc839d0c7004c83d884760ac61ebaff853791c1"
+    },
+    {
+      "path": "diagon_cobble_color.webp",
+      "bytes": 210752,
+      "sha256": "8982acb36426bebf37cf3e4d04f47970de52acd7bcb558f6f5d30c7237ec4477"
+    },
+    {
+      "path": "diagon_cobble_normal.jpg",
+      "bytes": 503184,
+      "sha256": "67fb0f62020fb4d820bb4bed8d3cb1f1457daba4c687e58210e37249679b326a"
+    },
+    {
+      "path": "diagon_cobble_roughness.webp",
+      "bytes": 112456,
+      "sha256": "eaf1b6c6cbbfe036c95e65eec3e4ef65f634c454f2e91d3eb04b7d3d039b29b2"
+    },
+    {
+      "path": "diagon_paving_color.webp",
+      "bytes": 36360,
+      "sha256": "47d6c27777dbe0c60daee796fca2109d13a10c3908908794ebec85bccaa48bd8"
+    },
+    {
+      "path": "diagon_paving_normal.jpg",
+      "bytes": 94045,
+      "sha256": "4cd55a874358b3ba8efc902176f1f3b38aea5c6ad37871f25c7d604721da329e"
+    },
+    {
+      "path": "diagon_paving_roughness.webp",
+      "bytes": 37860,
+      "sha256": "21b0ab49355b8a44d0dd34ddc03477dee89881ead9eb2ea49364cf8afb3af0c5"
+    },
+    {
+      "path": "diagon_plaster_color.webp",
+      "bytes": 45146,
+      "sha256": "8b16c8cd26bdcfd5ada9f5302a05bd26b95088da4b6d29ed6a498c7b81616f62"
+    },
+    {
+      "path": "diagon_plaster_normal.jpg",
+      "bytes": 56519,
+      "sha256": "229a4e47fdadfc070cc30f87f0ca615d572849724797fbf3956abae8802d0821"
+    },
+    {
+      "path": "diagon_plaster_roughness.webp",
+      "bytes": 10664,
+      "sha256": "06f4fd7aae97975d2aac01143b78349a2303d0d7d8f44b8b187e145f5860cf7e"
+    }
+  ]
+}

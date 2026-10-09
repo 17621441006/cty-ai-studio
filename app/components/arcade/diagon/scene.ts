@@ -1,28 +1,31 @@
 import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {makeRoute} from './route.mjs';
+import {DIAGON_MATERIALS} from './assets.mjs';
 const V=(x:number,y:number,z:number)=>new T.Vector3(x,y,z);
-export function buildDiagon(manager:T.LoadingManager){
+export function buildDiagon(images:Map<string,HTMLImageElement>){
  const group=new T.Group(),textures:T.Texture[]=[],materials=new Set<T.Material>(),geometries=new Set<T.BufferGeometry>(),route=makeRoute();
  const lamps:T.Vector3[]=[],animated:{mesh:T.Object3D;phase:number}[]=[],windows:T.MeshStandardMaterial[]=[];
- const loader=new T.TextureLoader(manager),boxGeo=new T.BoxGeometry(1,1,1),cylGeo=new T.CylinderGeometry(1,1,1,12),ballGeo=new T.SphereGeometry(1,12,8);geometries.add(boxGeo);geometries.add(cylGeo);geometries.add(ballGeo);
+ const boxGeo=new T.BoxGeometry(1,1,1),cylGeo=new T.CylinderGeometry(1,1,1,12),ballGeo=new T.SphereGeometry(1,12,8);geometries.add(boxGeo);geometries.add(cylGeo);geometries.add(ballGeo);
  const material=(color:string,roughness=.8,extra:T.MeshStandardMaterialParameters={})=>{const m=new T.MeshStandardMaterial({color,roughness,...extra});materials.add(m);return m;};
- function textured(name:string,color:string,repeat:number,roughness=.8){const m=material(color,roughness);for(const [key,suffix] of [['map','color_512.jpg'],['normalMap','normal_gl_512.png'],['roughnessMap','roughness_512.jpg']] as const){const t=loader.load(`/works/worlds/materials/${name}_${suffix}`);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(repeat,repeat);t.anisotropy=4;if(key==='map')t.colorSpace=T.SRGBColorSpace;m[key]=t;textures.push(t);}m.normalScale.set(.55,.55);return m;}
- const brick=textured('winter_brick','#a68b79',2.6),plaster=textured('white_plaster_02','#b8b19b',1),stone=textured('winter_paving','#a5aaa5',1),cobble=textured('winter_cobble','#77847d',1,.47);
+ function textured(name:string,color:string,repeat:number,roughness=.8){const m=material(color,roughness);for(const key of ['map','normalMap','roughnessMap'] as const){const url=DIAGON_MATERIALS[name][key],image=images.get(url);if(!image)throw new Error(`Missing prepared material: ${url}`);const t=new T.Texture(image);t.needsUpdate=true;t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(repeat,repeat);t.anisotropy=4;if(key==='map')t.colorSpace=T.SRGBColorSpace;m[key]=t;textures.push(t);}m.normalScale.set(.55,.55);return m;}
+ const brick=textured('brick','#a68b79',2.6),plaster=textured('plaster','#b8b19b',1),stone=textured('paving','#a5aaa5',1),cobble=textured('cobble','#b5bcc0',1,.78);cobble.normalScale.set(.9,.9);
  const cream=material('#aca087'),slate=material('#263740',.62),wood=material('#312520'),iron=material('#182526',.48,{metalness:.55}),brass=material('#b99a5c',.3,{metalness:.7}),dark=material('#142526');
  const finishes=['#294948','#523e37','#594334','#4b405b','#73402c','#384a44'].map(c=>material(c,.65));
  const wine=material('#793c42'),bookMats=[wine,material('#3e6465'),material('#c4aa75'),material('#544e72')];
  const glass=material('#95b3b0',.17,{transparent:true,opacity:.13,depthWrite:false,metalness:.15});
  const warm=material('#ffe6af',.58,{emissive:'#ffc77e',emissiveIntensity:1.5});
  const potionMats=['#77b9a3','#b293d0','#edac67'].map(c=>material(c,.27,{emissive:c,emissiveIntensity:.22,metalness:.15}));
- function mesh(parent:T.Object3D,g:T.BufferGeometry,m:T.Material,x=0,y=0,z=0){const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=m!==glass;o.receiveShadow=true;parent.add(o);return o;}
+ function mesh(parent:T.Object3D,g:T.BufferGeometry,m:T.Material,x=0,y=0,z=0){const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=!m.transparent;o.receiveShadow=true;parent.add(o);return o;}
  function box(parent:T.Object3D,w:number,h:number,d:number,m:T.Material,x=0,y=0,z=0){const o=mesh(parent,boxGeo,m,x,y,z);o.scale.set(w,h,d);return o;}
  function cylinder(parent:T.Object3D,r:number,h:number,m:T.Material,x=0,y=0,z=0){const o=mesh(parent,cylGeo,m,x,y,z);o.scale.set(r,h,r);return o;}
  function ball(parent:T.Object3D,r:number,m:T.Material,x=0,y=0,z=0){const o=mesh(parent,ballGeo,m,x,y,z);o.scale.setScalar(r);return o;}
  function beam(parent:T.Object3D,a:T.Vector3,b:T.Vector3,r:number,m:T.Material){const o=cylinder(parent,r,a.distanceTo(b),m);o.position.copy(a).add(b).multiplyScalar(.5);o.quaternion.setFromUnitVectors(V(0,1,0),b.clone().sub(a).normalize());return o;}
  function custom(parent:T.Object3D,g:T.BufferGeometry,m:T.Material,x=0,y=0,z=0){geometries.add(g);return mesh(parent,g,m,x,y,z);}
+ const signs=new Map<string,T.MeshStandardMaterial>();
  function label(parent:T.Object3D,text:string,sub:string,w:number,h:number,finish:string,x:number,y:number,z:number){
-  const c=document.createElement('canvas');c.width=768;c.height=Math.round(768*h/w);const ctx=c.getContext('2d')!;ctx.fillStyle=finish;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#c5ae78';ctx.lineWidth=2;ctx.strokeRect(9,9,c.width-18,c.height-18);ctx.strokeRect(14,14,c.width-28,c.height-28);ctx.fillStyle='#efdeaf';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`${Math.round(c.height*(sub?.37:.5))}px Georgia,serif`;ctx.fillText(text,384,c.height*(sub?.4:.51),714);if(sub){ctx.font=`${Math.round(c.height*.15)}px Georgia,serif`;ctx.fillText(sub,384,c.height*.76,650);}const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;textures.push(texture);const m=material('#ffffff',.8,{map:texture,emissive:'#ad8c56',emissiveMap:texture,emissiveIntensity:.25});return custom(parent,new T.PlaneGeometry(w,h),m,x,y,z);
+  const key=[text,sub,w,h,finish].join('|'),existing=signs.get(key);if(existing)return custom(parent,new T.PlaneGeometry(w,h),existing,x,y,z);
+ const c=document.createElement('canvas');c.width=512;c.height=Math.round(512*h/w);const ctx=c.getContext('2d')!;ctx.fillStyle=finish;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#c5ae78';ctx.lineWidth=2;ctx.strokeRect(6,6,c.width-12,c.height-12);ctx.strokeRect(10,10,c.width-20,c.height-20);ctx.fillStyle='#efdeaf';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`${Math.round(c.height*(sub?.37:.5))}px Georgia,serif`;ctx.fillText(text,256,c.height*(sub?.4:.51),480);if(sub){ctx.font=`${Math.round(c.height*.15)}px Georgia,serif`;ctx.fillText(sub,256,c.height*.76,450);}const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;textures.push(texture);const m=material('#ffffff',.8,{map:texture,emissive:'#ad8c56',emissiveMap:texture,emissiveIntensity:.25});signs.set(key,m);return custom(parent,new T.PlaneGeometry(w,h),m,x,y,z);
  }
  const glowCanvas=document.createElement('canvas');glowCanvas.width=glowCanvas.height=64;const gc=glowCanvas.getContext('2d')!,gr=gc.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'#fff3d2cc');gr.addColorStop(.18,'#ffd9a577');gr.addColorStop(1,'#ffb86900');gc.fillStyle=gr;gc.fillRect(0,0,64,64);const glowTex=new T.CanvasTexture(glowCanvas);textures.push(glowTex);
  const glowMat=new T.SpriteMaterial({map:glowTex,color:'#ffdcb0',transparent:true,opacity:.65,depthWrite:false,blending:T.AdditiveBlending});materials.add(glowMat);
@@ -44,13 +47,18 @@ export function buildDiagon(manager:T.LoadingManager){
  }
  for(let i=0;i<3;i++)windows.push(material('#e1be83',.7,{emissive:'#ffbb6c',emissiveIntensity:.4+i*.15}));
  // Curved cobbled street: correct, metre-scaled UVs, raised pavements and actual curbs.
- function ribbon(left:number,right:number,y:number,m:T.Material){const positions:number[]=[],uv:number[]=[],indices:number[]=[],n=180,len=route.getLength();for(let i=0;i<=n;i++){const p=route.getPointAt(i/n),t=route.getTangentAt(i/n),normal=V(-t.z,0,t.x).normalize();for(const side of [left,right]){const q=p.clone().addScaledVector(normal,side);positions.push(q.x,y,q.z);uv.push(side/2,i/n*len/2);}if(i<n){const k=i*2;indices.push(k,k+1,k+2,k+1,k+3,k+2);}}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(indices);g.computeVertexNormals();return custom(group,g,m);}
- ribbon(-2.85,2.85,0,cobble);ribbon(-4.05,-2.85,.12,stone);ribbon(2.85,4.05,.12,stone);ribbon(-2.93,-2.78,.16,cream);ribbon(2.78,2.93,.16,cream);
- box(group,120,.3,160,brick,0,-.24,-25);
+ function ribbon(left:number,right:number,y:number,m:T.Material){const positions:number[]=[],uv:number[]=[],indices:number[]=[],n=180,len=route.getLength();for(let i=0;i<=n;i++){const p=route.getPointAt(i/n),t=route.getTangentAt(i/n),normal=V(-t.z,0,t.x).normalize();for(const side of [left,right]){const q=p.clone().addScaledVector(normal,side);positions.push(q.x,y,q.z);uv.push(side/2.2,i/n*len/2.2);}if(i<n){const k=i*2;indices.push(k,k+1,k+2,k+1,k+3,k+2);}}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(indices);g.computeVertexNormals();return custom(group,g,m);}
+ ribbon(-2.85,2.85,0,cobble);ribbon(-4.15,-2.85,.12,stone);ribbon(2.85,4.15,.12,stone);
+ ribbon(-2.82,-2.66,.008,dark);ribbon(2.66,2.82,.008,dark);
+ // Individually jointed kerbstones and drainage grates give the road a readable human scale.
+ const streetLength=route.getLength();for(let d=0;d<streetLength;d+=.63){const p=route.getPointAt(d/streetLength),t=route.getTangentAt(d/streetLength),n=V(-t.z,0,t.x);for(const side of [-1,1]){const q=p.clone().addScaledVector(n,side*2.89),o=box(group,.17,.15,.60,stone,q.x,.085,q.z);o.rotation.y=Math.atan2(t.x,t.z);}}
+ for(let d=3;d<streetLength;d+=7){const p=route.getPointAt(d/streetLength),t=route.getTangentAt(d/streetLength),n=V(-t.z,0,t.x);for(const side of [-1,1]){const grate=new T.Group();grate.position.copy(p).addScaledVector(n,side*2.7);grate.position.y=.015;grate.rotation.y=Math.atan2(t.x,t.z);group.add(grate);box(grate,.27,.016,.54,iron);for(let k=0;k<7;k++)box(grate,.23,.014,.02,dark,0,.016,k*.068-.2);}}
+ box(group,120,.3,160,material('#252b2d'),0,-.26,-25);
  // Street furniture uses real silhouettes and small stock arranged inside recesses.
  function stock(parent:T.Object3D,kind:number,x:number,z:number){for(let row=0;row<3;row++){const y=.64+row*.59;box(parent,1.65,.065,.55,wood,x,y,z);for(let j=0;j<6;j++){const xx=x-.64+j*.25;if(kind%3===0){box(parent,.2,.1,.5,bookMats[(j+row)%4],xx,y+.09,z);box(parent,.2,.1,.5,bookMats[(j+row+1)%4],xx,y+.2,z);}else if(kind%3===1){const b=box(parent,.18,.33+(j%3)*.06,.27,bookMats[(j+row)%4],xx,y+.24,z);b.rotation.z=(j%3-1)*.09;box(parent,.016,.25,.28,brass,xx-.055,y+.22,z+.005);}else{ball(parent,.092,potionMats[j%3],xx,y+.14,z);cylinder(parent,.035,.15,potionMats[j%3],xx,y+.27,z);cylinder(parent,.04,.035,wood,xx,y+.35,z);}}}}
  const shopNames=[['OLLIVANDERS','MAKERS OF FINE WANDS'],['FLOURISH & BLOTTS','BOOKSELLERS • SINCE 1654'],['SLUG & JIGGERS','APOTHECARY'],['MADAM MALKIN’S','ROBES FOR ALL OCCASIONS'],['WEASLEYS’ WIZARD WHEEZES','MAGICAL MISCHIEF'],['EEYLOPS','OWL EMPORIUM'],['QUALITY QUIDDITCH','SUPPLIES & RACING BROOMS'],['POTAGE’S','CAULDRON SHOP']];
- function shop(u:number,side:number,index:number){const p=route.getPointAt(u),t=route.getTangentAt(u),n=V(-t.z,0,t.x).normalize(),g=new T.Group();g.position.set(p.x+n.x*side*6.5,0,p.z+n.z*side*6.5);g.rotation.y=Math.atan2(-n.x*side,-n.z*side);group.add(g);const w=6.65,h=7.5+(index%3)*1.35,finish=finishes[index%finishes.length],wall=index%3===1?plaster:brick;
+ let shopCount=0;
+ function shop(u:number,side:number,index:number,placement?:{x:number;z:number;yaw:number}){shopCount++;const p=route.getPointAt(u),t=route.getTangentAt(u),n=V(-t.z,0,t.x).normalize(),g=new T.Group();g.position.set(placement?.x??p.x+n.x*side*6.5,0,placement?.z??p.z+n.z*side*6.5);g.rotation.y=placement?.yaw??Math.atan2(-n.x*side,-n.z*side);group.add(g);const w=6.65,h=7.5+(index%3)*1.35,finish=finishes[index%finishes.length],wall=index%3===1?plaster:brick;
   box(g,w,h-3.2,4.6,wall,0,(h+3.2)/2,0);box(g,w,.14,4.6,stone,0,.11,0);box(g,w,.14,4.6,wood,0,3.18,0);box(g,w,3.2,.16,wood,0,1.6,-2.22);for(const x of [-w/2,w/2])box(g,.17,3.2,4.6,wall,x,1.6,0);
   // Deep shop windows project out towards the street; no pasted flat facade.
   for(const x of [-1.63,1.63]){const bay=new T.Group();bay.position.set(x,0,2.19);g.add(bay);const r=.98;
@@ -77,12 +85,14 @@ export function buildDiagon(manager:T.LoadingManager){
   lantern(g,-2.4,2.6,3.2);
   // Suspended, double-sided gilded signs sway gently; no changing building transforms.
   const hanger=new T.Group();hanger.position.set(2.37,3.8,3.14);hanger.userData.dynamic=true;g.add(hanger);beam(g,V(0,.7,-.75),V(0,.7,.45),.032,iron);for(const z of [-.1,.32])beam(hanger,V(0,0,z),V(0,-.35,z),.012,brass);const plaque=label(hanger,index%2?'BOOKS':'WANDS','',.95,.46,'#253632',0,-.5,.35);plaque.rotation.y=Math.PI/2;const back=plaque.clone();back.rotation.y=-Math.PI/2;back.position.x=-.02;hanger.add(back);animated.push({mesh:hanger,phase:index});
-  if(index===4){const giant=new T.Group();g.add(giant);giant.position.set(0,5.95,3.04);cylinder(giant,.54,.92,finishes[4],0,0,0);cylinder(giant,.73,.09,brass,0,-.48,0);ball(giant,.33,cream,0,-.83,0).scale.y=1.3;for(const x of [-.14,.14])ball(giant,.045,dark,x,-.75,.31);beam(giant,V(.3,-1.15,0),V(.95,-.55,.1),.08,finishes[4]);}
-  if(index%3===2){const cauldron=ball(g,.35,iron,-2.26,.46,3.38);cauldron.scale.y=.8;custom(g,new T.TorusGeometry(.29,.038,6,20),brass,-2.26,.66,3.38).rotation.x=Math.PI/2;for(const a of [0,2.1,4.2])beam(g,V(-2.26+Math.cos(a)*.21,.24,3.38+Math.sin(a)*.21),V(-2.26+Math.cos(a)*.27,.12,3.38+Math.sin(a)*.27),.035,iron);}
+  if(index===4){const giant=new T.Group();g.add(giant);giant.position.set(0,5.95,3.04);cylinder(giant,.54,.92,finishes[4],0,0,0);cylinder(giant,.73,.09,brass,0,-.48,0);ball(giant,.33,cream,0,-.83,0).scale.y*=1.3;for(const x of [-.14,.14])ball(giant,.045,dark,x,-.75,.31);beam(giant,V(.3,-1.15,0),V(.95,-.55,.1),.08,finishes[4]);}
+  if(index%3===2){const cauldron=ball(g,.35,iron,-2.26,.46,3.38);cauldron.scale.y*=.8;custom(g,new T.TorusGeometry(.29,.038,6,20),brass,-2.26,.66,3.38).rotation.x=Math.PI/2;for(const a of [0,2.1,4.2])beam(g,V(-2.26+Math.cos(a)*.21,.24,3.38+Math.sin(a)*.21),V(-2.26+Math.cos(a)*.27,.12,3.38+Math.sin(a)*.27),.035,iron);}
   if(index%3===1){const crates=new T.Group();g.add(crates);crates.position.set(2.25,.12,3.45);for(let j=0;j<3;j++){box(crates,.7,.5,.63,wood,(j%2)*.47,j===2?.77:.26,0);for(let k=0;k<4;k++)box(crates,.7,.035,.055,cream,(j%2)*.47,(j===2?.56:.05)+k*.13,.34);}}
  }
  const order=[6,0,1,2,3,4,5,7];
  for(let i=0;i<8;i++)for(const side of [-1,1])shop(.075+i*.103,side,order[(i+(side===1?3:0))%8]);
+ // Continue the shops through the last bend and all the way to the bank steps.
+ for(const side of [-1,1]){shop(.893,side,side===1?2:3);shop(.986,side,side===1?7:5);shop(1,side,side===1?1:0,{x:side*7.3,z:-62,yaw:-side*Math.PI/2});}
  // Gateway framing the first view, with individually shaped arch stones.
  function gateway(z:number){for(const x of [-5,5])box(group,3.6,6,2.3,brick,x,3,z);for(let i=0;i<21;i++){const a=i/20*Math.PI,o=box(group,.52,.65,2.5,stone,Math.cos(a)*3.35,3.1+Math.sin(a)*3.35,z);o.rotation.z=a-Math.PI/2;}label(group,'DIAGON ALLEY','BEYOND THE ORDINARY',4,.64,'#243431',0,6.5,z+1.2);}
  gateway(9);
@@ -93,12 +103,29 @@ export function buildDiagon(manager:T.LoadingManager){
  box(bank,17.2,.58,2,cream,0,7.15,4.1);label(bank,'GRINGOTTS','WIZARDING BANK',12,.95,'#77745f',0,8.07,4.65);
  const pediment=new T.Shape();pediment.moveTo(-8.9,0);pediment.lineTo(0,3.4);pediment.lineTo(8.9,0);pediment.closePath();custom(bank,new T.ExtrudeGeometry(pediment,{depth:1.3,bevelEnabled:false}),cream,0,8.8,3.2);
  for(const x of [-7,-4.8,4.8,7])sash(bank,x,8.65,3.55,1.12,2.8,true);for(const x of [-7.7,7.7])lantern(bank,x,3.5,5);
- box(group,34,.12,31,textured('winter_paving','#949d92',12,.68),0,-.08,-62);
- for(const side of [-1,1]){const wing=new T.Group();wing.position.set(side*17,0,-61);wing.rotation.y=-side*Math.PI/2;group.add(wing);box(wing,21,8,4,brick,0,4,0);for(const x of [-8,-4,0,4,8]){sash(wing,x,1.1,2.07,1.55,2.6,true);sash(wing,x,5.1,2.07,1.25,2.1,false);}for(const y of [.35,4.25,8])box(wing,21.3,.2,4.3,cream,0,y,0);}
+ // The same metre-scaled cobbles continue into the square; no enormous stretched paving tile.
+ const plazaGeo=new T.PlaneGeometry(31,30);plazaGeo.rotateX(-Math.PI/2);plazaGeo.translate(0,-.024,-62);const plazaUV=plazaGeo.getAttribute('uv'),plazaPos=plazaGeo.getAttribute('position');for(let i=0;i<plazaUV.count;i++)plazaUV.setXY(i,plazaPos.getX(i)/2.2,plazaPos.getZ(i)/2.2);custom(group,plazaGeo,cobble);
+ for(const side of [-1,1]){
+  const wing=new T.Group();wing.position.set(side*12.6,0,-64);wing.rotation.y=-side*.2;group.add(wing);box(wing,7.1,11,7,brick,0,5.5,0);
+  for(const x of [-2.2,0,2.2])for(const y of [1.1,4.6,8])sash(wing,x,y,3.55,1.3,2.1,(x+y)%3!==0);
+  for(const y of [.35,4,7.5,11])box(wing,7.35,.19,7.3,cream,0,y,0);
+  for(const s of [-1,1]){const roof=box(wing,7.7,.2,4.65,slate,0,12,s*1.75);roof.rotation.x=s*.53;}
+  box(wing,.78,2.1,.75,brick,1.5,12.8,0);cylinder(wing,.19,.4,wine,1.5,14.02,0);
+  // Small iron railings and planted stone urns frame, rather than empty, the square.
+  for(const z of [-57.8,-60.8,-64]){const x=side*3.35;cylinder(group,.045,.95,iron,x,.52,z);ball(group,.075,brass,x,1,z);}
+  for(const y of [.34,.78])beam(group,V(side*3.35,y,-57.8),V(side*3.35,y,-64),.026,iron);
+  const urn=cylinder(group,.35,.68,stone,side*3.6,.46,-65);urn.scale.y*=1.1;ball(group,.51,finishes[0],side*3.6,1,-65).scale.y*=1.3;
+ }
+ // A narrow, roofed side passage, hanging pennants and an old wall clock give the end its own identity.
+ const passage=new T.Group();passage.position.set(-8,0,-51);passage.rotation.y=Math.PI/2;group.add(passage);label(passage,'KNOCKTURN ALLEY','',2.5,.4,'#28342e',0,3.75,2.6);
+ for(const x of [-1.25,1.25])box(passage,.28,3.1,.34,stone,x,1.65,2.4);box(passage,2.8,.27,.55,stone,0,3.15,2.4);
+ const clock=new T.Group();clock.position.set(3.8,4.5,-62);clock.rotation.y=-Math.PI/2;group.add(clock);const clockFace=cylinder(clock,.42,.09,cream);clockFace.rotation.x=Math.PI/2;custom(clock,new T.TorusGeometry(.43,.035,6,32),brass,0,0,.055);beam(clock,V(0,0,.09),V(0,.27,.09),.019,iron);beam(clock,V(0,0,.10),V(-.21,-.10,.10),.022,iron);
  // plaza sits under route, without z-fighting.
  // Thin puddles and warm light pools add grounded highlights without reflections/postprocessing.
  const poolMat=new T.MeshBasicMaterial({color:'#e6b565',transparent:true,opacity:.085,depthWrite:false,map:glowTex});materials.add(poolMat);
  for(const p of lamps){const pool=custom(group,new T.PlaneGeometry(3,4.5),poolMat,p.x,.021,p.z);pool.rotation.x=-Math.PI/2;}
+ const water=material('#607984',.16,{metalness:.35,transparent:true,opacity:.25,depthWrite:false});
+ for(let i=0;i<9;i++){const u=.08+i*.103,p=route.getPointAt(u),t=route.getTangentAt(u),n=V(-t.z,0,t.x),shape=new T.Shape();for(let j=0;j<=20;j++){const a=j/20*Math.PI*2,r=1+.13*Math.sin(j*2.7+i);const x=Math.cos(a)*(.35+i%3*.11)*r,y=Math.sin(a)*(.85+i%2*.25)*r;if(j===0)shape.moveTo(x,y);else shape.lineTo(x,y);}const puddle=custom(group,new T.ShapeGeometry(shape,12),water,p.x+n.x*(i%2?1.6:-1.6),.013,p.z+n.z*(i%2?1.6:-1.6));puddle.rotation.x=-Math.PI/2;puddle.rotation.z=-Math.atan2(t.x,t.z);puddle.castShadow=false;}
  // Fine floating motes, deliberately bounded and subtle.
  const points=new Float32Array(72*3);for(let i=0;i<72;i++){const p=route.getPointAt((i*.618)%1);points[i*3]=p.x+Math.sin(i*7)*3;points[i*3+1]=.6+(i%11)*.4;points[i*3+2]=p.z;}
  const particleGeo=new T.BufferGeometry();particleGeo.setAttribute('position',new T.BufferAttribute(points,3));geometries.add(particleGeo);const pm=new T.PointsMaterial({color:'#ffdda8',size:.045,transparent:true,opacity:.65,depthWrite:false,map:glowTex});materials.add(pm);const motes=new T.Points(particleGeo,pm);group.add(motes);
@@ -108,5 +135,5 @@ export function buildDiagon(manager:T.LoadingManager){
  for(const m of remove)m.removeFromParent();for(const [m,gs] of buckets){const merged=mergeGeometries(gs,false);gs.forEach(g=>g.dispose());if(merged)custom(group,merged,m);}
  const lightTargets=[new T.Vector3(),new T.Vector3()];
  const lights=[new T.PointLight('#ffd297',28,13,2),new T.PointLight('#ffc989',24,12,2)];lights.forEach(l=>group.add(l));let lastLights=-10;
- return {group,route,lamps,stats:{staticBatches:buckets.size,shops:16},tick(time:number,camera:T.Vector3){for(const a of animated)a.mesh.rotation.z=Math.sin(time*.7+a.phase)*.025;windows.forEach((m,i)=>m.emissiveIntensity=.52+.1*Math.sin(time*.42+i*2.2));motes.position.y=Math.sin(time*.24)*.14;if(time-lastLights>.3){lastLights=time;const near=[...lamps].sort((a,b)=>a.distanceToSquared(camera)-b.distanceToSquared(camera));lights.forEach((l,i)=>{if(near[i])lightTargets[i].copy(near[i]);});}lights.forEach((l,i)=>l.position.lerp(lightTargets[i],.12));},dispose(){geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());glowMat.dispose();}};
+ return {group,route,lamps,textures,stats:{staticBatches:buckets.size,shops:shopCount},tick(time:number,camera:T.Vector3){for(const a of animated)a.mesh.rotation.z=Math.sin(time*.7+a.phase)*.025;windows.forEach((m,i)=>m.emissiveIntensity=.52+.1*Math.sin(time*.42+i*2.2));motes.position.y=Math.sin(time*.24)*.14;if(time-lastLights>.3){const initial=lastLights===-10;lastLights=time;const near=[...lamps].sort((a,b)=>a.distanceToSquared(camera)-b.distanceToSquared(camera));lights.forEach((l,i)=>{if(near[i])lightTargets[i].copy(near[i]);if(initial)l.position.copy(lightTargets[i]);});}lights.forEach((l,i)=>l.position.lerp(lightTargets[i],.12));},dispose(){geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());}};
 }

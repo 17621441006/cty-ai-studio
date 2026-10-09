@@ -11,7 +11,7 @@ export const referenceWorks:ReferenceWork[]=[
  {id:'pixel-focus',name:'像素小镇 · 专注建造',category:'专注世界',description:'把一段段专注时间，变成小镇里的新建筑。',image:'/works/worlds/pixel-focus-cover.webp',status:'可试玩',playable:true,icon:13},
  {id:'music-rooms',name:'五个房间',category:'音乐与影像',description:'唱片行、墨、末班电车、Live House、像素关卡。也能导入自己的音乐。',image:'/assets/train-city.webp',status:'可体验',playable:true,icon:11},
  {id:'voxel-rampage',name:'体素暴龙 · 微缩城',category:'游戏厅',description:'霸王龙与体素城市的破坏实验。',image:artwork('voxel-rampage'),status:'展示 · 待开放',playable:false,icon:10},
- {id:'christmas-walk',name:'对角巷夜游',category:'游戏厅',description:'穿过砖拱门，沿着弯曲石板路漫步魔杖店、书店与古灵阁；第一人称拖动环顾。',image:'/works/covers/diagon-alley-v39.webp',status:'展示 · 待开放',playable:false,icon:10},
+ {id:'christmas-walk',name:'对角巷夜游',category:'游戏厅',description:'穿过砖拱门，沿着弯曲石板路漫步魔杖店、书店与古灵阁；第一人称拖动环顾。',image:'/works/covers/diagon-alley-v40.webp',status:'展示 · 待开放',playable:false,icon:10},
  {id:'matterhorn',name:'马特洪峰',category:'3D 展厅',description:'绕行雪山与冰川，调整日照，看看利菲尔湖的倒影。',image:'/works/worlds/matterhorn-original.webp',status:'可体验',playable:true,icon:12},
  {id:'faroe',name:'法罗群岛 Føroyar',category:'3D 展厅',description:'在群岛、村庄和海蚀柱之间环绕，拍下一张胶片。',image:'/works/worlds/faroe-original.webp',status:'可体验',playable:true,icon:12},
  {id:'rain-lamp',name:'雨灯便利店 23:40',category:'游戏厅',description:'一场雨中的深夜值班。',image:artwork('rain-lamp'),status:'展示 · 待开放',playable:false,icon:10},
