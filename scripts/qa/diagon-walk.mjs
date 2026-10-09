@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import * as T from 'three';
+import {DIAGON_ASSETS} from '../../app/components/arcade/diagon/assets.mjs';
 import {makeRoute,poseAt,advanceTour,stepYaw,EYE_HEIGHT,STOPS} from '../../app/components/arcade/diagon/route.mjs';
 
 test('tour stays at walking height and has continuous curved turns, never an aerial camera',()=>{
@@ -16,16 +17,18 @@ test('large elapsed gaps cannot skip down the street, and progress stops at the 
 
 // Build the actual scene without a browser; validate geometry and local texture URLs.
 test('scene has bounded geometry, local assets, an upright floor and a clear walking corridor',async()=>{
- const urls=[];const ctx=new Proxy({createRadialGradient(){return {addColorStop(){}};}},{get:(t,k)=>k in t?t[k]:()=>{}});
+ const urls=DIAGON_ASSETS;const ctx=new Proxy({createRadialGradient(){return {addColorStop(){}};}},{get:(t,k)=>k in t?t[k]:()=>{}});
  class Image {constructor(){this.listeners={};}addEventListener(k,f){this.listeners[k]=f;}removeEventListener(){}set src(url){urls.push(url);queueMicrotask(()=>this.listeners.load?.call(this));}}
  globalThis.document={createElement:()=>({width:1,height:1,getContext:()=>ctx}),createElementNS:()=>new Image()};
  const {buildDiagon}=await import('../../app/components/arcade/diagon/scene.ts');
- let done;const ready=new Promise(r=>done=r),world=buildDiagon(new T.LoadingManager(done));await ready;world.group.updateMatrixWorld(true);
+ const images=new Map(urls.map(url=>[url,{width:512,height:512}])),world=buildDiagon(images);world.group.updateMatrixWorld(true);
  let triangles=0;const meshes=[];world.group.traverse(o=>{if(o.isMesh){meshes.push(o);triangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;}});
- assert.ok(meshes.length<150,`meshes=${meshes.length}`);assert.ok(triangles<350000,`triangles=${triangles}`);assert.equal(world.stats.shops,16);
+ assert.ok(meshes.length<180,`meshes=${meshes.length}`);assert.ok(triangles<390000,`triangles=${triangles}`);assert.equal(world.stats.shops,22);console.log({meshes:meshes.length,triangles,batches:world.stats.staticBatches});
  for(const url of new Set(urls)){assert.ok(url.startsWith('/works/worlds/materials/'));assert.ok(existsSync(new URL('../../public'+url,import.meta.url)),url);}
  const ray=new T.Raycaster();
  for(let i=0;i<64;i++){const p=poseAt(world.route,i/63).position;for(let j=0;j<6;j++){const a=j/6*Math.PI*2;ray.set(p,new T.Vector3(Math.sin(a),0,Math.cos(a)));ray.near=0;ray.far=.65;assert.equal(ray.intersectObjects(meshes,false).length,0,`collision at route ${i}/63`);}}
  ray.set(poseAt(world.route,.35).position,new T.Vector3(0,-1,0));ray.far=2;const floor=ray.intersectObjects(meshes,false)[0];assert.ok(floor);assert.ok(Math.abs(floor.point.y)<.2);assert.ok(floor.face.normal.y>.9);
+ // Each end-of-route side must have an actual facade nearby, not the empty wings of V39.
+ for(const u of [.88,.94,1])for(const side of [-1,1]){const pose=poseAt(world.route,u),normal=new T.Vector3(-pose.tangent.z,0,pose.tangent.x);ray.set(pose.position,normal.multiplyScalar(side));ray.far=9.5;assert.ok(ray.intersectObjects(meshes,false).length,`empty street edge at ${u}, side ${side}`);}
  world.dispose();delete globalThis.document;
 });
