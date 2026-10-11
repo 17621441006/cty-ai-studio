@@ -46,7 +46,16 @@ jobs:
             rsync -a --delete ".release-source/$directory/" "$directory/"
           done
           git diff --exit-code -- scripts/kimi package.json package-lock.json
-          test "$(grep -c 'index.html' scripts/kimi/paths.mjs)" -ge 5
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {desktopURL} from './scripts/kimi/paths.mjs';
+          for (const [url, expected] of [
+            ['https://ai-cat.jackchen911006.chatgpt.site', '/ai/index.html'],
+            ['https://ai-cat.jackchen911006.chatgpt.site/desktop-assistant', '/desktop-assistant/index.html'],
+            ['https://usaco-bronze-lab.jackchen911006.chatgpt.site', '/usaco/index.html'],
+            ['https://tingjian-space-lab.jackchen911006.chatgpt.site', '/tingjian/index.html']
+          ]) assert.equal(desktopURL(url), expected);
+          JS
           grep -q 'desktop-assistant/index.html' scripts/kimi/build.mjs
           grep -q 'ai/index.html' scripts/kimi/build.mjs
           rm -rf .release-source
