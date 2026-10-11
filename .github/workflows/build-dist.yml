@@ -1,8 +1,10 @@
-# Manual release packaging; application source is always checked out from kimi-deploy.
+# Build current main application source using the protected Kimi deployment adapter.
 name: Build Kimi dist release
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: write
@@ -18,11 +20,36 @@ jobs:
     env:
       NODE_OPTIONS: --max-old-space-size=6144
     steps:
-      - name: Check out kimi-deploy
+      - name: Check out Kimi deployment adapter
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: kimi-deploy
           persist-credentials: false
+
+      - name: Check out current main application source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event_name == 'push' && github.sha || 'main' }}
+          path: .release-source
+          persist-credentials: false
+
+      - name: Prepare application source without changing Kimi adapters
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "sha=$(git -C .release-source rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "adapter_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          for directory in app components hooks lib public; do
+            test -d ".release-source/$directory"
+            mkdir -p "$directory"
+            rsync -a --delete ".release-source/$directory/" "$directory/"
+          done
+          git diff --exit-code -- scripts/kimi package.json package-lock.json
+          test "$(grep -c 'index.html' scripts/kimi/paths.mjs)" -ge 5
+          grep -q 'desktop-assistant/index.html' scripts/kimi/build.mjs
+          grep -q 'ai/index.html' scripts/kimi/build.mjs
+          rm -rf .release-source
 
       - name: Set up Node 20
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -30,16 +57,28 @@ jobs:
           node-version: '20'
           cache: npm
 
-      - name: Record source revision
-        id: source
-        shell: bash
-        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
       - name: Install locked dependencies
         run: npm ci
 
       - name: Build main site and three sub-applications
         run: node scripts/kimi/build.mjs
+
+      - name: Record exact build sources
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          ADAPTER_SHA: ${{ steps.source.outputs.adapter_sha }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const file = 'dist/deployment-manifest.json';
+          const manifest = JSON.parse(fs.readFileSync(file, 'utf8'));
+          manifest.build = {
+            main: process.env.SOURCE_SHA,
+            kimiAdapter: process.env.ADAPTER_SHA,
+            run: process.env.GITHUB_SERVER_URL + '/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID
+          };
+          fs.writeFileSync(file, JSON.stringify(manifest, null, 2) + '\n');
+          JS
 
       - name: Verify complete build
         run: node scripts/kimi/check.mjs
@@ -63,13 +102,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          ADAPTER_SHA: ${{ steps.source.outputs.adapter_sha }}
         shell: bash
         run: |
           set -euo pipefail
           cat > dist-release-notes.md <<EOF
           CTY AI STUDIO — Kimi static build
 
-          Source: \`kimi-deploy\` at \`$SOURCE_SHA\`.
+          Application source: \`main\` at \`$SOURCE_SHA\`.
+          Kimi deployment adapter: \`kimi-deploy\` at \`$ADAPTER_SHA\`.
           Built with Node $(node --version) using \`npm ci\` and \`node scripts/kimi/build.mjs\`.
 
           Download \`dist.zip\`, extract it, and publish the complete contents of \`dist/\` as the web root.
@@ -78,7 +119,7 @@ jobs:
           Block Academy original project: https://blockcraft.ok.kimi.link
 
           This is the static bundle. Server-side AI APIs require the separate Node backend and its environment configuration.
-          Asset hashes and pinned subproject revisions are recorded in \`dist/deployment-manifest.json\`.
+          Asset hashes, exact main/adapter commits and pinned subproject revisions are recorded in \`dist/deployment-manifest.json\`.
           Verify the download with \`sha256sum -c dist.zip.sha256\`.
 
           Build: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
@@ -96,5 +137,10 @@ jobs:
               --title "CTY AI STUDIO — Latest Kimi dist" \
               --notes-file dist-release-notes.md --latest
           fi
+          gh release download dist-latest --repo "$GH_REPO" --pattern 'dist.zip.sha256' --dir .release-verify
+          cmp dist.zip.sha256 .release-verify/dist.zip.sha256
+          expected=$(cut -d ' ' -f 1 dist.zip.sha256)
+          actual=$(gh api "repos/$GH_REPO/releases/tags/dist-latest" --jq '.assets[] | select(.name == "dist.zip") | .digest')
+          test "$actual" = "sha256:$expected"
           echo "Release: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/dist-latest" >> "$GITHUB_STEP_SUMMARY"
           cat dist.zip.sha256 >> "$GITHUB_STEP_SUMMARY"
