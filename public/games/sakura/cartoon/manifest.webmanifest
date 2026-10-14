@@ -1,0 +1,11 @@
+{
+  "name": "脏脏包 · 樱花卡丁车",
+  "short_name": "脏脏包卡丁车",
+  "description": "带脏脏包穿过樱花小镇，漂移、飞行，与七名对手一起跑圈。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#05070d",
+  "theme_color": "#ffcad9"
+}

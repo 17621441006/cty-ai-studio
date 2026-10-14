@@ -75,7 +75,7 @@ async function main(){
  assert.match(mobileGreeting('08:00'),/早上好/);assert.match(mobileGreeting('10:59'),/上午好/);assert.match(mobileGreeting('13:00'),/午间好/);assert.match(mobileGreeting('17:30'),/下午好/);assert.match(mobileGreeting('20:00'),/晚上好/);
  assert.match(mobileGreeting(''),/你好/);
  console.log('PASS: moon return, nested apps, delayed closes, explicit desktop exit, and seven greeting periods.');
- const page=fs.readFileSync(path.join(root,'app/page.tsx'),'utf8');assert.match(page,/moonSession&&<MoonSpace open=\{moonOpen\} onChange=\{setMoonOpen\} onOpen=\{open\}/);
+ const page=fs.readFileSync(path.join(root,'app/page.tsx'),'utf8');assert.match(page,/moonSession&&<ModuleBoundary[^\n]+<MoonSpace open=\{moonOpen\} onChange=\{setMoonOpen\} onOpen=\{open\}/);
  assert.match(page,/const MoonSpace=dynamic/);assert.match(page,/sceneryPaused=moonOpen/);
  console.log('PASS: gallery remains an on-demand module and reuses the desktop open callback/background pause.');
 }

@@ -2,6 +2,7 @@ import {apps,type AppInfo,type AppId} from './desktop-apps';
 import {rankEntries,resolveEntries,type SearchEntry} from './fuzzy-search';
 export const appAliases:Record<string,string[]>={
  'zp-work':['工作相关','工作文件夹','工作作品','工作方案','职场'],
+ 'zp-sakura-kart':['樱花赛车','樱花卡丁车','脏脏包赛车','赛车','卡丁车','飙车'],
  'zp-supply-chain-ai':['供应链','供应链AI','AI升级改造','升级改造方案','宝信','SCM','ERP','MES','TMS','降本增效','ROI'],
  'zp-arcade':['游戏机','游戏','游戏厅','小游戏'],
  'zp-loire':['帝国时代','帝国时代2','征服者','圣旗纪元','卢瓦尔','贞德','AOE','RTS'],

@@ -33,6 +33,7 @@ import "./desktop-v31.css";
 import "./dragon-flight.css";
 import "./moon-gallery.css";
 import "./desktop-v34.css";
+import "./desktop-v42.css";
 
 export const metadata: Metadata = {
   title: "CTY AI STUDIO | Personal Works",

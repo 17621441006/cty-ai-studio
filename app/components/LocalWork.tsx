@@ -38,6 +38,7 @@ function Benchmark({cinema=false}:{cinema?:boolean}){
 }
 export default function LocalWork({app,open,active=true}:{app:AppInfo;open:(id:AppId)=>void;active?:boolean}){
  if(app.id==='zp-supply-chain-ai')return <WorkDocument/>;
+ if(app.id==='zp-sakura-kart')return <LocalGame id="sakura" active={active}/>;
  if(app.id==='zp-vangogh-tour'||app.id==='zp-wizard-tour')return <ArtTours world={app.id==='zp-vangogh-tour'?'vangogh':'wizard'} active={active}/>;
  if(app.id==='zp-inkwave')return <LocalGame id="inkwave" active={active}/>;
  if(app.id==='zp-loire'||app.id==='zp-afterspan')return <LocalGame id={app.id==='zp-loire'?'loire':'afterspan'} active={active}/>;

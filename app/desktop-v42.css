@@ -1,0 +1,9 @@
+/* Do not flash the default layout before restoring the user's ordered grid. */
+.movable-icons[data-layout-ready=false]{visibility:hidden}
+.moon-module-loading,.module-recovery{position:fixed;inset:0;z-index:22005;background:#061326;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#d6e2e9;padding:32px;text-align:center}
+.window-content .module-recovery{position:absolute;z-index:4}
+.module-recovery>span{font:11px ui-monospace,monospace;letter-spacing:3px;color:#81b7c4}
+.module-recovery h2{font-size:23px;margin:18px 0 10px}.module-recovery p{font-size:14px;line-height:1.8;max-width:380px;color:#a4b9cd}
+.module-recovery button{padding:10px 24px;min-height:44px;margin-top:16px;background:#183956;border:1px solid #80b0c0;color:#e9dfc4}
+
+.moon-caption .moon-gallery-link{font:inherit;letter-spacing:inherit;color:#d6e5ed;cursor:pointer;border-bottom:1px dotted #7799ac;min-height:30px;padding:0 2px}.moon-caption .moon-gallery-link:hover{color:#fff3c8}
