@@ -9,6 +9,7 @@ import OriginalWorld,{originalWorlds} from './OriginalWorld';
 import dynamic from 'next/dynamic';
 import AppLoading from './AppLoading';
 import {useWindowVisible} from './AnimationScope';
+const WorkDocument=dynamic(()=>import('./WorkDocument'),{ssr:false,loading:()=> <AppLoading name="供应链 AI 升级方案"/>});
 const ArtTours=dynamic(()=>import('./ArtTours'),{ssr:false});
 const DragonFlight=dynamic(()=>import('./worlds/DragonFlight'),{ssr:false,loading:()=> <AppLoading name="尘路 · 龙背上的木叶" detail="正在载入飞行引擎"/>});
 const FocusWorld=dynamic(()=>import('./worlds/FocusWorld'),{ssr:false,loading:()=> <AppLoading name="创作世界" detail="正在载入场景引擎"/>});
@@ -36,6 +37,7 @@ function Benchmark({cinema=false}:{cinema?:boolean}){
  return <div className="local-work">{!cinema&&<nav className="local-work-toolbar" aria-label="作品分类">{groups.map(([id,title])=><button key={id} className={group===id?'chosen':''} onClick={()=>{setGroup(id);setSelected('')}}>{title}</button>)}<span>21 WORKS</span></nav>}<div className="benchmark-variants">{group==='websites'?<select aria-label="选择网站作品" value={demo.path} onChange={e=>setSelected(e.target.value)} style={{background:'#102841',border:'1px solid #65735e',color:'#e6cf98',padding:'7px 10px',maxWidth:'100%',fontSize:14}}>{options.map(d=><option key={d.path} value={d.path}>{modelNames[d.model]} · {d.title}</option>)}</select>:options.map(d=><button key={d.path} onClick={()=>setSelected(d.path)} className={demo.path===d.path?'chosen':''}>{modelNames[d.model]}</button>)}<span>{demo.title}</span></div>{demo.video?<Movie demo={demo}/>:<FittedDemo key={demo.path} demo={demo}/>}</div>;
 }
 export default function LocalWork({app,open,active=true}:{app:AppInfo;open:(id:AppId)=>void;active?:boolean}){
+ if(app.id==='zp-supply-chain-ai')return <WorkDocument/>;
  if(app.id==='zp-vangogh-tour'||app.id==='zp-wizard-tour')return <ArtTours world={app.id==='zp-vangogh-tour'?'vangogh':'wizard'} active={active}/>;
  if(app.id==='zp-inkwave')return <LocalGame id="inkwave" active={active}/>;
  if(app.id==='zp-loire'||app.id==='zp-afterspan')return <LocalGame id={app.id==='zp-loire'?'loire':'afterspan'} active={active}/>;

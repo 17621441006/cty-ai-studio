@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝信软件 · 供应链软件事业部 | AI 驱动的定制化交付升级方案</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./styles.css">
+    <!-- ECharts -->
+    <script defer src="./vendor/echarts-5.5.0.min.js"></script>
+    <!-- Three.js -->
+    <script defer src="./vendor/three-r128.min.js"></script>
+    <!-- Lucide Icons -->
+    <script defer src="./vendor/lucide-0.468.0.min.js"></script>
+    <style>
+        
+        :root {
+            --baosight-blue: #0052D9;
+            --baosight-light-blue: #0284C7;
+            --bg-page: #F4F7FB;
+            --card-white: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-page);
+            color: #0F172A;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 3D Canvas Background (Light Mode) */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Enterprise White Glass Card */
+        .corp-card {
+            background: var(--card-white);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 10px 30px -5px rgba(0, 82, 217, 0.05), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .corp-card:hover {
+            border-color: rgba(0, 82, 217, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(0, 82, 217, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .text-brand-gradient {
+            background: linear-gradient(135deg, #003CAB 0%, #0052D9 50%, #0284C7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Image Hover Zoom */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom-container img {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.07);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #F1F5F9; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0052D9; }
+
+        /* Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #E2E8F0;
+            height: 6px;
+            border-radius: 3px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #0052D9;
+            cursor: pointer;
+            border: 3px solid #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 82, 217, 0.4);
+        }
+    
+        html { scroll-padding-top: 88px; }
+        #step-modal > div { max-height: calc(100dvh - 32px); overflow-y: auto; }
+        #modal-content { padding-top: 8px; }
+        @media (max-width: 639px) {
+            header .text-sm { font-size: 12px; }
+            header .text-sm > span { display: none; }
+            header .text-\[11px\] { font-size: 10px; }
+            #modal-content h3 { font-size: 20px; }
+            #modal-content > div:first-child { flex-wrap: wrap; padding-right: 16px; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    </style>
+</head>
+<body class="selection:bg-blue-600 selection:text-white">
+
+    <!-- 3D Light Tech Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0052D9] to-[#0284C7] flex items-center justify-center font-black text-white shadow-md shadow-blue-600/20 text-sm tracking-tighter">
+                    宝信
+                </div>
+                <div>
+                    <div class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                        宝信软件 · 供应链软件事业部
+                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-[#0052D9] border border-blue-200 font-semibold">云应用 · 行动手册</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500">ERP / MES / TMS 全链路 AI 定制化交付升级方案</div>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center space-x-1 text-xs font-semibold text-slate-600">
+                <a href="#hero" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-[#0052D9] transition">01. 总体目标</a>
+                <a href="#diagnosis" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-[#0052D9] transition">02. 痛点与周期</a>
+                <a href="#workbench" class="px-3 py-2 rounded-lg bg-blue-50/80 text-[#0052D9] hover:bg-blue-100 transition flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 03. AI 实景仿真台
+                </a>
+                <a href="#matrix" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-[#0052D9] transition">04. 12环节检查单</a>
+                <a href="#upgrade" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-[#0052D9] transition">05. 业务升级与架构</a>
+                <a href="#roi" class="px-3 py-2 rounded-lg hover:bg-blue-50 hover:text-[#0052D9] transition">06. 测算与路线图</a>
+            </nav>
+
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleFullScreen()" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#0052D9] border border-slate-200 text-xs font-semibold flex items-center gap-1.5 transition" title="全屏 PPT 汇报模式">
+                    <i data-lucide="presentation" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">全屏汇报</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 pt-24 pb-20 space-y-24">
+
+        <!-- ==================== SECTION 1: HERO WITH REAL INDUSTRIAL PHOTOGRAPHY ==================== -->
+        <section id="hero" class="pt-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Left Column: Strategy & Core Metrics -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0052D9] text-xs font-bold">
+                        <span class="w-2 h-2 rounded-full bg-[#0052D9] animate-ping"></span>
+                        <span>从“人天卖劳力”全面转向“模板 + AI 卖速度与质量”</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 leading-[1.18]">
+                        AI 驱动的定制化交付<br/>
+                        <span class="text-brand-gradient">全链路降本增效升级方案</span>
+                    </h1>
+
+                    <p class="text-slate-600 text-base leading-relaxed">
+                        面向宝信软件供应链软件事业部 <strong class="text-slate-900">ERP / MES / TMS 定制项目</strong>，打通“从现场调研到自动测试报告”全链路。凡是格式转换、扩写、绘图、编码、造数据、写报告，优先 AI；<span class="text-[#0052D9] font-bold underline decoration-blue-300 underline-offset-4">人只做判断、确认、兜底。</span>
+                    </p>
+
+                    <!-- 3 Key Quantitative Targets -->
+                    <div class="grid grid-cols-3 gap-4 pt-2">
+                        <div class="corp-card p-4 rounded-2xl border-l-4 border-l-[#0052D9]">
+                            <div class="text-xs text-slate-500 font-medium">综合成本降低</div>
+                            <div class="text-3xl font-black text-[#0052D9] mt-1">55~65<span class="text-lg">%</span></div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">500万项目省约250万</div>
+                        </div>
+                        <div class="corp-card p-4 rounded-2xl border-l-4 border-l-sky-500">
+                            <div class="text-xs text-slate-500 font-medium">交付周期压缩</div>
+                            <div class="text-3xl font-black text-slate-900 mt-1">150<span class="text-sm font-normal text-slate-400">天</span>→49<span class="text-sm font-normal text-sky-600">天</span></div>
+                            <div class="text-[11px] text-sky-600 font-semibold mt-0.5">压缩 67% · 产出×2~3倍</div>
+                        </div>
+                        <div class="corp-card p-4 rounded-2xl border-l-4 border-l-emerald-500">
+                            <div class="text-xs text-slate-500 font-medium">现场差旅缩减</div>
+                            <div class="text-3xl font-black text-emerald-600 mt-1">60<span class="text-lg">%+</span></div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">驻场从 20天 压至 7天</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Visual Industrial Collage (Steel MES + Smart Logistics TMS + AI) -->
+                <div class="lg:col-span-5 relative">
+                    <div class="grid grid-cols-2 gap-3.5 relative">
+                        <!-- Photo 1: Smart Steel Manufacturing (MES) -->
+                        <div class="col-span-2 img-zoom-container rounded-2xl overflow-hidden shadow-lg border-2 border-white relative h-48">
+                            <img decoding="async" fetchpriority="high" src="./images/photo-21b8da2c46f3.jpg" alt="钢铁智能制造MES产线" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent flex flex-col justify-end p-4">
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#0052D9] text-white w-fit mb-1">Steel MES · 智能制造</span>
+                                <div class="text-white font-bold text-sm">钢铁产线实时采集、报工与设备联锁控制</div>
+                            </div>
+                        </div>
+
+                        <!-- Photo 2: Smart Logistics & Warehouse (TMS/WMS) -->
+                        <div class="img-zoom-container rounded-2xl overflow-hidden shadow-lg border-2 border-white relative h-40">
+                            <img decoding="async" loading="lazy" src="./images/photo-4cee9a24a70e.jpg" alt="智慧物流TMS调度" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-500 text-white w-fit mb-0.5">Smart TMS</span>
+                                <div class="text-white font-bold text-xs">物流拆并单与复杂计费引擎</div>
+                            </div>
+                        </div>
+
+                        <!-- Photo 3: ERP & Supply Chain Control Tower -->
+                        <div class="img-zoom-container rounded-2xl overflow-hidden shadow-lg border-2 border-white relative h-40">
+                            <img decoding="async" loading="lazy" src="./images/photo-7cd069e45b0c.jpg" alt="ERP与供应链控制塔" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-600 text-white w-fit mb-0.5">Cloud ERP</span>
+                                <div class="text-white font-bold text-xs">全链路订单-库存-结算协同</div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Redline Gate Badge -->
+                        <div class="col-span-2 bg-white/95 backdrop-blur-md rounded-xl p-3.5 border border-rose-200 shadow-md flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-xs">
+                                <div class="font-bold text-slate-900 flex items-center gap-1.5">
+                                    交付红线：100% 人工终审门禁
+                                    <span class="px-1.5 py-0.2 bg-rose-100 text-rose-700 rounded text-[10px]">业务签字流转</span>
+                                </div>
+                                <div class="text-slate-500 mt-0.5">计费规则 / 安全库存 / 设备联锁等核心逻辑强制人工双人复核</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 2: DIAGNOSIS WITH REAL SCENARIO PHOTOS & CHART ==================== -->
+        <section id="diagnosis" class="space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-4">
+                <div>
+                    <div class="text-[#0052D9] text-xs font-extrabold tracking-widest uppercase mb-1">SECTION 01 · 现状诊断与周期重塑</div>
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-900">为什么传统定制项目周期长、成本高？</h2>
+                </div>
+                <p class="text-xs text-slate-500 mt-2 md:mt-0">传统链条7大环节全部依赖人工串行传递，信息在口头、Word、Excel 间反复转抄损耗</p>
+            </div>
+
+            <!-- 5 Pain Points with Visual Scenario Header -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <!-- Card 1 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-28 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-114d93314a43.jpg" alt="现场驻场调研" class="w-full h-full object-cover">
+                            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-900/75 text-white text-[10px] font-bold">痛点 01</div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">调研重现场轻沉淀</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">顾问驻场 2~4 周，访谈靠手记，不同顾问结论打架。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-rose-50 border-t border-rose-100 text-[11px] font-bold text-rose-700 flex items-center justify-between">
+                        <span>代价</span>
+                        <span>差旅高 · 返工占30%+</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-28 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-29c2a9f2e63c.jpg" alt="设计文档断层" class="w-full h-full object-cover">
+                            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-900/75 text-white text-[10px] font-bold">痛点 02</div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">设计文档严重断层</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">基本/详细设计靠 Word，业务语言与技术语言两张皮。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-amber-50 border-t border-amber-100 text-[11px] font-bold text-amber-700 flex items-center justify-between">
+                        <span>代价</span>
+                        <span>评审3~5轮仍有二义性</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-28 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-b9647e386154.jpg" alt="编码重复造轮子" class="w-full h-full object-cover">
+                            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-900/75 text-white text-[10px] font-bold">痛点 03</div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">编码重复造轮子</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">主数据、单据流、审批流、接口在每个项目重写。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-orange-50 border-t border-orange-100 text-[11px] font-bold text-orange-700 flex items-center justify-between">
+                        <span>代价</span>
+                        <span>60%同构 · 复用&lt;20%</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-28 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-b9647e386154.jpg" alt="测试滞后" class="w-full h-full object-cover">
+                            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-900/75 text-white text-[10px] font-bold">痛点 04</div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">测试滞后与漏测</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">用例手写、回归靠人点，MES联调/TMS计费难覆盖。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-purple-50 border-t border-purple-100 text-[11px] font-bold text-purple-700 flex items-center justify-between">
+                        <span>代价</span>
+                        <span>缺陷逃逸UAT·延期</span>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-28 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-61f8a21cf5de.jpg" alt="知识不沉淀" class="w-full h-full object-cover">
+                            <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-900/75 text-white text-[10px] font-bold">痛点 05</div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-slate-900 text-sm mb-1">行业知识不沉淀</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">钢铁/物流 Know-how 在个人脑中，新人6个月才上手。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-blue-50 border-t border-blue-100 text-[11px] font-bold text-[#0052D9] flex items-center justify-between">
+                        <span>代价</span>
+                        <span>团队人力弹性极差</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Figure 1: Delivery Cycle Comparison Chart -->
+            <div class="corp-card p-6 md:p-8 rounded-2xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-extrabold text-slate-900">图 1：ERP / MES / TMS 典型项目周期对比（传统 150 天 vs AI 约 49 天）</h3>
+                        <p class="text-xs text-slate-500">全链路 6 大阶段工作量横向对比，前后端开发从 60 天缩短至 22 天，测试联调从 25 天缩短至 8 天</p>
+                    </div>
+                    <div class="mt-2 sm:mt-0 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-[#0052D9] text-xs font-extrabold">
+                        周期整体压缩约 67%（节省 101 天）
+                    </div>
+                </div>
+                <div id="chart-cycle" class="w-full h-[320px]"></div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 3: NEW! INTERACTIVE AI WORKBENCH SIMULATOR ==================== -->
+        <section id="workbench" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-4">
+                <div>
+                    <div class="text-[#0052D9] text-xs font-extrabold tracking-widest uppercase mb-1">SECTION 02 · 拒绝纸上谈兵：AI 交付实景演示台</div>
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-900">宝信供应链 AI Copilot 实景仿真演示</h2>
+                </div>
+                <p class="text-xs text-slate-500 mt-2 md:mt-0">点击下方 4 大典型场景选项卡，直观体验从“现场原始输入”到“AI 生成物 + 人工签字门禁”的真实界面</p>
+            </div>
+
+            <!-- Interactive Software Window Mockup -->
+            <div class="corp-card rounded-2xl overflow-hidden border border-slate-200 shadow-xl">
+                <!-- Window Top Bar -->
+                <div class="bg-slate-900 text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span class="text-xs font-semibold text-slate-300 ml-2">Baosight SupplyChain AI Studio v2.5 (内网私有化大模型已连接)</span>
+                    </div>
+                    <!-- Scenario Switcher Buttons -->
+                    <div class="flex flex-wrap gap-1.5 text-xs">
+                        <button onclick="switchDemo(0)" id="demo-tab-0" class="demo-tab px-3 py-1 rounded-md bg-[#0052D9] text-white font-semibold transition">场景1：现场调研 OCR 转诊断书</button>
+                        <button onclick="switchDemo(1)" id="demo-tab-1" class="demo-tab px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">场景2：WBS 一键生成架构图</button>
+                        <button onclick="switchDemo(2)" id="demo-tab-2" class="demo-tab px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">场景3：MES/TMS 原型与代码生成</button>
+                        <button onclick="switchDemo(3)" id="demo-tab-3" class="demo-tab px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">场景4：异常场景用例与测试报告</button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Demo Body -->
+                <div id="demo-body" class="p-6 bg-slate-50/70 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 4: 12-STEP CHECKLIST MATRIX ==================== -->
+        <section id="matrix" class="space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-4">
+                <div>
+                    <div class="text-[#0052D9] text-xs font-extrabold tracking-widest uppercase mb-1">SECTION 03 · 全链路 12 环节梳理（立项检查单）</div>
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-900">能用 AI 优化的全部清单（人审 + 机做）</h2>
+                </div>
+                <div class="mt-3 md:mt-0 flex items-center space-x-3 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-xs font-medium text-slate-600">
+                        项目立项检查单进度：<span id="checklist-count" class="text-[#0052D9] font-extrabold text-sm">2 / 12</span>
+                    </div>
+                    <button onclick="checkAllSteps()" class="text-xs px-3 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#0052D9] font-bold transition">一键全选立项</button>
+                </div>
+            </div>
+
+            <!-- Figure 2: Penetration Rate ECharts -->
+            <div class="corp-card p-6 rounded-2xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                    <div>
+                        <h3 class="text-base font-extrabold text-slate-900">图 2：12 环节 AI 渗透率评估（点击柱状图或下方卡片查看环节详情）</h3>
+                        <p class="text-xs text-slate-500">AI 承担 60% ~ 95% 的繁琐生成工作，每个高风险节点均保留人工终审签字门禁</p>
+                    </div>
+                    <span class="text-xs text-[#0052D9] font-bold bg-blue-50 px-2.5 py-1 rounded border border-blue-100 mt-2 sm:mt-0">平均 AI 渗透率 82.5%</span>
+                </div>
+                <div id="chart-penetration" class="w-full h-[250px]"></div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="filterSteps('all')" id="tab-all" class="step-tab px-4 py-2 rounded-xl bg-[#0052D9] text-white font-bold shadow-sm transition">全部 12 环节</button>
+                    <button onclick="filterSteps('req')" id="tab-req" class="step-tab px-4 py-2 rounded-xl bg-white text-slate-600 border border-slate-200 hover:border-blue-300 transition">01-04 调研与需求 (4)</button>
+                    <button onclick="filterSteps('design')" id="tab-design" class="step-tab px-4 py-2 rounded-xl bg-white text-slate-600 border border-slate-200 hover:border-blue-300 transition">05-07 选型与设计 (3)</button>
+                    <button onclick="filterSteps('dev')" id="tab-dev" class="step-tab px-4 py-2 rounded-xl bg-white text-slate-600 border border-slate-200 hover:border-blue-300 transition">08-09 前后端编码 (2)</button>
+                    <button onclick="filterSteps('test')" id="tab-test" class="step-tab px-4 py-2 rounded-xl bg-white text-slate-600 border border-slate-200 hover:border-blue-300 transition">10-12 测试与报告 (3)</button>
+                </div>
+                <span class="text-xs text-slate-500 flex items-center gap-1">
+                    <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-[#0052D9]"></i> 点击卡片可弹出完整规范对比
+                </span>
+            </div>
+
+            <!-- 12 Steps Cards Grid -->
+            <div id="steps-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        </section>
+
+        <!-- ==================== SECTION 5: 5 UPGRADE DIRECTIONS (PHOTO GALLERY) & ARCHITECTURE ==================== -->
+        <section id="upgrade" class="space-y-12">
+            <div class="border-b border-slate-200 pb-4">
+                <div class="text-[#0052D9] text-xs font-extrabold tracking-widest uppercase mb-1">SECTION 04 & 05 · 可升级业务方向与技术底座</div>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900">五大业务新增长点与四层安全技术架构</h2>
+            </div>
+
+            <!-- 5 Business Upgrade Directions with Rich Photography -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Direction 1 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                    <div>
+                        <div class="h-36 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-7cd069e45b0c.jpg" alt="供应链控制塔" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent flex items-end p-3">
+                                <span class="text-white font-black text-xs">01 · 供应链控制塔</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-xs text-slate-600 leading-relaxed">跨 ERP/MES/TMS 的<strong>“订单-库存-在途-结算”</strong>统一视图，AI 实时做异常预警与改单建议。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-blue-50/70 text-[11px] font-bold text-[#0052D9] border-t border-blue-100">全局可视 · 异常智能改单</div>
+                </div>
+
+                <!-- Direction 2 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                    <div>
+                        <div class="h-36 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-7676bc4f10d0.jpg" alt="行业模板SaaS化" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent flex items-end p-3">
+                                <span class="text-white font-black text-xs">02 · 行业模板 SaaS 化</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-xs text-slate-600 leading-relaxed">钢铁 MES 报工、TMS 计费/调度沉淀为可配置标准模板，<strong>中小型项目 2~4 周极速交付</strong>。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-sky-50/70 text-[11px] font-bold text-sky-700 border-t border-sky-100">2~4 周极速配置交付</div>
+                </div>
+
+                <!-- Direction 3 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                    <div>
+                        <div class="h-36 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-45ae8be8dac1.jpg" alt="AI+IoT视觉质检" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent flex items-end p-3">
+                                <span class="text-white font-black text-xs">03 · AI + IoT 工业智联</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-xs text-slate-600 leading-relaxed">融合 MES 设备数据 + <strong>AI 工业视觉质检</strong>，提供 Predictive Maintenance 预测性维护增值服务。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-indigo-50/70 text-[11px] font-bold text-indigo-700 border-t border-indigo-100">视觉质检 · 预测性维护</div>
+                </div>
+
+                <!-- Direction 4 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                    <div>
+                        <div class="h-36 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-713b83ef31e0.jpg" alt="数据增值服务" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent flex items-end p-3">
+                                <span class="text-white font-black text-xs">04 · 数据增值年费服务</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-xs text-slate-600 leading-relaxed">基于沉淀业务单据做<strong>需求预测、库存优化、安全库存建议</strong>，转向按年订阅收费模式。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-emerald-50/70 text-[11px] font-bold text-emerald-700 border-t border-emerald-100">库存优化 · 按年持续收费</div>
+                </div>
+
+                <!-- Direction 5 -->
+                <div class="corp-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                    <div>
+                        <div class="h-36 img-zoom-container relative">
+                            <img decoding="async" loading="lazy" src="./images/photo-2eeaa2467656.jpg" alt="出海与合规包" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent flex items-end p-3">
+                                <span class="text-white font-black text-xs">05 · 出海与全球合规包</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-xs text-slate-600 leading-relaxed">内置<strong>多语言、多税制、国际单证合规</strong>一键切换能力，护航中国制造与物流企业全球化出海。</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2.5 bg-amber-50/70 text-[11px] font-bold text-amber-700 border-t border-amber-100">多语多税 · 单证一键合规</div>
+                </div>
+            </div>
+
+            <!-- 4-Layer Reference Architecture Diagram (Light Enterprise Style) -->
+            <div class="corp-card p-6 md:p-8 rounded-2xl">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                    <div>
+                        <h3 class="text-lg font-extrabold text-slate-900">五、参考技术栈与四层系统架构（所有 AI 生成物经“人工门禁”进入下一层）</h3>
+                        <p class="text-xs text-slate-500">企业内网私有化大模型 + 向量库，确保核心钢铁/物流敏感数据不出域，全程审计留痕</p>
+                    </div>
+                    <span class="mt-2 md:mt-0 px-3 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold flex items-center gap-1 w-fit">
+                        <i data-lucide="lock" class="w-3.5 h-3.5"></i> 敏感数据不出域 · 审计留痕
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- Left 8 Cols: 4 Layers Visual -->
+                    <div class="lg:col-span-8 space-y-2.5">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="px-2.5 py-1 rounded-md bg-blue-100 text-[#0052D9] font-extrabold text-xs">01 客户层</span>
+                                <span class="font-bold text-slate-900 text-sm">需求门户 / 协同评审工作台 / 原型在线评审</span>
+                            </div>
+                            <span class="text-xs text-slate-500">标准化采集 · 客户点选确认</span>
+                        </div>
+
+                        <div class="flex items-center justify-center space-x-2">
+                            <div class="h-px bg-rose-200 flex-1"></div>
+                            <span class="px-3 py-0.5 rounded-full bg-rose-50 border border-rose-200 text-rose-600 text-[11px] font-bold">▼ 人工终审门禁 (业务方会签放行) ▼</span>
+                            <div class="h-px bg-rose-200 flex-1"></div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-gradient-to-r from-[#0052D9] to-[#0284C7] text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="px-2.5 py-1 rounded-md bg-white/20 text-white font-extrabold text-xs">02 AI 编排层</span>
+                                <span class="font-bold text-sm">调研 / 拆解 / 选型 / 生成 Agent + 行业 RAG 知识库</span>
+                            </div>
+                            <span class="text-xs text-blue-100">企业内网大模型 + 向量库</span>
+                        </div>
+
+                        <div class="flex items-center justify-center space-x-2">
+                            <div class="h-px bg-rose-200 flex-1"></div>
+                            <span class="px-3 py-0.5 rounded-full bg-rose-50 border border-rose-200 text-rose-600 text-[11px] font-bold">▼ 人工终审门禁 (架构/核心代码双人复核) ▼</span>
+                            <div class="h-px bg-rose-200 flex-1"></div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-700 font-extrabold text-xs">03 交付层</span>
+                                <span class="font-bold text-slate-900 text-sm">领域脚手架 / 钢铁物流组件库 / 自动化测试流水线</span>
+                            </div>
+                            <span class="text-xs text-slate-500">Jenkins/GitLab CI + Playwright + JMeter</span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-700 font-extrabold text-xs">04 运行层</span>
+                                <span class="font-bold text-slate-900 text-sm">ERP / MES / TMS 微服务集群 + 集成总线 + 数据湖</span>
+                            </div>
+                            <span class="text-xs text-slate-500">无缝对接 SAP / WMS / OT 设备</span>
+                        </div>
+                    </div>
+
+                    <!-- Right 4 Cols: Tech Stack Specs -->
+                    <div class="lg:col-span-4 bg-slate-900 text-white p-5 rounded-2xl space-y-3">
+                        <div class="text-sm font-bold flex items-center gap-2 border-b border-slate-700 pb-2.5">
+                            <i data-lucide="cpu" class="w-4 h-4 text-sky-400"></i> 事业部标准技术栈选型速查
+                        </div>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">前端体系</span>
+                                <span class="font-semibold text-sky-300">React / Vue 统一设计系统</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">后端与计费</span>
+                                <span class="font-semibold text-white">SpringBoot + Drools规则引擎</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">集成与总线</span>
+                                <span class="font-semibold text-white">Kafka + API网关 (通SAP/OT)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800">
+                                <span class="text-slate-400">数据库底座</span>
+                                <span class="font-semibold text-emerald-300">PostgreSQL + TDengine时序库</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">CI/CD 流水线</span>
+                                <span class="font-semibold text-amber-300">GitLab CI + Playwright自愈</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 6: ROI CALCULATOR, ROADMAP & RISKS ==================== -->
+        <section id="roi" class="space-y-12">
+            <div class="border-b border-slate-200 pb-4">
+                <div class="text-[#0052D9] text-xs font-extrabold tracking-widest uppercase mb-1">SECTION 06, 07 & 08 · 降本测算、90天落地路线与风险对策</div>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900">成本效益交互测算与 90 天见效路线图</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Figure 3 Cost Chart -->
+                <div class="lg:col-span-7 corp-card p-6 rounded-2xl">
+                    <h3 class="text-base font-extrabold text-slate-900">图 3：各环节成本对比（归一化）· 总体降本约 55~65%</h3>
+                    <p class="text-xs text-slate-500 mb-2">蓝色代表 AI 优化后剩余成本占比（仅需原来的 20% ~ 40%）</p>
+                    <div id="chart-cost" class="w-full h-[290px]"></div>
+                </div>
+
+                <!-- Right: Interactive ROI Calculator -->
+                <div class="lg:col-span-5 corp-card p-6 rounded-2xl border-2 border-[#0052D9]/20 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                                <i data-lucide="calculator" class="w-5 h-5 text-[#0052D9]"></i> 项目降本增效动态测算器
+                            </span>
+                            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0052D9]">拖动滑块实时推演</span>
+                        </div>
+
+                        <div class="space-y-4 mb-5">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                                    <span class="text-slate-600">项目传统预算规模：</span>
+                                    <span id="budget-val" class="text-[#0052D9] font-black text-sm">500 万元</span>
+                                </div>
+                                <input id="budget-slider" type="range" min="100" max="2000" step="50" value="500" class="w-full" oninput="updateROI()">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                                    <span class="text-slate-600">传统交付周期预估：</span>
+                                    <span id="days-val" class="text-[#0052D9] font-black text-sm">150 天</span>
+                                </div>
+                                <input id="days-slider" type="range" min="60" max="360" step="10" value="150" class="w-full" oninput="updateROI()">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 p-4 rounded-xl bg-blue-50/60 border border-blue-100">
+                            <div>
+                                <div class="text-xs text-slate-500 font-medium">预计直接节省成本</div>
+                                <div id="calc-saved-cost" class="text-2xl font-black text-[#0052D9] mt-0.5">≈ 250~325万</div>
+                                <div class="text-[10px] text-slate-500">人力+差旅+返工降55~65%</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-500 font-medium">AI 增强后新周期</div>
+                                <div id="calc-new-days" class="text-2xl font-black text-emerald-600 mt-0.5">≈ 49 天</div>
+                                <div id="calc-saved-days" class="text-[10px] text-emerald-700 font-semibold">提前 101 天上线交付</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-4 gap-2 text-center">
+                        <div class="p-2 rounded-lg bg-slate-50">
+                            <div class="text-sm font-black text-slate-900">≥90%</div>
+                            <div class="text-[10px] text-slate-500">需求一次通过</div>
+                        </div>
+                        <div class="p-2 rounded-lg bg-slate-50">
+                            <div class="text-sm font-black text-slate-900">≥80%</div>
+                            <div class="text-[10px] text-slate-500">单测覆盖率</div>
+                        </div>
+                        <div class="p-2 rounded-lg bg-slate-50">
+                            <div class="text-sm font-black text-emerald-600">-50%</div>
+                            <div class="text-[10px] text-slate-500">UAT缺陷逃逸</div>
+                        </div>
+                        <div class="p-2 rounded-lg bg-slate-50">
+                            <div class="text-sm font-black text-[#0052D9]">≥60%</div>
+                            <div class="text-[10px] text-slate-500">知识复用率</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 90-Day Roadmap & Risk Countermeasures -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- 90-Day Roadmap -->
+                <div class="lg:col-span-7 corp-card p-6 rounded-2xl space-y-4">
+                    <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="flag" class="w-5 h-5 text-[#0052D9]"></i> 七、分阶段落地路线（90 天见效闭环）
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded-xl bg-blue-50/50 border-l-4 border-l-[#0052D9] flex items-start justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-black text-[#0052D9]">第一阶段：0 ~ 30 天（快速试点）</span>
+                                <h4 class="font-bold text-slate-900 text-sm mt-0.5">上线需求模板 + 调研助手 + 报告 Copilot，试点 1 个 TMS 项目</h4>
+                                <p class="text-xs text-slate-500 mt-1">优先在中小规模 TMS 物流项目中跑通调研与报告自动生成闭环。</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-white text-[#0052D9] font-bold text-xs shrink-0 border border-blue-100">TMS 先行</span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-sky-50/50 border-l-4 border-l-sky-500 flex items-start justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-black text-sky-600">第二阶段：30 ~ 60 天（研发提效）</span>
+                                <h4 class="font-bold text-slate-900 text-sm mt-0.5">接入原型 / 代码 Agent 与架构生成器，沉淀首批行业组件</h4>
+                                <p class="text-xs text-slate-500 mt-1">打通从用户故事到高保真原型、前后端脚手架代码生成，构建组件资产库。</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-white text-sky-700 font-bold text-xs shrink-0 border border-sky-100">组件沉淀</span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-emerald-50/50 border-l-4 border-l-emerald-500 flex items-start justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-black text-emerald-600">第三阶段：60 ~ 90 天（全面推广）</span>
+                                <h4 class="font-bold text-slate-900 text-sm mt-0.5">全流水线自动化测试，建成 RAG 知识库，复盘推广到 ERP / MES</h4>
+                                <p class="text-xs text-slate-500 mt-1">实现 Nightly 自动化回归测试，将成熟模式全面复制到钢铁 MES 与云 ERP 产线。</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-white text-emerald-700 font-bold text-xs shrink-0 border border-emerald-100">全线复制</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Risks & Countermeasures -->
+                <div class="lg:col-span-5 corp-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2 mb-4">
+                            <i data-lucide="shield-alert" class="w-5 h-5 text-rose-600"></i> 八、四大核心风险与刚性对策
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                                <div class="font-bold text-slate-900">1. 模型幻觉风险 <span class="text-[#0052D9] ml-1">→ RAG Grounding + 规则校验</span></div>
+                                <div class="text-slate-500 mt-0.5">依托事业部业务架构知识库与确定性规则引擎杜绝胡编乱造。</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                                <div class="font-bold text-slate-900">2. 数据泄露风险 <span class="text-[#0052D9] ml-1">→ 企业内网部署 + 敏感脱敏</span></div>
+                                <div class="text-slate-500 mt-0.5">私有化大模型内网运行，客户敏感单据与配方数据绝不出域。</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                                <div class="font-bold text-slate-900">3. 客户不信任 AI <span class="text-[#0052D9] ml-1">→ 保留人工签字 + 可追溯 Diff</span></div>
+                                <div class="text-slate-500 mt-0.5">所有交付物提供清晰修改对比视图，必须经业务方签字方生效。</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-rose-50/70 border border-rose-200">
+                                <div class="font-bold text-rose-700">4. 过度依赖风险 <span class="text-rose-600 ml-1">→ 关键红线路径双人复核</span></div>
+                                <div class="text-rose-600/80 mt-0.5">TMS 计费规则、安全库存、MES 设备联锁三大红线强制人工双人复核！</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for 12 Steps Details -->
+    <div id="step-modal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white max-w-2xl w-full rounded-2xl p-6 md:p-8 border border-slate-200 shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="font-bold text-slate-700">宝信软件 · 云应用 供应链软件事业部</div>
+            <div>AI 驱动的定制化交付升级方案（ERP / MES / TMS 全链路降本增效行动手册）</div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script defer src="./app.js"></script>
+</body>
+</html>
