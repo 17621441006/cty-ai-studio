@@ -1,0 +1,40 @@
+{
+  "name": "zangzangbao-sakura-kart",
+  "version": "1.1.1",
+  "description": "脏脏包 · 樱花卡丁车，基于 Chinese Can Fly Kart 的静态独立模式",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "kart",
+    "racing",
+    "threejs",
+    "web-game",
+    "rocket",
+    "motion-controller"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "n8ao": "^2.0.0",
+    "postprocessing": "^6.39.3",
+    "simplex-noise": "^4.0.3",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "homepage": "https://cccircccle715.github.io/chinese-can-fly-kart/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CCCIRCCCLE715/chinese-can-fly-kart.git"
+  }
+}

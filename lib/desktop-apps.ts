@@ -21,6 +21,7 @@ export const apps:AppInfo[]=[
  {id:'zp-rooms',name:'五个房间',icon:11,category:'桌面',description:'唱片行、墨、末班电车、Live House、像素关卡。',owner:'CTY STUDIO',referenceId:'music-rooms'},
  {id:'zp-gallery',name:'3D 展厅',icon:12,category:'桌面',description:'法罗群岛、马特洪峰、隅间、三寸人间。',owner:'CTY STUDIO',collection:'3D 展厅'},
  {id:'zp-arcade',name:'游戏厅',icon:10,category:'桌面',description:'INKWAVE 墨浪、圣旗纪元、AFTERSPAN、Aquas Duel 与接星星。',owner:'CTY STUDIO',collection:'游戏厅'},
+ {id:'zp-sakura-kart',name:'脏脏包 · 樱花赛车',icon:10,category:'游戏厅',description:'驾驶五款卡丁车穿过樱花小镇，和家人一起漂移、加速、争夺三圈冠军。',owner:'CTY STUDIO',image:'/games/sakura/cover.webp',url:'/games/sakura/cartoon/index.html',desktop:false,status:'可试玩'},
  {id:'zp-tv',name:'电视台',icon:14,category:'桌面',description:'模型创作短片，打开即可观看。',owner:'CTY STUDIO'},
  {id:'zp-builds',name:'建筑相册',icon:20,category:'桌面',description:'Summerhouse 建筑作品与相册。',owner:'CTY STUDIO'},
  {id:'zp-desktop',name:'重构进度.txt',icon:15,category:'桌面',description:'查看作品迁入桌面的批次与进度。',owner:'CTY STUDIO'},

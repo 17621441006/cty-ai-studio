@@ -50,3 +50,5 @@ next-env.d.ts
 /.kimi-data/
 /dist-server/
 *.tsbuildinfo
+
+/vendor/**/node_modules/
