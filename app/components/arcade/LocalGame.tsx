@@ -8,6 +8,7 @@ const games={
  inkwave:{name:'INKWAVE · 墨浪',src:'/games/inkwave/index.html?map=halyard&skipTitle=1',help:'电脑对战 · WASD 移动 · 鼠标瞄准/开火 · Shift 潜墨 · 空格跳跃 · Esc 暂停；触屏建议横屏'},
  loire:{name:'圣旗纪元 · 卢瓦尔河畔',src:'/games/loire/index.html',help:'点选 / 框选部队 · 右键下令 · 贞德骑乘建议使用电脑键盘'},
  afterspan:{name:'AFTERSPAN · 时隙',src:'/games/afterspan/index.html',help:'A / D 移动 · 空格跳跃 · Q 切换时空 · 手机可用屏幕按键'},
+ diagon3d:{name:'对角巷 3D · 魔法夜巡',src:'/games/diagon-alley-3d/index.html',help:'WASD 移动 · 鼠标环顾 · E 互动 / 上骑士巴士 · 左键施咒 · V 换魔杖 · N 昼夜 · T 自动巡游'},
 };
 export default function LocalGame({id,active=true}:{id:keyof typeof games;active?:boolean}){
  const visible=useWindowVisible();

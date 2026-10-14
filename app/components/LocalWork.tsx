@@ -41,6 +41,7 @@ export default function LocalWork({app,open,active=true}:{app:AppInfo;open:(id:A
  if(app.id==='zp-sakura-kart')return <LocalGame id="sakura" active={active}/>;
  if(app.id==='zp-vangogh-tour'||app.id==='zp-wizard-tour')return <ArtTours world={app.id==='zp-vangogh-tour'?'vangogh':'wizard'} active={active}/>;
  if(app.id==='zp-inkwave')return <LocalGame id="inkwave" active={active}/>;
+if(app.id==='zp-diagon3d')return <LocalGame id="diagon3d" active={active}/>;
  if(app.id==='zp-loire'||app.id==='zp-afterspan')return <LocalGame id={app.id==='zp-loire'?'loire':'afterspan'} active={active}/>;
  if(arcadeIds.includes(app.id.replace(/^zp-/,'')))return <ArcadeWork id={app.id.replace(/^zp-/,'')}/>;
  if(app.id==='zp-rooms'||app.id==='zp-music-rooms')return <MusicRooms/>;

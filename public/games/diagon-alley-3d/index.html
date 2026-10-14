@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>对角巷 · Diagon Alley 3D</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0c0a08; font-family: Georgia, 'Songti SC', 'SimSun', serif; color: #f1e3c2; }
+  #app canvas { display: block; }
+  #loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 22px; letter-spacing: 4px; background: #0c0a08; z-index: 50; }
+  #overlay { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(30,18,10,0.55), rgba(5,3,2,0.9)); transition: opacity .5s; }
+  #overlay.hidden { opacity: 0; pointer-events: none; }
+  .card { width: min(560px, 92vw); padding: 36px 40px; text-align: center; border: 1px solid #a8843a; border-radius: 4px;
+    background: linear-gradient(#2a1c10ee, #160e08ee); box-shadow: 0 0 60px rgba(0,0,0,.8), inset 0 0 40px rgba(168,132,58,.15); }
+  .card h1 { font-size: 46px; letter-spacing: 8px; color: #e8c66a; text-shadow: 0 0 18px rgba(232,198,106,.45); }
+  .card h2 { font-size: 18px; font-style: italic; font-weight: normal; color: #c8b088; margin: 6px 0 22px; letter-spacing: 3px; }
+  .keys { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; text-align: left; margin: 0 auto 26px; width: fit-content; font-size: 15px; }
+  .keys kbd { display: inline-block; min-width: 26px; padding: 2px 7px; border: 1px solid #a8843a; border-radius: 3px; background: #3a2814; color: #f3d98a; font-family: inherit; text-align: center; font-size: 13px; }
+  .shops { font-size: 13px; color: #b8a27a; margin-bottom: 22px; line-height: 1.8; }
+  #start { font-family: inherit; font-size: 20px; letter-spacing: 4px; padding: 12px 42px; color: #1a1008; background: linear-gradient(#f0d27a, #b8913a);
+    border: none; border-radius: 3px; cursor: pointer; box-shadow: 0 0 22px rgba(232,198,106,.4); transition: transform .15s; }
+  #start:hover { transform: scale(1.05); }
+  #crosshair { position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: rgba(255,240,200,.75); box-shadow: 0 0 6px rgba(255,220,150,.8); z-index: 5; pointer-events: none; }
+  #prompt { position: fixed; left: 50%; bottom: 22%; transform: translateX(-50%); padding: 8px 20px; font-size: 17px; background: rgba(20,12,6,.75); border: 1px solid #a8843a; border-radius: 3px; opacity: 0; transition: opacity .2s; z-index: 5; pointer-events: none; white-space: nowrap; }
+  #prompt.show { opacity: 1; }
+  #msg { position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%); max-width: min(760px, 90vw); padding: 12px 24px; font-size: 17px; line-height: 1.6; text-align: center;
+    background: linear-gradient(90deg, transparent, rgba(20,12,6,.85) 15%, rgba(20,12,6,.85) 85%, transparent); opacity: 0; transition: opacity .4s; z-index: 5; pointer-events: none; }
+  #msg.show { opacity: 1; }
+  #location { position: fixed; top: 7%; left: 50%; transform: translateX(-50%); font-size: 30px; letter-spacing: 8px; color: #f0d27a; text-shadow: 0 0 14px rgba(0,0,0,.9), 0 0 24px rgba(232,198,106,.4); opacity: 0; z-index: 5; pointer-events: none; white-space: nowrap; }
+  #location.show { animation: loc 3.5s ease forwards; }
+  @keyframes loc { 0% { opacity: 0; letter-spacing: 16px; } 15% { opacity: 1; letter-spacing: 8px; } 75% { opacity: 1; } 100% { opacity: 0; } }
+  #minimap { position: fixed; right: 16px; top: 16px; border: 1px solid #a8843a; border-radius: 3px; z-index: 5; pointer-events: none; }
+  #minimap.hidden { display: none; }
+  #help { position: fixed; left: 16px; top: 30px; font-size: 12px; color: rgba(241,227,194,.6); z-index: 5; pointer-events: none; line-height: 1.7; }
+  #fps { position: fixed; left: 16px; top: 12px; font-size: 11px; color: rgba(241,227,194,.4); z-index: 5; font-family: monospace; }
+  .btns { display: flex; gap: 14px; justify-content: center; }
+  #tourBtn, #dayBtn { font-family: inherit; font-size: 20px; letter-spacing: 4px; padding: 12px 30px; color: #f0d27a; background: rgba(40,26,12,.8);
+    border: 1px solid #c9a227; border-radius: 3px; cursor: pointer; transition: transform .15s; }
+  #tourBtn:hover, #dayBtn:hover { transform: scale(1.05); }
+  #dayBtn { font-size: 16px; letter-spacing: 2px; }
+  #spells { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; pointer-events: none; }
+  #spells .sp { min-width: 116px; padding: 6px 10px 5px; text-align: center; font-size: 14px; border: 1px solid rgba(168,132,58,.45); border-radius: 3px; background: rgba(20,12,6,.55); color: rgba(241,227,194,.6); transition: all .2s; }
+  #spells .sp small { display: block; font-size: 10px; font-style: italic; opacity: .7; letter-spacing: 1px; }
+  #spells .sp b { color: #f3d98a; margin-right: 4px; font-weight: normal; }
+  #spells .sp.on { border-color: #f0d27a; color: #fff3d0; background: rgba(60,38,14,.8); box-shadow: 0 0 14px rgba(240,210,122,.45); transform: translateY(-3px); }
+  #fade { position: fixed; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity .6s; z-index: 30; }
+  #fade.on { opacity: 1; }
+  #tourBadge { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); padding: 6px 16px; font-size: 14px; letter-spacing: 2px; color: #f3d98a; background: rgba(20,12,6,.65); border: 1px solid rgba(168,132,58,.6); border-radius: 3px; z-index: 6; display: none; pointer-events: none; }
+  body.touring #tourBadge { display: block; }
+  body.touring #crosshair, body.touring #prompt, body.touring #spells { display: none; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./lib/three/build/three.module.js",
+  "three/addons/": "./lib/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="app"></div>
+<div id="loading">正在穿过砖墙……</div>
+
+<div id="overlay">
+  <div class="card">
+    <h1>对 角 巷</h1>
+    <h2>Diagon Alley · 昼 / 夜</h2>
+    <div class="keys">
+      <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>行走（按住 <kbd>Shift</kbd> 奔跑）</span>
+      <span><kbd>鼠标</kbd></span><span>环顾四周</span>
+      <span><kbd>E</kbd></span><span>开门 / 互动 / 与人物交谈</span>
+      <span><kbd>左键</kbd></span><span>挥动老魔杖施放咒语</span>
+      <span><kbd>1</kbd>–<kbd>4</kbd> / <kbd>滚轮</kbd></span><span>切换咒语：除你武器 · 荧光闪烁·最强 · 火焰熊熊 · 呼神护卫</span>
+      <span><kbd>L</kbd></span><span>荧光闪烁 Lumos / 诺克斯 Nox</span>
+      <span><kbd>N</kbd></span><span>切换白天 / 夜晚</span>
+      <span><kbd>V</kbd></span><span>切换魔杖：老魔杖 / 德拉科的山楂木魔杖</span>
+      <span><kbd>T</kbd></span><span>开始 / 退出自动巡游</span>
+      <span><kbd>M</kbd></span><span>显示 / 隐藏地图</span>
+      <span><kbd>Esc</kbd></span><span>暂停</span>
+    </div>
+    <div class="shops">可进入：奥利凡德魔杖店 · 丽痕书店 · 斯拉格与吉格斯药店 · 咿啦猫头鹰商店<br/>街上偶遇：哈利、罗恩、邓布利多、贝拉特里克斯、芙蓉、格雷女士（幽灵）、克鲁克山……<br/>紫色的<b>骑士公共汽车</b>在街心来回飞驰——到站时走近车尾按 E 上车！</div>
+    <div class="btns">
+      <button id="start">进入对角巷</button>
+      <button id="tourBtn">自动巡游</button>
+      <button id="dayBtn">切换到白天 (N)</button>
+    </div>
+  </div>
+</div>
+
+<div id="crosshair"></div>
+<div id="prompt"></div>
+<div id="msg"></div>
+<div id="location"></div>
+<canvas id="minimap"></canvas>
+<div id="fps"></div>
+<div id="spells"></div>
+<div id="tourBadge">自动巡游中 · 按 T 或 Esc 退出 · N 切换昼夜</div>
+<div id="fade"></div>
+<div id="help">WASD 移动 · E 互动 · 左键 施法 · 1-4 切换咒语 · L 荧光 · V 换魔杖 · N 昼/夜 · T 自动巡游 · M 地图</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
