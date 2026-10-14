@@ -5,6 +5,8 @@ export const apps:AppInfo[]=[
  {id:'cat',name:'猫助手',icon:0,category:'桌面',description:'AI 问答、桌面导航，和脏脏包的小日常',url:'https://ai-cat.jackchen911006.chatgpt.site/desktop-assistant'},
  {id:'minecraft',name:'Minecraft.py',icon:1,category:'编程与学习',description:'右边写 Python，左边让方块世界生长。',url:'https://blockcraft.ok.kimi.link',image:'/works/covers/minecraft.webp'},
  {id:'works',name:'作品集',icon:4,category:'桌面',description:'所有创作，收在同一台电脑里。'},
+ {id:'zp-work',name:'工作相关',icon:24,category:'桌面',description:'工作中的 AI 实践、方案与交互演示。',owner:'CTY STUDIO',collection:'工作相关'},
+ {id:'zp-supply-chain-ai',name:'供应链 · AI 升级改造方案',icon:24,category:'工作相关',description:'ERP / MES / TMS 全链路交付：4 个 AI 场景演示、12 环节检查单、交付周期图表与投入收益测算。',image:'/works/work/supply-chain-ai/cover.svg',url:'/works/work/supply-chain-ai/index.html',owner:'CTY STUDIO',desktop:false,status:'可体验'},
  {id:'home',name:'3D 房屋设计',icon:2,category:'设计',description:'庭间的前八套原设计 · 六十四个空间。',url:'https://tingjian-space-lab.jackchen911006.chatgpt.site',image:'/works/home/dusk-living.webp'},
  {id:'about',name:'我是谁.txt',icon:18,category:'桌面',description:'这台电脑背后的人'},
  {id:'ai',name:'AI 研习所',icon:3,category:'编程与学习',description:'完整课程、智能体工坊、办公工具与 3D 实验。',url:'https://ai-cat.jackchen911006.chatgpt.site',image:'/works/covers/ai.webp'},
