@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { assetUrl } from '../core/AssetUrl';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import type { IKart } from '../types';
 
 export async function loadRocketModel() {
-  const { scene } = await new GLTFLoader().loadAsync(assetUrl('/assets/items/rocket.glb'));
+  const { scene } = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(assetUrl('/assets/items/rocket.glb'));
   scene.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(scene), centre = box.getCenter(new THREE.Vector3());
   const scale = 1.4 / (box.max.x - box.min.x);

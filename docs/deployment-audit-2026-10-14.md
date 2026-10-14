@@ -8,3 +8,5 @@
 - Kimi `scripts/kimi/` adapters are not changed. Every embedded entry is explicit `index.html`; the release still contains `dist/` at the same root.
 
 Browser interaction testing was unavailable in this environment. Validation covers TypeScript, production builds, catalogue/navigation and layout math, local runtime assets and deployment status; it does not measure device FPS.
+
+The first V42 archive exceeded Sites’ 256 MiB expanded limit and was rejected before publication. Unused racer preview/assets were removed; music, cover and rocket textures were compressed, preserving the entire active track and original character/vehicle models.
