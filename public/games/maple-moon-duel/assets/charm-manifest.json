@@ -1,0 +1,122 @@
+{
+  "version": 9,
+  "cell": [
+    256,
+    320
+  ],
+  "columns": 8,
+  "rows": 2,
+  "frames": 16,
+  "cycleSeconds": 1.8,
+  "pivot": [
+    128,
+    300
+  ],
+  "catPivot": [
+    128,
+    300
+  ],
+  "facing": "right (head right / body and tail left)",
+  "file": "cat-charm.png",
+  "pose": "Original red-outfit cat; horizontal hip/spine bones, low counter-rotated head, four individually IK-tucked paws, grounded tail. Model root rotation remains zero. Gentle chest breathing with tiny head tilt.",
+  "meshCleanup": "Prone-only hidden detached tripo_part_51; detached part_0 sub-chin scan strips below contact plane removed. Original GLB and other animations unchanged.",
+  "sha256": "deb5758316b729344683b3e39df077543a13c124025a9911e243ea7fbc6cd0ce",
+  "bounds": [
+    [
+      41,
+      216,
+      216,
+      304
+    ],
+    [
+      41,
+      215,
+      215,
+      304
+    ],
+    [
+      41,
+      215,
+      215,
+      304
+    ],
+    [
+      41,
+      215,
+      215,
+      304
+    ],
+    [
+      41,
+      215,
+      215,
+      304
+    ],
+    [
+      41,
+      214,
+      216,
+      304
+    ],
+    [
+      41,
+      214,
+      216,
+      304
+    ],
+    [
+      41,
+      214,
+      216,
+      304
+    ],
+    [
+      41,
+      214,
+      216,
+      304
+    ],
+    [
+      41,
+      214,
+      217,
+      304
+    ],
+    [
+      41,
+      215,
+      217,
+      304
+    ],
+    [
+      41,
+      215,
+      217,
+      304
+    ],
+    [
+      41,
+      216,
+      217,
+      304
+    ],
+    [
+      41,
+      216,
+      216,
+      304
+    ],
+    [
+      41,
+      216,
+      216,
+      304
+    ],
+    [
+      41,
+      216,
+      216,
+      304
+    ]
+  ]
+}

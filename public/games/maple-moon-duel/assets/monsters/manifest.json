@@ -1,0 +1,329 @@
+{
+  "author": "LuizMelo",
+  "license": "CC0-1.0",
+  "source": "https://luizmelo.itch.io/monsters-creatures-fantasy",
+  "frameWidth": 150,
+  "frameHeight": 150,
+  "defaultFacing": "right",
+  "pivot": {
+    "x": 75,
+    "y": 101
+  },
+  "characters": {
+    "skeleton": {
+      "frameWidth": 150,
+      "frameHeight": 150,
+      "pivot": {
+        "x": 75,
+        "y": 101
+      },
+      "facing": 1,
+      "recommendedScale": 3,
+      "animations": {
+        "walk": {
+          "file": "assets/monsters/skeleton/walk.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 10,
+          "loop": true,
+          "sha256": "1f8e6db4b949ae9f4571f030d6bef34bfbcd195edf4c7ea16d9e7e00f42a39c8"
+        },
+        "hurt": {
+          "file": "assets/monsters/skeleton/hurt.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "cf3e747bf5c54a3c4adfc5c803e30ceb9e89689961d468ab471dc5c555d8f06a"
+        },
+        "guard": {
+          "file": "assets/monsters/skeleton/guard.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": true,
+          "sha256": "3cd4edd0c19b1fdad33781916bb10445cd1f2ed556662bac43b9fda83f8cdec1"
+        },
+        "idle": {
+          "file": "assets/monsters/skeleton/idle.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": true,
+          "sha256": "80ca8c9f59c425d064e93acb505047db0ca1e23b3dafffc0a077a42b2b73ec06"
+        },
+        "death": {
+          "file": "assets/monsters/skeleton/death.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "e137f81c473c870c9b069982389cbaaa6363d35720895b2bd3ce3708558473d1"
+        },
+        "attack": {
+          "file": "assets/monsters/skeleton/attack.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "0eed7488da2294bf221494cfa9f4e9836cbfd00add085a64113a2d3d0b077430"
+        },
+        "attack2": {
+          "file": "assets/monsters/skeleton/attack2.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "afe7fb168b4a38f12da3286fe351e86b7ca29b073e7a5f15b4751cd78932e2d0"
+        },
+        "attack3": {
+          "file": "assets/monsters/skeleton/attack3.png",
+          "frames": 6,
+          "columns": 6,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "e762ef64b61ef131a1224034a5edfd224d002fac30dc547d5e468cd721d6d82a"
+        }
+      }
+    },
+    "goblin": {
+      "frameWidth": 150,
+      "frameHeight": 150,
+      "pivot": {
+        "x": 75,
+        "y": 101
+      },
+      "facing": 1,
+      "recommendedScale": 3.5,
+      "animations": {
+        "hurt": {
+          "file": "assets/monsters/goblin/hurt.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "2bb34335146df28177a17b3b43925ac91e6c64157c1def70d99c39d67ccbb396"
+        },
+        "walk": {
+          "file": "assets/monsters/goblin/walk.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": true,
+          "sha256": "a93aaa44b29f9070344572c26e13843058a19df8a97838fe8727158339e88c2e"
+        },
+        "idle": {
+          "file": "assets/monsters/goblin/idle.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": true,
+          "sha256": "b4e413f6c237de96baf48879a2119a1aa3185827e78db2bd567c0992fb922860"
+        },
+        "death": {
+          "file": "assets/monsters/goblin/death.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "e74bdf72f128164592c455d4c5c48f0c229d18e62ee9f3abfa39a75e0c82c097"
+        },
+        "attack": {
+          "file": "assets/monsters/goblin/attack.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "e9055f50a93fc214660cdb798e65979a7cd76a9fbb9435135b39544171a43bae"
+        },
+        "attack2": {
+          "file": "assets/monsters/goblin/attack2.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "af7ef3ca6ee314eb1e589018daf916daff86fbbe29fdaa3e56970f673b500ccc"
+        },
+        "attack3": {
+          "file": "assets/monsters/goblin/attack3.png",
+          "frames": 12,
+          "columns": 12,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "9ba7a5eb4012f6ebcec6966bf267bcc61a53d1f86a03ac7584ae59d9a8b55b90"
+        }
+      }
+    },
+    "mushroom": {
+      "frameWidth": 150,
+      "frameHeight": 150,
+      "pivot": {
+        "x": 75,
+        "y": 101
+      },
+      "facing": 1,
+      "recommendedScale": 3.5,
+      "animations": {
+        "hurt": {
+          "file": "assets/monsters/mushroom/hurt.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "e0a9e0e91ec564adeb55f04536e1288d1c71b2e4cfaa04564b4bc762b6a154b9"
+        },
+        "walk": {
+          "file": "assets/monsters/mushroom/walk.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": true,
+          "sha256": "73f72bc64033f4af2335390223965ca4b36f0ff8a6731612238058fb39d8198e"
+        },
+        "idle": {
+          "file": "assets/monsters/mushroom/idle.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": true,
+          "sha256": "326c6d499729f50ffb999957586b50eb86133781d180adb409fca75971090c22"
+        },
+        "death": {
+          "file": "assets/monsters/mushroom/death.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "4eea4d6542ee507603ed6737c7d8c3826b5f09e186d250a287d7a620febff208"
+        },
+        "attack": {
+          "file": "assets/monsters/mushroom/attack.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "47e9ca3bc1369c27eb687397229536bd685879333c94a0e8ece73052bfca4e19"
+        },
+        "attack2": {
+          "file": "assets/monsters/mushroom/attack2.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "cb6dcbd56b30451887ae79d4e4d56439b86437cc5456385beaa093e2ae398c4f"
+        },
+        "attack3": {
+          "file": "assets/monsters/mushroom/attack3.png",
+          "frames": 11,
+          "columns": 11,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "8e1812ab855b4780b24024fd06301edd00b19bfd70a60c976e4717869160d65f"
+        }
+      }
+    },
+    "eye": {
+      "frameWidth": 150,
+      "frameHeight": 150,
+      "pivot": {
+        "x": 75,
+        "y": 110
+      },
+      "facing": 1,
+      "recommendedScale": 3.5,
+      "animations": {
+        "hurt": {
+          "file": "assets/monsters/eye/hurt.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "4751aa7999e096c0b718b07393e5fd35f38832b6063ccbfc182ed3d7fa46ee46"
+        },
+        "idle": {
+          "file": "assets/monsters/eye/idle.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 7,
+          "loop": true,
+          "sha256": "0555d4ff47209478889b1cdcee7ee8b0a5ec758e679e109414530d39a9243d45"
+        },
+        "death": {
+          "file": "assets/monsters/eye/death.png",
+          "frames": 4,
+          "columns": 4,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "d632ed033273ca53dde9a52059fca8f5b5cf92a9d8d57735284e307c6cb18c44"
+        },
+        "attack": {
+          "file": "assets/monsters/eye/attack.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "ed1cd29ee28b368077a7c691c56d32e0b1e0dcb591478164fe15287c1f349369"
+        },
+        "attack2": {
+          "file": "assets/monsters/eye/attack2.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 10,
+          "loop": false,
+          "sha256": "229493f78244fdec216a146f79ce40b90ac9640be77347ad89ab46392aa7de21"
+        },
+        "attack3": {
+          "file": "assets/monsters/eye/attack3.png",
+          "frames": 6,
+          "columns": 6,
+          "rows": 1,
+          "fps": 7,
+          "loop": false,
+          "sha256": "24adf5a0e1e6868e52dd09d68e5cf46feaf2b5bc23298f040a1e5cd6a2d23c0f"
+        },
+        "walk": {
+          "file": "assets/monsters/eye/idle.png",
+          "frames": 8,
+          "columns": 8,
+          "rows": 1,
+          "fps": 7,
+          "loop": true,
+          "sha256": "0555d4ff47209478889b1cdcee7ee8b0a5ec758e679e109414530d39a9243d45"
+        }
+      }
+    },
+    "boss": {
+      "base": "mushroom",
+      "recommendedScale": 7,
+      "displayName": "Crimson Spore King",
+      "note": "Use mushroom sheets unchanged, enlarged in renderer; CC0 variant."
+    }
+  }
+}

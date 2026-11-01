@@ -1,0 +1,20 @@
+{
+  "asset": "adventure-arena.png",
+  "creation": "Original image generated using built-in image_gen; not copied from a game screenshot",
+  "createdUTC": "2026-10-31T15:10:30Z",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "logicalCanvas": [
+    1600,
+    900
+  ],
+  "walkableBandLogicalY": [
+    480,
+    760
+  ],
+  "sourceGeneratedFile": "generated_images/exec-09a4bfe4-a275-40ce-bb27-ac3e3cae1938.png",
+  "sha256": "7018d26538468a7e1ecd475c4a973c4da8c39375d3113373f1b904a545c945f6",
+  "review": "Moon portal, ruined shrine and maple canopy confined to background. Broad flat open stone courtyard from approximately y475 through bottom at logical 1600x900. No characters, text or UI. Render entire asset into logical canvas without cover-cropping."
+}

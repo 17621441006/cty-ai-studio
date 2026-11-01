@@ -1,0 +1,1091 @@
+{
+  "packs": [
+    {
+      "title": "Weapon Slash - Effect",
+      "author": "Cethiel",
+      "source": "https://opengameart.org/content/weapon-slash-effect",
+      "download": "https://opengameart.org/sites/default/files/Everything_0.zip",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attribution_required": false,
+      "files": [
+        {
+          "path": "cethiel-slashes/Alternative 1/1/Alternative_1_01.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/1/Alternative_1_02.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/1/Alternative_1_03.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/1/Alternative_1_04.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/1/Alternative_1_05.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/1/Alternative_1_06.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/2/Alternative_1_07.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/2/Alternative_1_08.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/2/Alternative_1_09.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/2/Alternative_1_10.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/2/Alternative_1_11.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/2/Alternative_1_12.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/3/Alternative_1_13.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/3/Alternative_1_14.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/3/Alternative_1_15.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/3/Alternative_1_16.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/3/Alternative_1_17.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/3/Alternative_1_18.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/4/Alternative_1_19.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/4/Alternative_1_20.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/4/Alternative_1_21.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/4/Alternative_1_22.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/4/Alternative_1_23.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/4/Alternative_1_24.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/5/Alternative_1_25.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/5/Alternative_1_26.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/5/Alternative_1_27.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/5/Alternative_1_28.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/5/Alternative_1_29.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/5/Alternative_1_30.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 1/Preview_Alternative_1.png",
+          "size": [
+            750,
+            750
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/1/Alternative_2_01.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/1/Alternative_2_02.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/1/Alternative_2_03.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/1/Alternative_2_04.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/1/Alternative_2_05.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/1/Alternative_2_06.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/2/Alternative_2_07.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/2/Alternative_2_08.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/2/Alternative_2_09.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/2/Alternative_2_10.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/2/Alternative_2_11.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/2/Alternative_2_12.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/3/Alternative_2_13.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/3/Alternative_2_14.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/3/Alternative_2_15.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/3/Alternative_2_16.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/3/Alternative_2_17.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/3/Alternative_2_18.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/4/Alternative_2_19.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/4/Alternative_2_20.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/4/Alternative_2_21.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/4/Alternative_2_22.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/4/Alternative_2_23.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/4/Alternative_2_24.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/5/Alternative_2_25.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/5/Alternative_2_26.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/5/Alternative_2_27.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/5/Alternative_2_28.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/5/Alternative_2_29.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/5/Alternative_2_30.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 2/Preview_Alternative_2.png",
+          "size": [
+            750,
+            750
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/1/Alternative_3_01.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/1/Alternative_3_02.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/1/Alternative_3_03.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/1/Alternative_3_04.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/1/Alternative_3_05.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/1/Alternative_3_06.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/2/Alternative_3_07.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/2/Alternative_3_08.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/2/Alternative_3_09.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/2/Alternative_3_10.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/2/Alternative_3_11.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/2/Alternative_3_12.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/3/Alternative_3_13.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/3/Alternative_3_14.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/3/Alternative_3_15.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/3/Alternative_3_16.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/3/Alternative_3_17.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/3/Alternative_3_18.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/4/Alternative_3_19.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/4/Alternative_3_20.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/4/Alternative_3_21.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/4/Alternative_3_22.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/4/Alternative_3_23.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/4/Alternative_3_24.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/5/Alternative_3_25.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/5/Alternative_3_26.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/5/Alternative_3_27.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/5/Alternative_3_28.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/5/Alternative_3_29.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/5/Alternative_3_30.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Alternative 3/Preview_Alternative_3.png",
+          "size": [
+            750,
+            750
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/1/Classic_01.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/1/Classic_02.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/1/Classic_03.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/1/Classic_04.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/1/Classic_05.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/1/Classic_06.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/2/Classic_07.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/2/Classic_08.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/2/Classic_09.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/2/Classic_10.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/2/Classic_11.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/2/Classic_12.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/3/Classic_13.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/3/Classic_14.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/3/Classic_15.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/3/Classic_16.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/3/Classic_17.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/3/Classic_18.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/4/Classic_19.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/4/Classic_20.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/4/Classic_21.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/4/Classic_22.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/4/Classic_23.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/4/Classic_24.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/5/Classic_25.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/5/Classic_26.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/5/Classic_27.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/5/Classic_28.png",
+          "size": [
+            126,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/5/Classic_29.png",
+          "size": [
+            124,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/5/Classic_30.png",
+          "size": [
+            125,
+            150
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Classic/Preview.png",
+          "size": [
+            750,
+            750
+          ],
+          "mode": "RGBA"
+        },
+        {
+          "path": "cethiel-slashes/Big_Preview.png",
+          "size": [
+            1500,
+            1500
+          ],
+          "mode": "RGBA"
+        }
+      ]
+    },
+    {
+      "title": "Lots of game effects",
+      "author": "Soluna Software",
+      "source": "https://opengameart.org/content/lots-of-game-effects",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "attribution_required": false,
+      "author_notice": "Use this as you like. You do not need to credit me",
+      "files": [
+        {
+          "path": "soluna/Effect36.png",
+          "download": "https://opengameart.org/sites/default/files/Effect36.png",
+          "columns": 4,
+          "rows": 4,
+          "frame_width": 128,
+          "frame_height": 128,
+          "sha256": "8aaddae998483f632e0bed3e508af97b44a4f9a11253fbdeb8b6526cafab7311"
+        },
+        {
+          "path": "soluna/Effect51.png",
+          "download": "https://opengameart.org/sites/default/files/Effect51.png",
+          "columns": 4,
+          "rows": 4,
+          "frame_width": 128,
+          "frame_height": 128,
+          "sha256": "9849e371cf78c28d6c1c297e6eeece230cecefefe2a139233bed0c1e2cfc5f4c"
+        },
+        {
+          "path": "soluna/Explosion25.png",
+          "download": "https://opengameart.org/sites/default/files/Explosion25.png",
+          "columns": 4,
+          "rows": 4,
+          "frame_width": 128,
+          "frame_height": 128,
+          "sha256": "3f4eee14a10a9083b8cf39fcea131cf939dd3149d434ab2125c46eb712a54034"
+        },
+        {
+          "path": "soluna/Fire01.png",
+          "download": "https://opengameart.org/sites/default/files/Fire01.png",
+          "columns": 8,
+          "rows": 4,
+          "frame_width": 128,
+          "frame_height": 256,
+          "sha256": "cee47a14971d54ab3a1f8ea1806e6f807ff9aae1dd62e6a6c7ede61efd92c8c0"
+        },
+        {
+          "path": "soluna/ToonExplosion31.png",
+          "download": "https://opengameart.org/sites/default/files/ToonExplosion31.png",
+          "columns": 4,
+          "rows": 4,
+          "frame_width": 128,
+          "frame_height": 128,
+          "sha256": "be8b73c5655ae05a4a83be32ce812a366ef157fdd8696f91224565ccf72c0f7f"
+        }
+      ]
+    }
+  ],
+  "derived_atlases": [
+    {
+      "path": "slashSweep.png",
+      "source_pack": "Weapon Slash - Effect",
+      "source_frames": [
+        "cethiel-slashes/Classic/1/Classic_01.png",
+        "cethiel-slashes/Classic/1/Classic_02.png",
+        "cethiel-slashes/Classic/1/Classic_03.png",
+        "cethiel-slashes/Classic/1/Classic_04.png",
+        "cethiel-slashes/Classic/1/Classic_05.png",
+        "cethiel-slashes/Classic/1/Classic_06.png"
+      ],
+      "operation": "Six frames packed horizontally with transparent padding to 128x150 cells",
+      "columns": 6,
+      "rows": 1,
+      "frame_width": 128,
+      "frame_height": 150,
+      "license": "CC0-1.0"
+    }
+  ]
+}

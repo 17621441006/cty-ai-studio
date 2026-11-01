@@ -1,0 +1,252 @@
+{
+  "cell": [
+    256,
+    320
+  ],
+  "columns": 8,
+  "rows": 2,
+  "frames": 16,
+  "cycleSeconds": 1.8,
+  "pivot": [
+    128,
+    300
+  ],
+  "catPivot": [
+    128,
+    300
+  ],
+  "xiaosiPivot": [
+    128,
+    300
+  ],
+  "facing": "head toward right, mirror for opposite direction",
+  "source": "Original cat-rig.glb and xiaosi-c.glb; articulated side-lying pose, chest scale/rotation breath and tiny head/tail motion, 16 independently rendered frames",
+  "rendering": "Fixed orthographic camera, fixed character scale, fixed horizontal center; ground aligned per pose; no pixel warping, no frame crossfade",
+  "characters": {
+    "cat": {
+      "version": 9,
+      "cell": [
+        256,
+        320
+      ],
+      "columns": 8,
+      "rows": 2,
+      "frames": 16,
+      "cycleSeconds": 1.8,
+      "pivot": [
+        128,
+        300
+      ],
+      "catPivot": [
+        128,
+        300
+      ],
+      "facing": "right (head right / body and tail left)",
+      "file": "cat-defeat.png",
+      "pose": "Original red-outfit cat; horizontal hip/spine bones, low counter-rotated head, four individually IK-tucked paws, grounded tail. Model root rotation remains zero. Gentle chest breathing.",
+      "meshCleanup": "Prone-only hidden detached tripo_part_51; detached part_0 sub-chin scan strips below contact plane removed. Original GLB and other animations unchanged.",
+      "sha256": "4335be4702bbc9d697916ff40e4aaf51b7cc03d9ce4ad2f2c78e546f2daaed23",
+      "bounds": [
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ],
+        [
+          41,
+          216,
+          216,
+          304
+        ]
+      ]
+    },
+    "xiaosi": {
+      "file": "xiaosi-defeat.png",
+      "sha256": "0b344ca28e0e4452a2a3c5a6f43990174ee79db69bd6f0064ed0f6fe95b8429e",
+      "bounds": [
+        [
+          42,
+          213,
+          214,
+          304
+        ],
+        [
+          42,
+          213,
+          214,
+          304
+        ],
+        [
+          42,
+          213,
+          214,
+          304
+        ],
+        [
+          42,
+          213,
+          215,
+          304
+        ],
+        [
+          42,
+          213,
+          215,
+          304
+        ],
+        [
+          42,
+          213,
+          216,
+          304
+        ],
+        [
+          42,
+          213,
+          216,
+          304
+        ],
+        [
+          42,
+          213,
+          216,
+          304
+        ],
+        [
+          42,
+          213,
+          216,
+          304
+        ],
+        [
+          42,
+          213,
+          216,
+          304
+        ],
+        [
+          42,
+          213,
+          216,
+          304
+        ],
+        [
+          42,
+          213,
+          216,
+          304
+        ],
+        [
+          42,
+          213,
+          215,
+          304
+        ],
+        [
+          42,
+          213,
+          215,
+          304
+        ],
+        [
+          42,
+          213,
+          215,
+          304
+        ],
+        [
+          42,
+          213,
+          214,
+          304
+        ]
+      ]
+    }
+  },
+  "version": 9
+}

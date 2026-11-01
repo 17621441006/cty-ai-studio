@@ -1,0 +1,8 @@
+Monsters Creatures Fantasy — LuizMelo
+License: CC0 1.0 Universal (public-domain dedication). Attribution optional; included voluntarily.
+Creator and primary license verification: https://luizmelo.itch.io/monsters-creatures-fantasy
+License text: https://creativecommons.org/publicdomain/zero/1.0/
+Downloaded original free archive Monsters_Creatures_Fantasy.zip via creator itch.io download (upload 1948590), plus optional attack archives uploads 2036739 and 2565873.
+Verified 2026-10-31: creator explicitly identifies CC0 and permits commercial/non-commercial projects.
+PNG strips unmodified; filenames normalized. No executable archive contents executed.
+Boss uses enlarged Mushroom sprites; scaling performed at rendering time.

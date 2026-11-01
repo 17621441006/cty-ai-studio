@@ -1,0 +1,17 @@
+Downloaded 2026-10-31. All files in this folder licensed CC0 1.0. Attribution is not required, but credits are retained for provenance.
+
+Weapon Slash - Effect — Cethiel
+https://opengameart.org/content/weapon-slash-effect
+Download: https://opengameart.org/sites/default/files/Everything_0.zip
+License: https://creativecommons.org/publicdomain/zero/1.0/
+120 separate RGBA animation frames: 4 palettes, each with 5 animations of 6 frames. Preview images are not animation frames.
+
+Lots of game effects — Soluna Software
+https://opengameart.org/content/lots-of-game-effects
+License: https://creativecommons.org/publicdomain/zero/1.0/
+Author notice: Use this as you like. You do not need to credit me.
+Fire01: 8 columns x 4 rows, 128 x 256 px per frame.
+Effect36, Effect51, Explosion25, ToonExplosion31: 4 columns x 4 rows, 128 x 128 px per frame.
+Use Canvas drawImage source rectangles in row-major order.
+
+slashSweep.png derived from Cethiel Classic/1 frames 01–06, transparently padded to 128×150 cells and packed horizontally (768×150). CC0.

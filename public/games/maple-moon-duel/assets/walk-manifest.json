@@ -1,0 +1,18 @@
+{
+  "cell": [
+    256,
+    320
+  ],
+  "columns": 8,
+  "rows": 2,
+  "frames": 16,
+  "cycleSeconds": 0.9,
+  "catPivot": [
+    171,
+    301
+  ],
+  "xiaosiPivot": [
+    130,
+    301
+  ]
+}

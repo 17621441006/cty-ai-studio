@@ -1,0 +1,31 @@
+{
+  "cell": [
+    256,
+    320
+  ],
+  "columns": 8,
+  "rows": 2,
+  "frames": 16,
+  "cycleSeconds": 0.525,
+  "cycleDistance": 210,
+  "catPivot": [
+    171,
+    301
+  ],
+  "xiaosiPivot": [
+    130,
+    301
+  ],
+  "facing": "right",
+  "source": "https://github.com/17621441006/spz_lovehome",
+  "sourceRef": "main (downloaded 2026-10-31)",
+  "clips": {
+    "cat": "run",
+    "xiaosi": "mesh_run"
+  },
+  "rendering": "16 independently posed original skinned-model frames; orthographic fixed scale and camera; no crossfade or optical interpolation; floor penetration clamped while original aerial foot clearance retained",
+  "sourceSHA256": {
+    "cat": "d890a8385e92b10c5b96b85f01bf44a13ff20511b198bf98ec34ce4f7fe2ae46",
+    "xiaosi": "f1d77941aed9fae1f9a9304187c90190005658da697bd8f5f249945f976a62fc"
+  }
+}
