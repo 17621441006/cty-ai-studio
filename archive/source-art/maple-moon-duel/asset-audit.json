@@ -1,0 +1,1516 @@
+{
+  "sourceRepository": "17621441006/spz_lovehome",
+  "sourceCommit": "889e0fa0ede73b67ff92c6b9dabb7512428b8417",
+  "models": [
+    {
+      "file": "cat-rig.glb",
+      "sourcePath": "dist/assets/cat-rig.glb",
+      "gitBlobSha": "d11ee2597441717ad19cf3e8a2965a09bad26f8c",
+      "sha256": "d890a8385e92b10c5b96b85f01bf44a13ff20511b198bf98ec34ce4f7fe2ae46",
+      "bytes": 4527212,
+      "nodes": 85,
+      "meshes": 53,
+      "primitives": 53,
+      "materials": 53,
+      "skins": [
+        {
+          "name": "CatRig",
+          "joints": 31,
+          "jointNames": [
+            "mixamorig:Hips",
+            "mixamorig:LeftUpLeg",
+            "mixamorig:LeftLeg",
+            "mixamorig:LeftFoot",
+            "mixamorig:LeftToeBase",
+            "mixamorig:RightUpLeg",
+            "mixamorig:RightLeg",
+            "mixamorig:RightFoot",
+            "mixamorig:RightToeBase",
+            "mixamorig:Spine",
+            "mixamorig:Spine1",
+            "mixamorig:Spine2",
+            "mixamorig:LeftShoulder",
+            "mixamorig:LeftArm",
+            "mixamorig:LeftForeArm",
+            "mixamorig:LeftHand",
+            "mixamorig:Neck",
+            "mixamorig:Head",
+            "Hair1",
+            "Hair2",
+            "Hair3",
+            "mixamorig:RightShoulder",
+            "mixamorig:RightArm",
+            "mixamorig:RightForeArm",
+            "mixamorig:RightHand",
+            "Fan",
+            "Tail1",
+            "Tail2",
+            "Tail3",
+            "Tail4",
+            "Tail5"
+          ]
+        }
+      ],
+      "animations": [
+        "front_kick_01",
+        "front_kick_02",
+        "jump",
+        "jump_down",
+        "run",
+        "sit",
+        "wait",
+        "walk"
+      ],
+      "embeddedImages": [
+        {
+          "name": "cute_cat_3d_model_tripo_part_7_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_7_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_7_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_15_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_15_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_15_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_21_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_21_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_21_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_30_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_30_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_30_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_34_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_34_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_34_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_35_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_35_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_35_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_37_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_37_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_37_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_39_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_39_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_39_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_41_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_41_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_41_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_42_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_42_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_42_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_50_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_50_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_50_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_0_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_0_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_0_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_1_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_1_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_1_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_2_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_2_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_2_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_3_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_3_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_3_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_4_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_4_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_4_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_5_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_5_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_5_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_6_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_6_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_6_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_8_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_8_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_8_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_9_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_9_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_9_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_10_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_10_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_10_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_11_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_11_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_11_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_12_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_12_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_12_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_13_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_13_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_13_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_14_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_14_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_14_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_16_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_16_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_16_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_17_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_17_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_17_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_18_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_18_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_18_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_19_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_19_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_19_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_20_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_20_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_20_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_22_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_22_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_22_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_23_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_23_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            512,
+            512
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_23_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_24_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_24_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_24_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_25_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_25_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            256,
+            256
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_25_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_26_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_26_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_26_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_27_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_27_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_27_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_28_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_28_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_28_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_29_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_29_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_29_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_31_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_31_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_31_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_32_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_32_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_32_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_33_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_33_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_33_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_36_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_36_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_36_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_38_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_38_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_38_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_40_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_40_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            128,
+            128
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_40_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_43_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_43_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_43_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_44_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_44_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_44_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_45_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_45_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_45_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_46_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_46_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_46_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_47_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_47_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_47_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_48_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_48_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_48_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_49_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_49_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_49_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_51_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            16,
+            16
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_51_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_51_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            16,
+            16
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_52_normal",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_52_basecolor",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "name": "cute_cat_3d_model_tripo_part_52_rm",
+          "mimeType": "image/png",
+          "dimensions": [
+            32,
+            32
+          ]
+        }
+      ],
+      "externalUris": [],
+      "extensionsRequired": [],
+      "validator": {
+        "version": "2.0.0-dev.3.10",
+        "errors": 0,
+        "warnings": 106
+      }
+    },
+    {
+      "file": "xiaosi-c.glb",
+      "sourcePath": "dist/assets/characters/xiaosi-c.glb",
+      "gitBlobSha": "4db248319496bb71f5fb12e5187220c6ef0d106e",
+      "sha256": "f1d77941aed9fae1f9a9304187c90190005658da697bd8f5f249945f976a62fc",
+      "bytes": 11028200,
+      "nodes": 28,
+      "meshes": 1,
+      "primitives": 2,
+      "materials": 1,
+      "skins": [
+        {
+          "name": "Xiaosi_Rig",
+          "joints": 25,
+          "jointNames": [
+            "Root",
+            "Hips",
+            "Spine",
+            "Chest",
+            "Neck",
+            "Head",
+            "HairBack",
+            "HairLeft",
+            "HairRight",
+            "LeftClavicle",
+            "LeftUpperArm",
+            "LeftForeArm",
+            "LeftHand",
+            "RightClavicle",
+            "RightUpperArm",
+            "RightForeArm",
+            "RightHand",
+            "LeftUpperLeg",
+            "LeftLowerLeg",
+            "LeftFoot",
+            "LeftToe",
+            "RightUpperLeg",
+            "RightLowerLeg",
+            "RightFoot",
+            "RightToe"
+          ]
+        }
+      ],
+      "animations": [
+        "idle",
+        "sit_down",
+        "sit_idle",
+        "stand_up",
+        "walk",
+        "hop",
+        "step_over",
+        "seated_eat",
+        "hold_cat",
+        "seated_play",
+        "seat_cross",
+        "seat_cross_right",
+        "seat_yawn",
+        "seat_remote",
+        "seat_pet",
+        "mesh_walk",
+        "mesh_run",
+        "mesh_dance",
+        "mesh_kick",
+        "mesh_charge",
+        "mesh_cast",
+        "seat_stretch"
+      ],
+      "embeddedImages": [
+        {
+          "name": "Image_2",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "Image_0",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "Image_1",
+          "mimeType": "image/jpeg",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "externalUris": [],
+      "extensionsRequired": [],
+      "validator": {
+        "version": "2.0.0-dev.3.10",
+        "errors": 4,
+        "warnings": 3
+      }
+    }
+  ],
+  "runtimeReference": [
+    {
+      "file": "runtime-reference/asset-sizes.js",
+      "sourcePath": "dist/src/asset-sizes.js",
+      "gitBlobSha": "e4d583696db58ac0974cc26cff04ffb06ae82fc1",
+      "sha256": "cf04c4030678a218f6ca19a65559f3ca866c0e2fd220dd1b2d55b52753a06a79"
+    },
+    {
+      "file": "runtime-reference/asset-stream.js",
+      "sourcePath": "dist/src/asset-stream.js",
+      "gitBlobSha": "540d4dad0418e20d7cee491209dc0e12955ff083",
+      "sha256": "8be1313466e8c534bc78018aa4aa95ded0292d3efb4c9f75f982cb1a86052a57"
+    },
+    {
+      "file": "runtime-reference/human-character.js",
+      "sourcePath": "dist/src/human-character.js",
+      "gitBlobSha": "089badfdffd6ce068d7c53931f2dadae5870a799",
+      "sha256": "0701afd8ecbf15be8366ebfe749e2133387d359bebdff48d7e1bea96104167c3"
+    },
+    {
+      "file": "runtime-reference/limb-ik.js",
+      "sourcePath": "dist/src/limb-ik.js",
+      "gitBlobSha": "88bdda324bcaa074b5668fbc9944b21644e3434d",
+      "sha256": "b9851727997ee7209e209928be58a11da53f86e2ec73bfcbdb454dfb216d82b0"
+    },
+    {
+      "file": "runtime-reference/modelcat.js",
+      "sourcePath": "dist/src/modelcat.js",
+      "gitBlobSha": "0a402ff0968ee6b69653d8bf449581d187a2b4e9",
+      "sha256": "09f5ca2bb0346e90b1b741c56dce7dbc29c321315bec499ff8a22ebdbfa3e26d"
+    },
+    {
+      "file": "runtime-reference/seated-hand-shape.js",
+      "sourcePath": "dist/src/seated-hand-shape.js",
+      "gitBlobSha": "da5e7f8d69e23ad918322163f7e26cd43271e690",
+      "sha256": "e7fcdb30b600fd9cef88eaeec58af8ece8267aa6934e5df21047ee797fd1b743"
+    },
+    {
+      "file": "runtime-reference/seated-hands.js",
+      "sourcePath": "dist/src/seated-hands.js",
+      "gitBlobSha": "47b0557df5cc7923ec68cc6eaf907be4d3ed294b",
+      "sha256": "994ba3c10b1ceea1dd1ea7b6414cf4bf50a1612d8909fdf2f421de0dc267b66e"
+    },
+    {
+      "file": "runtime-reference/xiaosi-reference.js",
+      "sourcePath": "dist/src/xiaosi-reference.js",
+      "gitBlobSha": "b17ffe8c0d515f01ada1423aeb637efd2859dbf5",
+      "sha256": "4139dde8b0ea44f7bf0914ab3a1dc63354bbfe545a1d8d48de6a30aafea981e6"
+    },
+    {
+      "file": "runtime-reference/xiaosi-style.js",
+      "sourcePath": "dist/src/xiaosi-style.js",
+      "gitBlobSha": "0953c69b149cfd13a6b10c2be73163bbb51072e7",
+      "sha256": "c4d211629f2dcd03ebc3db2e4f1d43b2df33dffe9abd3f3b64e08d27e97c491a"
+    },
+    {
+      "file": "runtime-reference/xiaosi-walk.js",
+      "sourcePath": "dist/src/xiaosi-walk.js",
+      "gitBlobSha": "270105c5c28be9e13edd045a48adcfbe8e694c13",
+      "sha256": "1b3d79ab4d2f8ed8c82742f28b856f6c17eef57dbf57a47d2e5ef0fe67a5e75d"
+    },
+    {
+      "file": "runtime-reference/xiaoyong-run.js",
+      "sourcePath": "dist/src/xiaoyong-run.js",
+      "gitBlobSha": "cd04165172f2f4af50f2b2c8a260b0c7efa697b3",
+      "sha256": "f07d5f6bb011ce5b1dcfa9fc30fa01b52417094f2fa9d3ae35b99e561f23704b"
+    }
+  ]
+}

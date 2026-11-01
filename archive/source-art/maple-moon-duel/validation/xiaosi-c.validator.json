@@ -1,0 +1,114 @@
+{
+  "uri": "xiaosi-c.glb",
+  "mimeType": "model/gltf-binary",
+  "validatorVersion": "2.0.0-dev.3.10",
+  "validatedAt": "2026-11-01T03:28:05.158Z",
+  "issues": {
+    "numErrors": 4,
+    "numWarnings": 3,
+    "numInfos": 0,
+    "numHints": 0,
+    "messages": [
+      {
+        "code": "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE",
+        "message": "Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations.",
+        "severity": 1,
+        "pointer": "/meshes/0/primitives/0/material"
+      },
+      {
+        "code": "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE",
+        "message": "Material requires a tangent space but the mesh primitive does not provide it. Runtime-generated tangent space may be non-portable across implementations.",
+        "severity": 1,
+        "pointer": "/meshes/0/primitives/1/material"
+      },
+      {
+        "code": "NODE_SKINNED_MESH_NON_ROOT",
+        "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+        "severity": 1,
+        "pointer": "/nodes/25"
+      },
+      {
+        "code": "ACCESSOR_VECTOR3_NON_UNIT",
+        "message": "Vector3 at accessor indices 3345..3347 is not of unit length: 0.",
+        "severity": 0,
+        "pointer": "/meshes/0/primitives/1/attributes/NORMAL"
+      },
+      {
+        "code": "ACCESSOR_VECTOR3_NON_UNIT",
+        "message": "Vector3 at accessor indices 23139..23141 is not of unit length: 0.3215549342213481.",
+        "severity": 0,
+        "pointer": "/meshes/0/primitives/1/attributes/NORMAL"
+      },
+      {
+        "code": "ACCESSOR_VECTOR3_NON_UNIT",
+        "message": "Vector3 at accessor indices 31290..31292 is not of unit length: 0.",
+        "severity": 0,
+        "pointer": "/meshes/0/primitives/1/attributes/NORMAL"
+      },
+      {
+        "code": "ACCESSOR_VECTOR3_NON_UNIT",
+        "message": "Vector3 at accessor indices 31296..31298 is not of unit length: 0.",
+        "severity": 0,
+        "pointer": "/meshes/0/primitives/1/attributes/NORMAL"
+      }
+    ],
+    "truncated": false
+  },
+  "info": {
+    "version": "2.0",
+    "generator": "Khronos glTF Blender I/O v4.5.51",
+    "resources": [
+      {
+        "pointer": "/buffers/0",
+        "mimeType": "application/gltf-buffer",
+        "storage": "glb",
+        "byteLength": 10748984
+      },
+      {
+        "pointer": "/images/0",
+        "mimeType": "image/jpeg",
+        "storage": "buffer-view",
+        "image": {
+          "width": 2048,
+          "height": 2048,
+          "format": "rgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/1",
+        "mimeType": "image/jpeg",
+        "storage": "buffer-view",
+        "image": {
+          "width": 2048,
+          "height": 2048,
+          "format": "rgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/2",
+        "mimeType": "image/jpeg",
+        "storage": "buffer-view",
+        "image": {
+          "width": 2048,
+          "height": 2048,
+          "format": "rgb",
+          "bits": 8
+        }
+      }
+    ],
+    "animationCount": 22,
+    "materialCount": 1,
+    "hasMorphTargets": false,
+    "hasSkins": true,
+    "hasTextures": true,
+    "hasDefaultScene": true,
+    "drawCallCount": 2,
+    "totalVertexCount": 54905,
+    "totalTriangleCount": 70384,
+    "maxUVs": 1,
+    "maxInfluences": 4,
+    "maxAttributes": 5
+  }
+}

@@ -15,3 +15,7 @@ pnpm build
 ```
 
 README.md 保留原游戏版本说明。现有 main → Kimi 打包工作流会包含本游戏的 public 资源；不修改 Kimi 部署适配器。GitHub 打包成功不等于第三方托管网站已更新。
+
+## 原始 3D 资产
+
+对应的原始 GLB、来源哈希、完整校验报告及运行时外观参考已独立归档到 [`archive/source-art/maple-moon-duel`](../../archive/source-art/maple-moon-duel/README.md)。它们不进入网页部署包。小司源 GLB 有已记录的法线问题；Unity 使用前需修复并验证，详情见归档 README。
