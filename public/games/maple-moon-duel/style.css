@@ -38,3 +38,36 @@
 .adventure-start{display:block;text-decoration:none;width:min(430px,100%);margin:10px auto 0;padding:13px 16px;border:1px solid #d3c4ff77;background:linear-gradient(105deg,#322443e8,#333354d9);box-shadow:inset 0 0 30px #baa5ff12}.adventure-start span{font-family:serif;font-size:15px;letter-spacing:4px}.adventure-start small{display:block;font-size:9px;letter-spacing:2px;color:#cdbce2;margin-top:5px}.adventure-start:hover{background:#554367}.panel{max-height:calc(100dvh - 90px);overflow-y:auto;scrollbar-width:thin}@media(max-height:650px){.adventure-start{padding:7px;margin-top:6px}.adventure-start small{display:none}.panel .keys-line{margin:9px auto 3px}}
 #intro.panel{scrollbar-width:none;transform:translate(-50%,-50%)}#intro.panel::-webkit-scrollbar{display:none}#intro h1{font-size:clamp(48px,6vw,78px)}#intro .choose{margin:20px auto 14px}#intro .keys-line{margin-top:16px}
 @media(max-height:540px){#intro.panel{top:52%;padding:4px;max-height:calc(100dvh - 72px)}#intro h1{font-size:36px;margin:1px}#intro .intro-line{margin:5px 0;font-size:12px}#intro .intro-sub{margin:4px}#intro .choose{margin:8px auto}#intro .choose button{padding:6px}#intro .primary{padding:9px 20px}#intro .showcase-start{margin:0}#intro .keys-line{margin:5px auto 0;font-size:7px}#intro .quiet{padding:4px}#intro .adventure-start{padding:6px;margin-top:6px}}
+
+/* V11 Ori Bioluminescent 2.5D Edition — pill controls, stage & outfit pickers & spirit-lit HUD accents */
+#stageBtn,#oriMode,#charScaleBtn,#outfitBtn{border-radius:20px;padding:0 12px;font-size:10px;min-width:auto;letter-spacing:1px}
+#stageBtn{border-color:#d8c4ff88;background:linear-gradient(135deg,#2a2244d9,#1f2842d9);color:#f0e6ff}
+#oriMode.ori-active{border-color:#7be8ff88;background:linear-gradient(135deg,#192b3fd9,#26203cd9);color:#d8f8ff;box-shadow:0 0 14px #56d4ff33}
+#charScaleBtn{border-color:#ffd89b66;color:#ffe7be}
+#outfitBtn{border-color:#d8e6ff88;background:linear-gradient(135deg,#242a46d9,#352644d9);color:#f2f7ff}
+.stage-picker{display:flex;gap:10px;max-width:440px;margin:0 auto 12px}
+.stage-picker button{flex:1;padding:7px 10px;border-radius:4px;background:#1e1a2dcc;border:1px solid #c8d8ff36;text-align:center;transition:all .18s}
+.stage-picker button:hover{background:#342d4ce0;border-color:#e2eeff88}
+.stage-picker button.selected{background:linear-gradient(135deg,#332a52e6,#27365ae6);border-color:#e8d8ff;box-shadow:0 0 16px #b898ff38,inset 0 0 14px #ffffff18}
+.stage-picker b{display:block;font-size:12px;font-weight:500;letter-spacing:2px;color:#f7f2ff}
+.stage-picker small{display:block;font-size:8px;color:#c5cee6;margin-top:3px;letter-spacing:1px}
+.outfit-picker{max-width:440px;margin:0 auto 14px;text-align:left}
+.outfit-label{display:block;font-size:9px;letter-spacing:3px;color:#dbe6ff;opacity:.82;margin-bottom:6px;text-align:center}
+.outfit-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.outfit-options button{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;background:#1e1a2dcc;border:1px solid #c8d8ff36;text-align:left;transition:all .18s}
+.outfit-options button:hover{background:#342d4ce0;border-color:#e2eeff88}
+.outfit-options button.selected{background:linear-gradient(135deg,#333b5ee6,#4a355ae6);border-color:#f0f6ff;box-shadow:0 0 16px #b8d8ff38,inset 0 0 14px #ffffff18}
+.outfit-options img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid #e8f2ff66;background:#2b2338;flex-shrink:0}
+.outfit-options b{display:block;font-size:11px;font-weight:500;letter-spacing:1px;color:#f7faff;white-space:nowrap}
+.outfit-options small{display:block;font-size:8px;color:#c5cee6;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fighter img{box-shadow:0 0 18px #5ce1ff28,0 5px 20px #0c091c88}
+.hp{border-color:#9fe8ff44;background:#13172bde}
+#abilityBar button{background:#15182bd8;border-color:#9bdcf542;backdrop-filter:blur(4px)}
+#abilityBar button:hover{background:#29334ee6;border-color:#9beeff88}
+.choose{max-width:480px}
+.showcase-row{display:flex;gap:10px;justify-content:center;max-width:480px;margin:10px auto 0}
+.showcase-row .showcase-start{flex:1;margin:0;padding:10px 12px;flex-direction:column;gap:4px}
+.showcase-row .showcase-start span{font-size:12px;letter-spacing:1.5px;white-space:nowrap}
+.showcase-row .showcase-start small{font-size:8px}
+.move-card.bear{--ink:#ffd86b;--glow:#a855f755}
+@media(max-width:780px){#stageBtn,#oriMode,#charScaleBtn,#outfitBtn{padding:0 8px;font-size:9px}.stage-picker{gap:6px}.stage-picker button{padding:5px 6px}.stage-picker small{display:none}.outfit-options{gap:5px}.outfit-options button{padding:5px 6px;gap:5px}.outfit-options img{width:24px;height:24px}.outfit-options b{font-size:10px}.outfit-options small{display:none}.showcase-row{flex-direction:column;gap:6px}}

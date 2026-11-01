@@ -6,4 +6,4 @@ export function viewportLayout(width,height){
  const ground=height*WORLD.ground/WORLD.height;
  return{width,height,scale,ox:(width-WORLD.width*scale)/2,oy:ground-WORLD.ground*scale,ground,bgX:width/WORLD.width,bgY:height/WORLD.height};
 }
-export const CHARACTER={cat:{height:286,pivotX:171,pivotY:301},xiaosi:{height:244,pivotX:130,pivotY:301}};
+export const CHARACTER={cat:{height:286,pivotX:171,pivotY:301},xiaosi:{height:244,pivotX:130,pivotY:301},bear:{height:276,pivotX:128,pivotY:300}};

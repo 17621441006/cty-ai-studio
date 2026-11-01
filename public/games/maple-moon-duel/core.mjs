@@ -7,17 +7,36 @@ export function specialFor(kind,key){
  if(kind==='xiaosi'&&key==='roar')return{skill:'love',cooldown:8,duration:1.65,range:145};
  if(kind==='xiaosi'&&key==='charm')return{skill:'cry',cooldown:8,duration:.75,range:290};
  if(kind==='cat'&&key==='launch')return{skill:'pounce',cooldown:4.5,duration:1.2,range:185};
+ if(kind==='bear'&&key==='roar')return{skill:'jumpscare',cooldown:6,duration:1.3,range:345};
+ if(kind==='bear'&&key==='charm')return{skill:'toreador',cooldown:8.5,duration:.95,range:295};
+ if(kind==='bear'&&key==='launch')return{skill:'gearlaunch',cooldown:4.5,duration:.75,range:175};
  return{...base,skill:key};
 }
 export class Duel{
- constructor(choice='cat'){this.choice=choice;this.reset()}
- reset(){this.clearPounceVisuals();if(this.player)this.releaseHold(this.player);if(this.enemy)this.releaseHold(this.enemy);this.time=180;this.t=0;this.started=false;this.ended=false;this.paused=false;this.effects=[];this.projectiles=[];this.events=[];this.combo=0;this.comboUntil=0;this.hitstop=0;this.aiTime=1.5;this.nextId=0;this.player=this.actor(this.choice,430,true);this.enemy=this.actor(this.choice==='cat'?'xiaosi':'cat',1170,false);this.player.face=1;this.enemy.face=-1}
- actor(kind,x,player){return{kind,x,y:0,vy:0,face:player?1:-1,hp:480,maxHp:480,energy:35,state:'idle',stateT:0,action:null,cooldowns:{attack:0,skill:0,dash:0,ultimate:0,roar:0,charm:0,launch:0},guard:100,maxGuard:100,guarding:false,guardBreak:0,guardDelay:0,rooted:0,heldBy:null,holding:null,juggleHits:0,knockdown:0,recovery:0,charmed:0,invuln:0,stun:0,jumpBuffer:0,player,chain:0,lastAttack:-10,moving:false,trail:0,pounceVisual:null}}
+ constructor(choice='cat',enemyKind=null){this.choice=choice;this.enemyChoice=enemyKind;this.reset()}
+ reset(){
+  this.clearPounceVisuals();
+  if(this.player)this.releaseHold(this.player);
+  if(this.enemy)this.releaseHold(this.enemy);
+  this.time=180;this.t=0;this.started=false;this.ended=false;this.paused=false;
+  this.effects=[];this.projectiles=[];this.events=[];this.combo=0;this.comboUntil=0;this.hitstop=0;this.aiTime=1.5;this.nextId=0;
+  const rival=this.enemyChoice||(this.choice==='cat'?'xiaosi':this.choice==='bear'?'xiaosi':'cat');
+  this.player=this.actor(this.choice,430,true);
+  this.enemy=this.actor(rival,1170,false);
+  this.player.face=1;this.enemy.face=-1;
+ }
+ actor(kind,x,player){
+  return{
+   kind,x,y:0,vy:0,face:player?1:-1,hp:480,maxHp:480,energy:35,state:'idle',stateT:0,action:null,
+   cooldowns:{attack:0,skill:0,dash:0,ultimate:0,roar:0,charm:0,launch:0,airEscape:0},
+   guard:100,maxGuard:100,guarding:false,guardBreak:0,guardDelay:0,rooted:0,heldBy:null,holding:null,
+   juggleHits:0,airEscaped:false,knockdown:0,recovery:0,charmed:0,invuln:0,stun:0,jumpBuffer:0,
+   player,chain:0,lastAttack:-10,moving:false,trail:0,pounceVisual:null
+  };
+ }
  start(){this.started=true;this.emit('announce',{text:'切磋开始'})}
  emit(type,data={}){this.events.push({type,...data})}
  tryJump(a){
-  // A queued jump survives hit-stop and short hit-stun. A late attack recovery
-  // can be cancelled into escape, but a committed ultimate cannot.
   const recovery=!a.action||(a.action.type==='attack'&&a.action.t>=.12)||(a.action.type==='skill'&&a.action.t>=.25);
   if(a.jumpBuffer<=0||a.y>0||a.stun>0||a.knockdown>0||a.charmed>0||a.guarding||a.rooted>0||a.heldBy||!recovery)return false;
   a.jumpBuffer=0;a.action=null;a.vy=840;a.state='jump';a.stateT=0;
@@ -25,16 +44,54 @@ export class Duel{
  }
  action(a,type){
   if(!this.started||this.paused||this.ended)return false;
-  if(type==='jump'){a.jumpBuffer=.28;this.tryJump(a);return true}
+  // Knocked-airborne rule: When launched/juggled in mid-air (a.y > 0 && a.juggleHits > 0),
+  // the fighter CANNOT use skills or attacks to counterattack, and only has 1 Spacebar float escape (30s cooldown)!
+  const knockedAirborne=!this.legacyAirRule&&a.y>0&&(a.juggleHits>0||a.airEscaped);
+  if(type==='jump'){
+   if(!this.legacyAirRule&&a.y>0&&a.juggleHits>0&&!a.heldBy&&a.knockdown<=0){
+    if(a.cooldowns.airEscape<=0){
+     a.cooldowns.airEscape=30;
+     a.juggleHits=0;
+     a.airEscaped=true;
+     a.stun=0;a.charmed=0;a.rooted=0;a.action=null;a.pending=null;
+     a.vy=580;
+     a.y=Math.min(285,Math.max(a.y+20,95));
+     a.invuln=Math.max(a.invuln,.75);
+     a.state='jump';a.stateT=0;
+     this.emit('airescape',{actor:a,cooldown:30});
+     return true;
+    }else{
+     if(a.player)this.emit('notice',{text:`凌空浮空冷却中 (${Math.ceil(a.cooldowns.airEscape)}s)`});
+     return false;
+    }
+   }
+   if(knockedAirborne)return false;
+   a.jumpBuffer=.28;this.tryJump(a);return true;
+  }
+  if(knockedAirborne)return false;
   if(a.stun>0||a.knockdown>0||a.charmed>0||a.guarding||a.heldBy||a.cooldowns[type]>0||a.action)return false;
   if(a.rooted>0&&(type==='dash'||type==='launch'))return false;
   if((type==='charm'||(a.kind==='xiaosi'&&type==='roar')||(a.kind==='cat'&&type==='launch'))&&a.y>0)return false;
-  if(SPECIALS[type]){const spec=specialFor(a.kind,type);a.cooldowns[type]=spec.cooldown;a.action={type,skill:spec.skill,t:0,duration:spec.duration,hit:false,pulses:0};a.state='attack';a.stateT=0;if(spec.skill==='pounce')a.pounceVisual={age:0,phase:'charge',phaseAge:0,flightAge:0,impactAge:0,interrupted:false};this.emit('special',{actor:a,kind:a.kind,skill:spec.skill,phase:'start',range:spec.range});return true}
+  if(SPECIALS[type]){
+   const spec=specialFor(a.kind,type);
+   a.cooldowns[type]=spec.cooldown;
+   a.action={type,skill:spec.skill,t:0,duration:spec.duration,hit:false,pulses:0};
+   a.state='attack';a.stateT=0;
+   if(spec.skill==='pounce')a.pounceVisual={age:0,phase:'charge',phaseAge:0,flightAge:0,impactAge:0,interrupted:false};
+   if(spec.skill==='gearlaunch'&&a.kind==='bear'&&a.y===0){a.vy=500;a.y=2;}
+   this.emit('special',{actor:a,kind:a.kind,skill:spec.skill,phase:'start',range:spec.range});
+   return true;
+  }
   if(type==='ultimate'&&a.energy<100){if(a.player)this.emit('notice',{text:'积蓄能量后释放绝技'});return false}
   if(type==='dash'){a.cooldowns.dash=1.2;a.invuln=.34;a.action={type,t:0,duration:.26};a.state='run';this.emit('dash',{actor:a});return true}
   if(type==='attack'){a.chain=this.t-a.lastAttack<1.1?(a.chain+1)%3:0;a.lastAttack=this.t;a.cooldowns.attack=.28;a.action={type,t:0,duration:.39,hit:false,chain:a.chain};a.state='attack';a.stateT=0;this.emit('swing',{actor:a});return true}
   if(type==='skill'){a.cooldowns.skill=2.4;a.action={type,t:0,duration:.58,hit:false};a.state='attack';a.stateT=0;this.emit('charge',{actor:a});return true}
-  if(type==='ultimate'){a.energy=0;a.cooldowns.ultimate=1;a.invuln=.85;a.action={type,t:0,duration:.95,hit:false};a.state='attack';a.stateT=0;this.emit('ultimate',{actor:a,text:a.kind==='cat'?'赤焰 · 裂地燎原':'月华 · 雷月领域'});return true}
+  if(type==='ultimate'){
+   a.energy=0;a.cooldowns.ultimate=1;a.invuln=.85;a.action={type,t:0,duration:.95,hit:false};a.state='attack';a.stateT=0;
+   const ultText=a.kind==='cat'?'赤焰 · 裂地燎原':a.kind==='bear'?'午夜 · 惊魂谢幕':'月华 · 雷月领域';
+   this.emit('ultimate',{actor:a,text:ultText});
+   return true;
+  }
   return false;
  }
  clearPounceVisuals(){for(const a of[this.player,this.enemy])if(a)a.pounceVisual=null}
@@ -63,11 +120,11 @@ export class Duel{
   const airborne=!options.holdTick&&(target.y>0||!!options.launch);
   const actualDamage=Math.min(target.hp,damage);target.hp=Math.max(0,target.hp-damage);target.invuln=airborne?.12:.26;target.stun=damage>=40?.24:.18;target.action=null;target.pending=null;target.state='hurt';target.stateT=0;
   target.x=clamp(target.x+source.face*knock,ARENA.left,ARENA.right);
-  if(airborne){target.juggleHits++;target.y=Math.max(12,target.y);target.vy=options.launch?760:Math.max(target.vy,520);target.y=Math.min(target.y,300)}
+  if(airborne){target.juggleHits++;target.airEscaped=false;target.y=Math.max(12,target.y);target.vy=options.launch?760:Math.max(target.vy,520);target.y=Math.min(target.y,300)}
   if(options.root){target.rooted=1.5;target.stun=0;target.state='idle'}
   if(options.charm){target.charmed=1.1;target.stun=1.1;target.state='charmed';target.vy=0}
   const juggleHits=target.juggleHits;
-  if(juggleHits>=30){target.y=0;target.vy=0;target.juggleHits=0;target.knockdown=.55;target.stun=.55;target.charmed=0;target.jumpBuffer=0;target.state='knockdown';if(target.pounceVisual){target.pounceVisual.phase='impact';target.pounceVisual.phaseAge=0;target.pounceVisual.impactAge=0}this.emit('knockdown',{actor:target,source,reason:'combo-cap',recoveryDuration:3})}
+  if(juggleHits>=30){target.y=0;target.vy=0;target.juggleHits=0;target.airEscaped=false;target.knockdown=.55;target.stun=.55;target.charmed=0;target.jumpBuffer=0;target.state='knockdown';if(target.pounceVisual){target.pounceVisual.phase='impact';target.pounceVisual.phaseAge=0;target.pounceVisual.impactAge=0}this.emit('knockdown',{actor:target,source,reason:'combo-cap',recoveryDuration:3})}
   target.energy=clamp(target.energy+8,0,100);source.energy=clamp(source.energy+12,0,100);
   this.hitstop=Math.max(this.hitstop,damage>=40?.105:damage>=20?.07:.045);
   if(source.player){this.combo=this.t<this.comboUntil?this.combo+1:1;this.comboUntil=this.t+1.9}
@@ -78,13 +135,12 @@ export class Duel{
   const o=a===this.player?this.enemy:this.player,spec=specialFor(a.kind,z.type),skill=spec.skill;
   this.emit('special',{actor:a,kind:a.kind,skill,phase:'pulse',range:spec.range,pulse:z.pulses});
   if(Math.abs(o.x-a.x)>spec.range||(o.x-a.x)*a.face<-20||Math.abs(o.y-a.y)>150)return;
-  const ok=skill==='roar'?this.hit(o,8,a,24):skill==='charm'?this.hit(o,0,a,0,{charm:true}):skill==='cry'?this.hit(o,6,a,0,{root:true}):skill==='pounce'?this.hit(o,26,a,65,{launch:true}):this.hit(o,18,a,25,{launch:true});
+  const ok=(skill==='roar'||skill==='jumpscare')?this.hit(o,8,a,24):skill==='charm'?this.hit(o,0,a,0,{charm:true}):skill==='cry'?this.hit(o,6,a,0,{root:true}):skill==='toreador'?this.hit(o,10,a,12,{root:true}):skill==='pounce'?this.hit(o,26,a,65,{launch:true}):skill==='gearlaunch'?this.hit(o,21,a,36,{launch:true}):this.hit(o,18,a,25,{launch:true});
   if(ok)this.emit('special',{actor:a,target:o,kind:a.kind,skill,phase:'hit',range:spec.range});
  }
  specialStep(a,z,dt){
   const spec=specialFor(a.kind,z.type),o=a===this.player?this.enemy:this.player;
   if(spec.skill==='love'){
-   // Prompt capture, shared by manual PK and the disclosed exhibition.
    if(!z.hit&&z.t>=.14){z.hit=true;
     if(Math.abs(o.x-a.x)<=spec.range&&(o.x-a.x)*a.face>=-20&&o.y<50&&o.invuln<=0&&o.recovery<=0&&o.knockdown<=0){
      this.releaseHold(o);a.holding=o;o.heldBy=a;o.action=null;o.pending=null;o.guarding=false;o.pounceVisual=null;o.vy=0;o.jumpBuffer=0;o.state='held';
@@ -98,37 +154,31 @@ export class Duel{
    if(z.leapt&&!z.hit){const travel=Math.min(z.travel,430*dt);a.x=clamp(a.x+a.face*travel,ARENA.left,ARENA.right);z.travel-=travel;a.moving=travel>0;
     if(a.y===0){z.hit=true;this.specialPulse(a,z)}
    }
-  }else if(spec.skill==='roar'){
+  }else if(spec.skill==='roar'||spec.skill==='jumpscare'){
    if(z.pulses<4&&z.t>=.18+z.pulses*.30){z.pulses++;this.specialPulse(a,z)}
   }else if(!z.hit&&z.t>=.24){z.hit=true;this.specialPulse(a,z)}
  }
  resolveBodies(){
   const p=this.player,e=this.enemy;
   p.x=clamp(p.x,ARENA.left,ARENA.right);e.x=clamp(e.x,ARENA.left,ARENA.right);
-  // A lifted body or invulnerable dash may pass through the horizontal lane.
   if(p.heldBy||e.heldBy)return;
   if(Math.abs(p.y-e.y)>=ARENA.clearance||p.action?.type==='dash'||e.action?.type==='dash')return;
   const sign=p.x<e.x?-1:p.x>e.x?1:(p.face===1?-1:1),overlap=ARENA.bodyGap-Math.abs(p.x-e.x);
   if(overlap<=0)return;
   p.x=clamp(p.x+sign*overlap/2,ARENA.left,ARENA.right);
   e.x=clamp(e.x-sign*overlap/2,ARENA.left,ARENA.right);
-  // Transfer blocked displacement to the actor with free space. Never push the
-  // cornered actor outside the arena after the boundary clamp.
   let remaining=ARENA.bodyGap-Math.abs(p.x-e.x);
   if(remaining>0){const before=p.x;p.x=clamp(p.x+sign*remaining,ARENA.left,ARENA.right);remaining-=Math.abs(p.x-before)}
   if(remaining>0)e.x=clamp(e.x-sign*remaining,ARENA.left,ARENA.right);
  }
  step(realDt,input={}){
   if(!this.started||this.paused||this.ended)return;
-  // Hit-stop consumes wall-clock delta, not the capped simulation delta.
   let dt=Math.max(0,Number(realDt)||0);
   if(this.hitstop>0){const stopped=Math.min(dt,this.hitstop);this.hitstop-=stopped;dt-=stopped}
   dt=Math.min(dt,.04);if(dt<=0)return;
   this.time=Math.max(0,this.time-dt);this.t+=dt;
   if(this.time===0){this.releaseHold(this.player);this.releaseHold(this.enemy);this.ended=true;this.clearPounceVisuals();this.emit('end',{won:this.player.hp>=this.enemy.hp});return}
   const p=this.player,e=this.enemy;
-  // Guard is sampled before combat for this frame, and releases immediately
-  // with F. Enemies only guard briefly in a predictable defensive window.
   for(const a of[p,e]){
    const wants=a===p?!!input.guard:(this.t>6&&this.t%5<.65&&!!p.action&&Math.abs(p.x-e.x)<400);
    a.guarding=wants&&!a.action&&a.y===0&&a.stun<=0&&a.knockdown<=0&&a.charmed<=0&&!a.heldBy&&a.guardBreak<=0&&(a.guarding?a.guard>0:a.guard>=15);
@@ -144,10 +194,8 @@ export class Duel{
    for(const k in a.cooldowns)a.cooldowns[k]=Math.max(0,a.cooldowns[k]-dt);
    a.moving=false;if(a.heldBy){a.state='held';continue}this.tryJump(a);a.jumpBuffer=Math.max(0,a.jumpBuffer-dt);
    if(a.y>0||a.vy>0){const wasAir=a.y>0;a.y=Math.max(0,a.y+a.vy*dt);a.vy-=1650*dt;
-    // Launched opponents stay within a normal jump's melee reach. At the
-    // juggle ceiling cancel upward velocity so every re-lift visibly falls.
     if(a.juggleHits>0&&a.y>=300){a.y=300;a.vy=Math.min(0,a.vy)}
-    if(a.y===0){a.vy=0;if(wasAir){if(a.pounceVisual?.phase==='flight'){a.pounceVisual.phase='impact';a.pounceVisual.phaseAge=0;a.pounceVisual.impactAge=0}const airborne=a.juggleHits>0;a.juggleHits=0;this.emit('land',{actor:a,airborne,skill:a.action?.skill})}}}
+    if(a.y===0){a.vy=0;if(wasAir){if(a.pounceVisual?.phase==='flight'){a.pounceVisual.phase='impact';a.pounceVisual.phaseAge=0;a.pounceVisual.impactAge=0}const airborne=a.juggleHits>0;a.juggleHits=0;a.airEscaped=false;this.emit('land',{actor:a,airborne,skill:a.action?.skill})}}}
    if(a.knockdown>0){a.state='knockdown';continue}
    if(a.charmed>0){a.state='charmed';continue}
    if(a.stun>0){a.state='hurt';continue}
@@ -160,7 +208,6 @@ export class Duel{
     if(z.t>=z.duration){this.releaseHold(a);a.action=null;}
    }else if(a.y>0)a.state='airborne';else a.state=a.guarding?'guard':'idle';
   }
-  // Full air steering is preserved during attacks; dash uses its own impulse.
   if(!p.guarding&&!p.heldBy&&p.rooted<=0&&p.stun<=0&&p.knockdown<=0&&p.charmed<=0&&(!p.action||(p.y>0&&p.action.type!=='dash'&&p.action.skill!=='pounce'))){
    const dir=(input.right?1:0)-(input.left?1:0);
    if(dir){p.x+=dir*(p.y>0?370:RUN_SPEED)*dt;p.face=dir;p.moving=true;if(!p.y&&!p.action)p.state='run'}else p.face=e.x>p.x?1:-1;

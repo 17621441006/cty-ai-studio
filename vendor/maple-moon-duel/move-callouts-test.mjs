@@ -14,7 +14,7 @@ c.reset();const e={type:'swing',actor:cat};c.feed(e,0);const id=c.snapshot(0).ca
 c.feed({type:'ultimate',actor:xiaosi},.1);assert.equal(c.snapshot(.2).cat.id,id);assert.equal(c.snapshot(.2).xiaosi.key,'U');
 c.feed({type:'charge',actor:cat},.25);assert.equal(c.snapshot(.25).cat.key,'K');assert.equal(c.snapshot(.25).xiaosi.key,'U');
 assert.equal(c.snapshot(2).cat,null);assert.equal(c.snapshot(2).xiaosi,null);
-c.reset();for(const type of['jump','dash','land','recover','block','guardbreak','idle']){assert.equal(c.feed({type,actor:cat},0),null);}cat.guarding=true;assert.equal(c.guard(cat,0),null);assert.deepEqual(c.snapshot(0),{cat:null,xiaosi:null});
+c.reset();for(const type of['jump','dash','land','recover','block','guardbreak','idle']){assert.equal(c.feed({type,actor:cat},0),null);}cat.guarding=true;assert.equal(c.guard(cat,0),null);assert.deepEqual(c.snapshot(0),{cat:null,xiaosi:null,bear:null});
 assert.equal(c.feed({type:'hit',actor:cat},0),null);assert.equal(c.feed({type:'swing',actor:{kind:'unknown'}},0),null);assert.equal(c.feed({type:'swing',actor:cat},NaN),null);
 assert.throws(()=>{MOVE_NAMES.cat.attack[0]='changed';},TypeError);
 console.log('move-callouts: action mappings, chains, dual lanes, identity dedupe, guard edges, block throttle, priority, expiry, reset, immutable catalog PASS');
